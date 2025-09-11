@@ -1,0 +1,489 @@
+:root {
+  --background-color: rgba(24, 24, 26, 1);
+  --background-color-2: rgba(10, 12, 17, 1);
+  --sidebar-color: rgba(19, 19, 24, 1);
+  --black: rgba(23, 23, 24, 1);
+  --chat-user-message: #3e455c;
+
+  --white-1000: rgba(255, 255, 255, 1);
+  --white-900: rgba(255, 255, 255, 0.9);
+  --white-800: rgba(255, 255, 255, 0.8);
+  --white-700: rgba(255, 255, 255, 0.7);
+  --white-600: rgba(255, 255, 255, 0.6);
+  --white-500: rgba(255, 255, 255, 0.5);
+  --white-400: rgba(255, 255, 255, 0.4);
+  --white-300: rgba(255, 255, 255, 0.3);
+  --white-200: rgba(255, 255, 255, 0.2);
+  --white-100: rgba(255, 255, 255, 0.1);
+  --white-50: rgba(255, 255, 255, 0.05);
+  --white-40: rgba(255, 255, 255, 0.04);
+  --white-20: rgba(255, 255, 255, 0.02);
+
+  --gold-1000: #f2dda6;
+  --gold-400: rgba(242, 221, 166, 0.4);
+  --gold-300: rgba(242, 221, 166, 0.3);
+  --gold-100: rgba(242, 221, 166, 0.1);
+
+  --gold-dark-1000: #ae9d71;
+
+  --sidebar: #131318;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("@/assets/fonts/Inter-SemiBold.ttf");
+  src: url("@/assets/fonts/Inter-SemiBold.eot?#iefix")
+      format("embedded-opentype"),
+    url("@/assets/fonts/Inter-SemiBold.woff2") format("woff2"),
+    url("@/assets/fonts/Inter-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("@/assets/fonts/Inter-Regular.ttf");
+  src: url("@/assets/fonts/Inter-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("@/assets/fonts/Inter-Regular.woff2") format("woff2"),
+    url("@/assets/fonts/Inter-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("@/assets/fonts/Inter-Medium.ttf");
+  src: url("@/assets/fonts/Inter-Medium.eot?#iefix") format("embedded-opentype"),
+    url("@/assets/fonts/Inter-Medium.woff2") format("woff2"),
+    url("@/assets/fonts/Inter-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("@/assets/fonts/Inter-Bold.ttf");
+  src: url("@/assets/fonts/Inter-Bold.eot?#iefix") format("embedded-opentype"),
+    url("@/assets/fonts/Inter-Bold.woff2") format("woff2"),
+    url("@/assets/fonts/Inter-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: calc(8px + 8 * ((100vw - 960px) / 960));
+}
+
+body {
+  background: url("@/assets/main-background.png") 50% / cover no-repeat,
+    var(--background-color, #18181a);
+  background-blend-mode: difference, normal;
+  min-width: 360px;
+  font-family: Inter;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  color: var(--white-1000);
+}
+
+input {
+  font-size: 1rem;
+  font-weight: 400;
+
+  caret-color: var(--gold-1000, #f2dda6);
+  color: var(--white-1000, #fff);
+}
+
+input:hover,
+input:focus {
+  outline: none;
+}
+
+.heading {
+  font-family: Inter;
+  font-style: normal;
+}
+
+.heading-1 {
+  font-size: 3.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  letter-spacing: -0.04em;
+}
+
+.heading span {
+  color: #f2dda6;
+}
+
+.body--semi {
+  font-weight: 600;
+}
+
+.body--reg {
+  font-weight: normal;
+}
+
+.body-18 {
+  font-size: 1.125rem;
+  line-height: 120%;
+}
+
+.body-16 {
+  font-size: 1rem;
+  line-height: 120%;
+}
+
+.body-14 {
+  font-size: 0.875rem;
+  line-height: 120%;
+}
+
+.body-12 {
+  font-size: 0.75rem;
+  line-height: 120%;
+}
+
+.flex {
+  display: flex;
+}
+.flex.flex--row {
+  flex-direction: row;
+}
+.flex.flex--column {
+  flex-direction: column;
+}
+.flex.items--center {
+  justify-content: center;
+  align-items: center;
+}
+.flex.align--start {
+  align-items: flex-start;
+}
+.flex.align--center {
+  align-items: center;
+}
+.flex.align--end {
+  align-items: flex-end;
+}
+.flex.justify--start {
+  justify-content: flex-start;
+}
+.flex.justify--center {
+  justify-content: center;
+}
+.flex.justify--end {
+  justify-content: flex-end;
+}
+.flex.justify--between {
+  justify-content: space-between;
+}
+.flex.flex--wrap {
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 960px) {
+  .flex.flex--row--mobile {
+    flex-direction: row;
+  }
+  .flex.flex--row-reverse--mobile {
+    flex-direction: row-reverse;
+  }
+  .flex.flex--column--mobile {
+    flex-direction: column;
+  }
+  .flex.items--center--mobile {
+    justify-content: center;
+    align-items: center;
+  }
+  .flex.align--start--mobile {
+    align-items: flex-start;
+  }
+  .flex.align--center--mobile {
+    align-items: center;
+  }
+  .flex.align--end--mobile {
+    align-items: flex-end;
+  }
+  .flex.justify--start--mobile {
+    justify-content: flex-start;
+  }
+  .flex.justify--center--mobile {
+    justify-content: center;
+  }
+  .flex.justify--end--mobile {
+    justify-content: flex-end;
+  }
+  .flex.justify--between--mobile {
+    justify-content: space-between;
+  }
+  .flex.wrap--mobile {
+    flex-wrap: wrap;
+  }
+  .flex.nowrap--mobile {
+    flex-wrap: nowrap;
+  }
+}
+
+img {
+  display: block;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.button {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  padding: 0px 1rem;
+  color: var(--white-1000);
+  cursor: pointer;
+
+  transition: all 0.3s linear;
+}
+
+.button svg {
+  stroke: var(--white-1000);
+  width: 1rem;
+  height: 1rem;
+}
+
+.button:disabled {
+  opacity: 0.3;
+}
+
+.button.button--full {
+  width: 100%;
+}
+
+.button.button--m {
+  font-size: 0.875rem;
+  border-radius: 0.75rem;
+
+  min-height: 2.5rem;
+}
+
+.button.button--l {
+  font-size: 1rem;
+  border-radius: 1rem;
+
+  min-height: 3rem;
+}
+
+.button.button--primary {
+  background-color: var(--gold-1000, #f2dda6);
+  color: var(--black);
+}
+
+.button.button--primary svg {
+  stroke: var(--black);
+}
+
+.button.button--primary:hover {
+  background: linear-gradient(
+      0deg,
+      var(--white-200, rgba(255, 255, 255, 0.2)) 0%,
+      var(--white-200, rgba(255, 255, 255, 0.2)) 100%
+    ),
+    var(--gold-1000, #f2dda6);
+}
+
+.button.button--primary:focus {
+  border: 1px solid var(--gold-dark-1000, #ae9d71);
+  background: linear-gradient(
+      0deg,
+      var(--white-200, rgba(255, 255, 255, 0.2)) 0%,
+      var(--white-200, rgba(255, 255, 255, 0.2)) 100%
+    ),
+    var(--gold-1000, #f2dda6);
+}
+
+.button.button--primary:active {
+  background: linear-gradient(
+      0deg,
+      var(--white-300, rgba(255, 255, 255, 0.3)) 0%,
+      var(--white-300, rgba(255, 255, 255, 0.3)) 100%
+    ),
+    var(--gold-1000, #f2dda6);
+}
+
+.button.button--secondary {
+  border: 1px solid var(--white-200, rgba(255, 255, 255, 0.2));
+  background: var(--white-100, rgba(255, 255, 255, 0.1));
+  backdrop-filter: blur(16px);
+}
+
+.button.button--secondary:hover {
+  background: var(--wwhite-200, rgba(255, 255, 255, 0.2));
+}
+
+.button.button--secondary:focus {
+  border-color: var(--white-1000, #fff);
+  background: var(--white-200, rgba(255, 255, 255, 0.2));
+}
+
+.button.button--secondary:active {
+  border: 1px solid var(--white-600, rgba(255, 255, 255, 0.6));
+  background: var(--white-300, rgba(255, 255, 255, 0.3));
+}
+
+.button.button--outline {
+  border: 1px solid var(--gold-1000, #f2dda6);
+  background: var(--gold-100, rgba(242, 221, 166, 0.1));
+  backdrop-filter: blur(16px);
+}
+
+.button.button--outline:hover {
+  border-color: var(--gold-1000, #f2dda6);
+  background: var(--gold-300, rgba(242, 221, 166, 0.3));
+}
+
+.button.button--outline:focus {
+  border-color: var(--gold-dark-1000, #ae9d71);
+  background: var(--gold-300, rgba(255, 255, 255, 0.3));
+}
+
+.button.button--outline:active {
+  border-color: var(--gold-dark-1000, #ae9d71);
+  background: var(--gold-400, rgba(255, 255, 255, 0.4));
+}
+
+.button.button--icon {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+}
+
+.chat-option {
+  padding: 0.75rem 1.5rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(0.71875rem);
+  gap: 0.5rem;
+}
+
+.chat-option .text {
+  color: var(--white-800, rgba(255, 255, 255, 0.8));
+}
+
+.chat-option svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke: var(--white-800, rgba(255, 255, 255, 0.8));
+}
+
+.chat__message {
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.chat__message.chat__message--user .message__text {
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  border-bottom-right-radius: 0px;
+  background: var(--chat-user-message, #3e455c);
+  align-self: flex-end;
+}
+
+.chat__message .message__actions {
+  gap: 0.5rem;
+}
+
+.chat__message .message__actions .message__action {
+  cursor: pointer;
+}
+
+.chat__message .message__actions .message__action svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke: var(--white-600);
+}
+
+.chat__message .message__text {
+  max-width: 45rem;
+}
+
+.chat__message .message__text ul {
+  padding-left: 20px;
+}
+
+.chat__message .message__table {
+  width: 100%;
+  border-radius: 1.25rem;
+  background: linear-gradient(
+      172deg,
+      rgba(71, 120, 234, 0) -30.31%,
+      rgba(71, 120, 234, 0.04) 124.3%
+    ),
+    rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
+}
+
+.chat__message .message__table .table__top {
+  border-radius: 0.75rem 0.75rem 0 0;
+  border-bottom: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
+  padding: 0px 1rem;
+  min-height: 3rem;
+}
+
+.chat__message .message__table .table__top .table__actions {
+  gap: 1rem;
+}
+
+.chat__message .message__table .table__top .table__actions svg {
+  stroke: var(--white-600, rgba(255, 255, 255, 0.6));
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.chat__message .message__table .table__content {
+  padding: 1rem;
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.chat__message .message__table .table__content table {
+  width: 100%;
+}
+
+.chat__message .message__table .table__content table td {
+  padding: 0px 0.5rem;
+}
+
+.chat__message .message__table .table__content table thead td {
+  height: 2.5rem;
+  color: var(--white-600);
+}
+
+.chat__message .message__table .table__content table tbody td {
+  height: 3rem;
+}
+
+.chat__message .message__table .table__content table tbody tr + tr td {
+  border-top: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
+}

@@ -1,0 +1,77 @@
+import { defineStore } from "pinia";
+import chatMessages from "../json/messages-2.json";
+import chatMessagesOther from "../json/messages.json";
+
+const fakeMessages = [chatMessages, chatMessagesOther]
+
+export const useChatsStore = defineStore("chats", {
+  state: () => {
+    return {
+      chats: [] as ChatInterface[],
+      currentChat: null as CurrentChatInterface,
+    };
+  },
+  getters: {
+    todayChats(){
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      return this.chats.filter((chat) => chat.last_activity_date >= today);
+    },
+    lastWeekChats(){
+      const startToday = new Date();
+      startToday.setHours(0, 0, 0, 0);
+
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setHours(0, 0, 0, 0);
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+      return this.chats.filter(chat => {
+        const date = new Date(chat.last_activity_date);
+        return date >= sevenDaysAgo && date < startToday;
+      });
+    },
+    lastMonthChats(){
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setHours(0, 0, 0, 0);
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+      const fourteenDaysAgo = new Date();
+      fourteenDaysAgo.setHours(0, 0, 0, 0);
+      fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+
+      return this.chats.filter(chat => {
+        const date = new Date(chat.last_activity_date);
+        return date >= fourteenDaysAgo && date < sevenDaysAgo;
+      });
+    }
+  },
+  actions: {
+    createNewChat(chat: ChatInterface){
+      this.chats.push(chat);
+    },
+
+    openChat(id: String){
+      const chat = this.chats.find((chat) => chat.id == id);
+      const chatIndex = this.chats.findIndex((chat) => chat.id == id);
+
+      // Have to be changed
+      chat.messages = fakeMessages[chatIndex % 2];
+
+      this.currentChat = chat;
+    },
+
+    loadFakeData() {
+      this.chats = [
+        { id: "3430flldlv4lfrll", name: "Top 5 crypto coins", currency: "USDT", last_activity_date: new Date() },
+        { id: "9ee9r9r9rjvjvj8rj", name: "TAO transfers in the last 24 hours", currency: "BTC", last_activity_date: new Date() },
+        { id: "dke93kd9e3kd9ee3", name: "ETH gas fee tracker", currency: "ETH", last_activity_date: new Date("2025-09-02T19:48:00") },
+        { id: "33kd9dke9ddkd993", name: "Whale BTC movements", currency: "BTC", last_activity_date: new Date("2025-09-01T07:22:00") },
+        { id: "f9e9f9f9f9f9f9f9", name: "Stablecoins overview", currency: "USDC", last_activity_date: new Date("2025-08-28T22:05:00") },
+        { id: "kkd9e9d9kd9kd9e9", name: "Top gainers today", currency: "SOL", last_activity_date: new Date("2025-09-10T12:00:00") },
+        { id: "a1b2c3d4e5f6g7h8", name: "BTC Market Updates", currency: "BTC", last_activity_date: new Date("2025-09-09T10:12:00") },
+        { id: "b2c3d4e5f6g7h8i9", name: "ETH Price Alerts", currency: "ETH", last_activity_date: new Date("2025-09-08T15:45:00") },
+      ];
+    },
+  },
+});

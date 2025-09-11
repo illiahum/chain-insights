@@ -1,0 +1,61 @@
+[
+  {
+    "id": "msg1",
+    "type": "text",
+    "text": "Current movements in the crypto market.",
+    "author": "user"
+  },
+  {
+    "id": "msg2",
+    "type": "text",
+    "text": "<p>The current movements in the crypto market indicate a bullish sentiment with the overall market cap reaching $1.96 trillion, showing a 1.36% increase. Bitcoin's price has seen a 1.77% rise, reaching $52,234, contributing to its market cap of $1.03 trillion and a dominance of 52.24% in the market. The trading volume has surged by 23.80% to $318.85 billion. The market's positive outlook is further supported by the Crypto Fear & Greed Index, which is at a value of 72 out of 100, indicating a state of 'Greed' among investors. This suggests that a majority of cryptocurrencies, about 71%, have gained value over the last 24 hours, while 29% have seen a decline​​​​.</p><p>For more in-depth insights and the latest updates, you might want to check the original sources at CoinMarketCap and CoinCodex.</p>",
+    "author": "bot"
+  },
+  {
+    "id": "msg3",
+    "type": "text",
+    "text": "Create a bulleted list of top 5 crypto coins",
+    "author": "user"
+  },
+  {
+    "id": "msg4",
+    "type": "text",
+    "text": "<ul><li>Bitcoin (BTC): The first and most well-known cryptocurrency, often referred to as digital gold.</li><li>Ethereum (ETH): A decentralized platform that enables smart contracts and decentralized applications (DApps).</li><li>Tether (USDT): A stablecoin that aims to keep cryptocurrency valuations stable, as opposed to the wide fluctuations seen in other cryptocurrencies.</li><li>BNB (Binance Coin): The cryptocurrency of the Binance platform, a digital asset exchange.</li><li>Solana (SOL): A high-performance blockchain supporting builders around the world creating crypto apps that scale today.</li></ul>",
+    "author": "bot"
+  },
+  {
+    "id": "msg5",
+    "type": "text",
+    "text": "Current movements in the crypto market.",
+    "author": "user"
+  },
+  {
+    "id": "msg6",
+    "type": "text",
+    "text": "<p>The current movements in the crypto market indicate a bullish sentiment with the overall market cap reaching $1.96 trillion, showing a 1.36% increase. Bitcoin's price has seen a 1.77% rise, reaching $52,234, contributing to its market cap of $1.03 trillion and a dominance of 52.24% in the market. The trading volume has surged by 23.80% to $318.85 billion. The market's positive outlook is further supported by the Crypto Fear & Greed Index, which is at a value of 72 out of 100, indicating a state of 'Greed' among investors. This suggests that a majority of cryptocurrencies, about 71%, have gained value over the last 24 hours, while 29% have seen a decline​​​​.</p><p>For more in-depth insights and the latest updates, you might want to check the original sources at CoinMarketCap and CoinCodex.</p>",
+    "author": "bot"
+  },
+  {
+    "id": "msg7",
+    "type": "text",
+    "text": "Create a bulleted list of top 5 crypto coins",
+    "author": "user"
+  },
+  {
+    "id": "msg8",
+    "type": "table",
+    "text": "<ul><li>Bitcoin (BTC): The first and most well-known cryptocurrency, often referred to as digital gold.</li><li>Ethereum (ETH): A decentralized platform that enables smart contracts and decentralized applications (DApps).</li><li>Tether (USDT): A stablecoin that aims to keep cryptocurrency valuations stable, as opposed to the wide fluctuations seen in other cryptocurrencies.</li><li>BNB (Binance Coin): The cryptocurrency of the Binance platform, a digital asset exchange.</li><li>Solana (SOL): A high-performance blockchain supporting builders around the world creating crypto apps that scale today.</li></ul>",
+    "author": "bot",
+    "table": {
+      "name": "BTC Transactions",
+      "head": ["Time", "Amount", "From", "To"],
+      "row": [
+        ["10:00", "1.5 BTC", "Wallet1", "Wallet2"],
+        ["11:15", "0.8 BTC", "Wallet3", "Wallet4"],
+        ["12:30", "2.3 BTC", "Wallet5", "Wallet6"],
+        ["14:00", "0.5 BTC", "Wallet7", "Wallet8"],
+        ["15:45", "3.1 BTC", "Wallet9", "Wallet10"]
+      ]
+    }
+  }
+]
