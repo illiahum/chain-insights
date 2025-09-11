@@ -3,8 +3,9 @@ import chatMessages from "../json/messages-2.json";
 import chatMessagesOther from "../json/messages.json";
 import type ChatInterface from "../interfaces/ChatInterface";
 import type CurrentChatInterface from "../interfaces/CurrentChatInterface";
+import type ChatMessageInterface from "../interfaces/ChatMessageInterface";
 
-const fakeMessages = [chatMessages, chatMessagesOther]
+const fakeMessages: ChatMessageInterface[][] = [chatMessages as ChatMessageInterface[], chatMessagesOther as ChatMessageInterface[]]
 
 export const useChatsStore = defineStore("chats", {
   state: () => {
@@ -14,13 +15,13 @@ export const useChatsStore = defineStore("chats", {
     };
   },
   getters: {
-    todayChats(){
+    todayChats(state){
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
-      return this.chats.filter((chat) => chat.last_activity_date >= today);
+      return state.chats.filter((chat) => chat.last_activity_date >= today);
     },
-    lastWeekChats(){
+    lastWeekChats(state){
       const startToday = new Date();
       startToday.setHours(0, 0, 0, 0);
 
@@ -28,12 +29,12 @@ export const useChatsStore = defineStore("chats", {
       sevenDaysAgo.setHours(0, 0, 0, 0);
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-      return this.chats.filter(chat => {
+      return state.chats.filter(chat => {
         const date = new Date(chat.last_activity_date);
         return date >= sevenDaysAgo && date < startToday;
       });
     },
-    lastMonthChats(){
+    lastMonthChats(state){
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setHours(0, 0, 0, 0);
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -42,7 +43,7 @@ export const useChatsStore = defineStore("chats", {
       fourteenDaysAgo.setHours(0, 0, 0, 0);
       fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
 
-      return this.chats.filter(chat => {
+      return state.chats.filter(chat => {
         const date = new Date(chat.last_activity_date);
         return date >= fourteenDaysAgo && date < sevenDaysAgo;
       });
@@ -53,8 +54,11 @@ export const useChatsStore = defineStore("chats", {
       this.chats.push(chat);
     },
 
-    openChat(id: String){
+    openChat(id: string){
       const chatData = this.chats.find((chat) => chat.id == id);
+
+      if (!chatData) return;
+
       const chatIndex = this.chats.findIndex((chat) => chat.id == id);
 
       // Have to be changed
