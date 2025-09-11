@@ -4,7 +4,7 @@
   >
     <div class="start__title-inner">
       <p class="start__title heading heading-1">
-        <span>Ask Your Question and Explore</span> Blockchain Insights12
+        <span>Ask Your Question and Explore</span> Blockchain Insights
       </p>
     </div>
 
