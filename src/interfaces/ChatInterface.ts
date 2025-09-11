@@ -1,4 +1,4 @@
-interface ChatInterface{
+export default interface ChatInterface{
     id: string,
     name: string,
     currency: string,

@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import chatMessages from "../json/messages-2.json";
 import chatMessagesOther from "../json/messages.json";
+import type ChatInterface from "../interfaces/ChatInterface";
+import type CurrentChatInterface from "../interfaces/CurrentChatInterface";
 
 const fakeMessages = [chatMessages, chatMessagesOther]
 
@@ -8,7 +10,7 @@ export const useChatsStore = defineStore("chats", {
   state: () => {
     return {
       chats: [] as ChatInterface[],
-      currentChat: null as CurrentChatInterface,
+      currentChat: {} as CurrentChatInterface,
     };
   },
   getters: {
@@ -52,13 +54,16 @@ export const useChatsStore = defineStore("chats", {
     },
 
     openChat(id: String){
-      const chat = this.chats.find((chat) => chat.id == id);
+      const chatData = this.chats.find((chat) => chat.id == id);
       const chatIndex = this.chats.findIndex((chat) => chat.id == id);
 
       // Have to be changed
-      chat.messages = fakeMessages[chatIndex % 2];
+      const chatMessages = fakeMessages[chatIndex % 2];
 
-      this.currentChat = chat;
+      this.currentChat = {
+        ...chatData,
+        messages: chatMessages
+      };
     },
 
     loadFakeData() {

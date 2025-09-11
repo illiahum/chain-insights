@@ -1,4 +1,4 @@
-interface ChatMessageInterface{
+export default interface ChatMessageInterface{
     id: string,
     type: "text" | "options" | "table" | "chart" | "network_graph" | "infocard",
     text: string,
