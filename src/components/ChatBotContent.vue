@@ -1,6 +1,6 @@
 <template>
   <div class="chatbot__content">
-    <ChatContent v-if="chatsStore.currentChat" />
+    <ChatContent v-if="chatsStore.currentChat?.id" />
 
     <StartContent v-else />
 
