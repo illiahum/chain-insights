@@ -6,8 +6,29 @@
       :head="table?.head"
       :rows="table?.row"
     />
-    <div class="message__text flex flex--column" v-html="text"></div>
-    <div v-if="author == 'bot'" class="message__actions flex">
+
+    <ChatMessageOptions
+      v-if="type == 'options'"
+      :options="options"
+      :messageId="id"
+    />
+
+    <ChatChart
+      v-if="type == 'chart'"
+      :legend="['Address 1', 'Address 2']"
+      name="Alpha Token Accumulation for Subnet 15 Participants"
+      :messageId="id"
+    />
+
+    <div
+      class="message__text flex flex--column"
+      v-if="text != ''"
+      v-html="text"
+    ></div>
+    <div
+      v-if="author == 'bot' && type != 'options'"
+      class="message__actions flex"
+    >
       <div class="message__action">
         <IconReload />
       </div>
@@ -23,9 +44,12 @@ import { computed } from "vue";
 import { useChatsStore } from "../../stores/chats";
 import { IconCopy, IconReload } from "@tabler/icons-vue";
 import ChatTable from "./ChatTable.vue";
+import ChatMessageOptions from "./ChatMessageOptions.vue";
+import ChatChart from "./ChatChart.vue";
 
 const chatsStore = useChatsStore();
 const props = defineProps({
+  id: String,
   text: String,
   author: {
     type: String,
@@ -37,7 +61,11 @@ const props = defineProps({
   },
   table: {
     type: Object,
-    default: "text",
+    default: null,
+  },
+  options: {
+    type: Array,
+    default: null,
   },
   class: {
     type: String,

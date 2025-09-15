@@ -1,11 +1,18 @@
 import { defineStore } from "pinia";
-import chatMessages from "../json/messages-2.json";
-import chatMessagesOther from "../json/messages.json";
+import chatMessages from "../json/messages-table.json";
+import chatMessagesTable from "../json/messages.json";
+import chatMessagesOptions from "../json/messages-option.json";
+import chatMessagesChart from "../json/messages-chart.json";
 import type ChatInterface from "../interfaces/ChatInterface";
 import type CurrentChatInterface from "../interfaces/CurrentChatInterface";
 import type ChatMessageInterface from "../interfaces/ChatMessageInterface";
 
-const fakeMessages: ChatMessageInterface[][] = [chatMessages as ChatMessageInterface[], chatMessagesOther as ChatMessageInterface[]]
+const fakeMessages: ChatMessageInterface[][] = [
+  chatMessages as ChatMessageInterface[], 
+  chatMessagesTable as ChatMessageInterface[], 
+  chatMessagesChart as ChatMessageInterface[],
+  chatMessagesOptions as ChatMessageInterface[],
+]
 
 export const useChatsStore = defineStore("chats", {
   state: () => {
@@ -47,7 +54,7 @@ export const useChatsStore = defineStore("chats", {
         const date = new Date(chat.last_activity_date);
         return date >= fourteenDaysAgo && date < sevenDaysAgo;
       });
-    }
+    },
   },
   actions: {
     createNewChat(chat: ChatInterface){
@@ -62,12 +69,37 @@ export const useChatsStore = defineStore("chats", {
       const chatIndex = this.chats.findIndex((chat) => chat.id == id);
 
       // Have to be changed
-      const chatMessages = fakeMessages[chatIndex % 2];
+      const chatMessages = fakeMessages[chatIndex % 4];
 
       this.currentChat = {
         ...chatData,
-        messages: chatMessages
+        messages: chatMessages, 
+        activeChart: null
       };
+    },
+
+    selectOption(messageId: string, optionId: string){
+      const messageIndex = this.currentChat.messages.findIndex((msg) => msg.id == messageId);
+
+      if (messageIndex == -1) return;
+
+      const message = this.currentChat.messages[messageIndex];
+      if (message.options == undefined) return;
+
+      const option = this.currentChat.messages[messageIndex].options.findIndex((option) => option.id == optionId);
+
+      this.currentChat.messages[messageIndex].options[option].is_choosen = true;
+    },
+
+    openChart(messageId: string, chart: string) {
+      this.currentChat.activeChart = {
+        messageId: messageId, 
+        chart: chart
+      }
+    },
+
+    closeChart() {
+      this.currentChat.activeChart = null;
     },
 
     loadFakeData() {

@@ -1,18 +1,16 @@
 <template>
-  <div :class="classes">
-    <div class="table__top flex justify--between align--center">
-      <p class="body-14 body--reg">{{ name }}</p>
-      <div class="table__actions message__actions flex align--center">
-        <div class="table__action message__action">
-          <IconCopy />
-        </div>
-        <div class="table__action message__action">
-          <IconDownload />
-        </div>
+  <ChatMessageBox :name="name" type="table">
+    <template #box-actions>
+      <div class="box__action message__action">
+        <IconCopy />
       </div>
-    </div>
-    <div class="table__content">
-      <table class="body-14 body--reg">
+      <div class="box__action message__action">
+        <IconDownload />
+      </div>
+    </template>
+
+    <template #content
+      ><table class="body-14 body--reg">
         <thead>
           <tr>
             <td v-for="col in head">{{ col }}</td>
@@ -24,22 +22,19 @@
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
+    </template>
+  </ChatMessageBox>
 </template>
 
 <script setup>
 import { computed } from "vue";
 import { useChatsStore } from "../../stores/chats";
 import { IconCopy, IconDownload } from "@tabler/icons-vue";
+import ChatMessageBox from "./ChatMessageBox.vue";
 
 const chatsStore = useChatsStore();
 const props = defineProps({
   name: String,
-  author: {
-    type: String,
-    default: "user",
-  },
   head: {
     type: Array,
     default: [],

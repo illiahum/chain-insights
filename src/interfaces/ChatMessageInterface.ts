@@ -8,7 +8,7 @@ export default interface ChatMessageInterface{
         head: String[]
         row: Array<Array<String>>
     },
-    option ?: ChatMessageOptionInterface[], 
+    options ?: ChatMessageOptionInterface[], 
     chart ?: null,
 }
 

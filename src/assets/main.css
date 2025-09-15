@@ -244,6 +244,10 @@ img {
   display: block;
 }
 
+ul {
+  padding-left: 1.25rem;
+}
+
 button {
   border: none;
   background-color: transparent;
@@ -379,6 +383,50 @@ button {
   border-radius: 0.5rem;
 }
 
+.chat__chart-full {
+  position: relative;
+  padding: 2.5rem 1.5rem;
+  background: linear-gradient(
+      172deg,
+      rgba(71, 120, 234, 0) -30.31%,
+      rgba(71, 120, 234, 0.04) 124.3%
+    ),
+    rgba(255, 255, 255, 0.04);
+}
+.chat__chart-full .chat__splitter {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  background: var(--white-100, rgba(255, 255, 255, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 0.125rem;
+  cursor: col-resize;
+}
+.chat__chart-full .chat__splitter .splitter__drag {
+  width: 0.125rem;
+  height: 1.5rem;
+  border-radius: 1rem;
+  background: var(--white-100, rgba(255, 255, 255, 0.1));
+}
+.chat__chart-full .chart-full__content {
+  flex: 1 1 auto;
+}
+.chat__chart-full .chart-full__content > div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chat__chart-full .chart-full__content svg {
+  width: 45rem;
+  height: auto;
+}
+
+/* CHAT MESSAGES */
 .chat-option {
   padding: 0.75rem 1.5rem;
   border-radius: 1.25rem;
@@ -433,7 +481,7 @@ button {
   padding-left: 20px;
 }
 
-.chat__message .message__table {
+.chat__message .message__box {
   width: 100%;
   border-radius: 1.25rem;
   background: linear-gradient(
@@ -445,45 +493,103 @@ button {
   border: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
 }
 
-.chat__message .message__table .table__top {
+.chat__message .message__box.message__box--chart {
+  max-width: 45rem;
+}
+
+.chat__message .message__box .box__top {
   border-radius: 0.75rem 0.75rem 0 0;
   border-bottom: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
   padding: 0px 1rem;
   min-height: 3rem;
 }
 
-.chat__message .message__table .table__top .table__actions {
+.chat__message .message__box .box__top .box__actions {
   gap: 1rem;
 }
 
-.chat__message .message__table .table__top .table__actions svg {
+.chat__message .message__box .box__top .box__actions svg {
   stroke: var(--white-600, rgba(255, 255, 255, 0.6));
   width: 1.25rem;
   height: 1.25rem;
 }
 
-.chat__message .message__table .table__content {
+.chat__message .message__box .box__content {
   padding: 1rem;
   border-radius: 0 0 0.75rem 0.75rem;
 }
 
-.chat__message .message__table .table__content table {
+.chat__message .message__box table {
   width: 100%;
+  border-collapse: collapse;
 }
 
-.chat__message .message__table .table__content table td {
+.chat__message .message__box table td {
   padding: 0px 0.5rem;
 }
 
-.chat__message .message__table .table__content table thead td {
+.chat__message .message__box table thead td {
   height: 2.5rem;
   color: var(--white-600);
 }
 
-.chat__message .message__table .table__content table tbody td {
+.chat__message .message__box table tbody td {
   height: 3rem;
 }
 
-.chat__message .message__table .table__content table tbody tr + tr td {
+.chat__message .message__box table tbody tr + tr td {
   border-top: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
+}
+
+.chat__message .message__options {
+  display: flex;
+  gap: 2rem;
+}
+
+.chat__message .message__options .button {
+  margin-top: 1.5rem;
+}
+
+.chat__message .message__box.message__box--chart svg {
+  width: 100%;
+  height: 27.5rem;
+}
+
+.chat__message .message__box.message__box--chart svg .tick text {
+  color: var(--white-800, rgba(255, 255, 255, 0.8));
+}
+
+.chat__message .message__box.message__box--chart svg .chart__axis-label {
+  fill: var(--white-300, rgba(255, 255, 255, 0.3));
+}
+
+.chat__message .message__box.message__box--chart .chart__legend {
+  gap: 0.9375rem;
+  margin-top: 0.75rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.chat__message
+  .message__box.message__box--chart
+  .chart__legend
+  .chart__legend--item {
+  gap: 0.5rem;
+}
+
+.chat__message
+  .message__box.message__box--chart
+  .chart__legend
+  .chart__legend--item
+  svg {
+  width: 0.9375rem;
+  height: 0.3125rem;
+}
+
+.chat__message .message__box.message__box--chart.chart__hide .box__top {
+  border-bottom: 0px;
+}
+
+.chat__message .message__box.message__box--chart.chart__hide .box__content {
+  display: none;
 }

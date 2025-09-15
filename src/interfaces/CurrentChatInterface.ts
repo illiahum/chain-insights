@@ -6,5 +6,11 @@ export default interface CurrentChatInterface{
     last_activity_date: Date,
     name: string,
     currency: string,
+    activeChart: CurrentChatActiveChartInterface | null,
     messages: ChatMessageInterface[]
+}
+
+interface CurrentChatActiveChartInterface{
+    messageId: string,
+    chart: string
 }

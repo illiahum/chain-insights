@@ -1,10 +1,8 @@
 <template>
-  <div class="chatbot__content">
+  <div class="chatbot__content flex">
     <ChatContent v-if="chatsStore.currentChat?.id" />
 
     <StartContent v-else />
-
-    <MessageInput />
   </div>
 </template>
 

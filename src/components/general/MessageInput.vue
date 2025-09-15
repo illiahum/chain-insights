@@ -33,11 +33,9 @@ import VoiceIcon from "../icons/VoiceIcon.vue";
 
 <style>
 .chatbot__message-input {
-  position: fixed;
+  position: absolute;
   bottom: 2.5rem;
-  right: 9.375rem;
 
-  width: 77.5rem;
   padding: 1.25rem;
   border-radius: 1.25rem;
 
