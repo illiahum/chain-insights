@@ -10,10 +10,20 @@ export default interface ChatMessageInterface{
     },
     options ?: ChatMessageOptionInterface[], 
     chart ?: null,
+    nodes ?: ChatMessageNetworkNode[] | null
 }
 
 interface ChatMessageOptionInterface{
     id: string,
     is_choosen: boolean,
     text: string
+}
+
+interface ChatMessageNetworkNode{
+    id: string,
+    name: string,
+    type: string, 
+    relationType: "direct" | "indirect" | null,
+    value: number,
+    childs: ChatMessageNetworkNode[]
 }

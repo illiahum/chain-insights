@@ -3,6 +3,7 @@ import chatMessages from "../json/messages-table.json";
 import chatMessagesTable from "../json/messages.json";
 import chatMessagesOptions from "../json/messages-option.json";
 import chatMessagesChart from "../json/messages-chart.json";
+import chatMessagesNetworkChart from "../json/messages-network-chart.json";
 import type ChatInterface from "../interfaces/ChatInterface";
 import type CurrentChatInterface from "../interfaces/CurrentChatInterface";
 import type ChatMessageInterface from "../interfaces/ChatMessageInterface";
@@ -12,6 +13,7 @@ const fakeMessages: ChatMessageInterface[][] = [
   chatMessagesTable as ChatMessageInterface[], 
   chatMessagesChart as ChatMessageInterface[],
   chatMessagesOptions as ChatMessageInterface[],
+  chatMessagesNetworkChart as ChatMessageInterface[],
 ]
 
 export const useChatsStore = defineStore("chats", {
@@ -69,7 +71,7 @@ export const useChatsStore = defineStore("chats", {
       const chatIndex = this.chats.findIndex((chat) => chat.id == id);
 
       // Have to be changed
-      const chatMessages = fakeMessages[chatIndex % 4];
+      const chatMessages = fakeMessages[chatIndex % 5];
 
       this.currentChat = {
         ...chatData,
@@ -83,10 +85,13 @@ export const useChatsStore = defineStore("chats", {
 
       if (messageIndex == -1) return;
 
+      if (!this.currentChat.messages[messageIndex] || !this.currentChat.messages[messageIndex].options) return;
+
       const message = this.currentChat.messages[messageIndex];
       if (message.options == undefined) return;
 
-      const option = this.currentChat.messages[messageIndex].options.findIndex((option) => option.id == optionId);
+      const option = message.options.findIndex((option) => option.id == optionId);
+      if (option == -1 || !this.currentChat.messages[messageIndex].options[option]) return;
 
       this.currentChat.messages[messageIndex].options[option].is_choosen = true;
     },
@@ -112,6 +117,8 @@ export const useChatsStore = defineStore("chats", {
         { id: "kkd9e9d9kd9kd9e9", name: "Top gainers today", currency: "SOL", last_activity_date: new Date("2025-09-10T12:00:00") },
         { id: "a1b2c3d4e5f6g7h8", name: "BTC Market Updates", currency: "BTC", last_activity_date: new Date("2025-09-09T10:12:00") },
         { id: "b2c3d4e5f6g7h8i9", name: "ETH Price Alerts", currency: "ETH", last_activity_date: new Date("2025-09-08T15:45:00") },
+        { id: "f9e9f9f9f9f9f9f4", name: "Stablecoins overview", currency: "USDC", last_activity_date: new Date("2025-08-28T22:05:00") },
+        { id: "kkd9e9d9kd9kd9e0", name: "Top gainers today", currency: "SOL", last_activity_date: new Date("2025-09-10T12:00:00") },
       ];
     },
   },

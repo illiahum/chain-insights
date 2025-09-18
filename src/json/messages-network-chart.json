@@ -43,8 +43,67 @@
   },
   {
     "id": "msg8",
-    "type": "chart",
-    "text": "Here is the example of the graph for tracking the alpha token accumulation patterns for subnet 15 participants. Description: <ul><li>X-Axis (Date): Shows the timeline, with each point representing a specific day.</li><li>Y-Axis (Accumulated Alpha Tokens): Represents the total amount of alpha tokens accumulated over time.</li><li>Lines: Represent the accumulation patterns for two different addresses (Address 1 and Address 2).</li><li>Labels: The graph includes a title and axes labels for clarity.</li></ul>",
-    "author": "bot"
+    "type": "network_graph",
+    "text": "Here is the example of",
+    "author": "bot",
+    "nodes": {
+      "name": "Address 1",
+      "type": "A",
+      "relationType": null,
+      "value": 10,
+      "nodes": [
+        {
+          "name": "Address 2",
+          "type": "B",
+          "relationType": "direct",
+          "value": 8,
+          "nodes": [
+            {
+              "name": "Address 5",
+              "type": "D",
+              "relationType": "direct",
+              "value": 6,
+              "nodes": []
+            }
+          ]
+        },
+        {
+          "name": "Address 3",
+          "type": "C",
+          "relationType": "indirect",
+          "value": 6,
+          "nodes": []
+        },
+        {
+          "name": "Address 4",
+          "type": "E",
+          "relationType": "indirect",
+          "value": 8,
+          "nodes": [
+            {
+              "name": "Address 7",
+              "type": "C",
+              "relationType": "direct",
+              "value": 6,
+              "nodes": []
+            }
+          ]
+        },
+        {
+          "name": "Address 6",
+          "type": "D",
+          "relationType": "direct",
+          "value": 8,
+          "nodes": []
+        },
+        {
+          "name": "Address 8",
+          "type": "D",
+          "relationType": "direct",
+          "value": 6,
+          "nodes": []
+        }
+      ]
+    }
   }
 ]

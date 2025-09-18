@@ -1,32 +1,40 @@
 <template>
   <div :class="classes">
     <ChatTable
-      v-if="type == 'table'"
-      :name="table?.name"
-      :head="table?.head"
-      :rows="table?.row"
+      v-if="msg?.type == 'table'"
+      :name="msg?.table?.name"
+      :head="msg?.table?.head"
+      :rows="msg?.table?.row"
     />
 
     <ChatMessageOptions
-      v-if="type == 'options'"
-      :options="options"
-      :messageId="id"
+      v-if="msg?.type == 'options'"
+      :options="msg?.options"
+      :messageId="msg?.id"
     />
 
     <ChatChart
-      v-if="type == 'chart'"
+      v-if="msg?.type == 'chart'"
       :legend="['Address 1', 'Address 2']"
       name="Alpha Token Accumulation for Subnet 15 Participants"
-      :messageId="id"
+      :messageId="msg?.id"
+    />
+
+    <ChatNetworkChart
+      v-if="msg?.type == 'network_graph'"
+      :legend="['Address 1', 'Address 2']"
+      name="Connections between the validator and other addresses"
+      :nodes="msg?.nodes"
+      :messageId="msg?.id"
     />
 
     <div
       class="message__text flex flex--column"
-      v-if="text != ''"
-      v-html="text"
+      v-if="msg?.text != ''"
+      v-html="msg?.text"
     ></div>
     <div
-      v-if="author == 'bot' && type != 'options'"
+      v-if="msg?.author == 'bot' && msg?.type != 'options'"
       class="message__actions flex"
     >
       <div class="message__action">
@@ -46,35 +54,16 @@ import { IconCopy, IconReload } from "@tabler/icons-vue";
 import ChatTable from "./ChatTable.vue";
 import ChatMessageOptions from "./ChatMessageOptions.vue";
 import ChatChart from "./ChatChart.vue";
+import ChatNetworkChart from "./ChatNetworkChart.vue";
 
 const chatsStore = useChatsStore();
 const props = defineProps({
   id: String,
-  text: String,
-  author: {
-    type: String,
-    default: "user",
-  },
-  type: {
-    type: String,
-    default: "text",
-  },
-  table: {
-    type: Object,
-    default: null,
-  },
-  options: {
-    type: Array,
-    default: null,
-  },
-  class: {
-    type: String,
-    default: "",
-  },
+  msg: Object,
 });
 
 const classes = computed(() => {
-  let classes = `${props.class} chat__message chat__message--${props.type} chat__message--${props.author} flex flex--column`;
+  let classes = `${props.class} chat__message chat__message--${props.msg?.type} chat__message--${props.msg?.author} flex flex--column`;
 
   return classes;
 });

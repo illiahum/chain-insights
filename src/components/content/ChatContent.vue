@@ -2,10 +2,7 @@
   <div
     class="chat__chart-full flex flex--column"
     :style="{ width: leftWidth + '%' }"
-    v-if="
-      chatsStore.currentChat.activeChart?.messageId &&
-      chatsStore.currentChat.activeChart?.chart
-    "
+    v-show="chatsStore.currentChat.activeChart?.messageId"
   >
     <div class="chart-full__actions flex justify--end">
       <div class="box__action chart-full__action" @click="downloadUrl">
@@ -15,10 +12,10 @@
         <IconArrowsMinimize />
       </div>
     </div>
-    <div
-      v-html="chatsStore.currentChat.activeChart.chart"
-      class="chart-full__content flex flex--column items--center"
-    ></div>
+    <div class="chart-full__content flex flex--column items--center">
+      <svg ref="svgElement"></svg>
+    </div>
+    <div></div>
     <div class="chat__splitter" @mousedown="startResize">
       <div class="splitter__drag"></div>
     </div>
@@ -31,12 +28,7 @@
         <ChatMessage
           v-for="msg in chatsStore.currentChat.messages"
           v-bind:key="msg.id"
-          :id="msg.id"
-          :text="msg.text"
-          :type="msg.type"
-          :author="msg.author"
-          :table="msg?.table"
-          :options="msg?.options"
+          :msg="msg"
         />
       </div>
     </div>
@@ -51,8 +43,12 @@ import ChatMessage from "../chat/ChatMessage.vue";
 import MessageInput from "../general/MessageInput.vue";
 import { IconArrowsMinimize, IconDownload } from "@tabler/icons-vue";
 import { Canvg } from "canvg";
+import { useNetworkChart } from "../../composables/useNetworkChart";
 
+const { createChart } = useNetworkChart();
 const chatsStore = useChatsStore();
+
+const svgElement = ref(null);
 
 const leftWidth = ref(0);
 let startX = 0;
@@ -61,10 +57,16 @@ let startWidth = 0;
 watch(
   () => chatsStore.currentChat.activeChart,
   (newValue, oldValue) => {
-    if (newValue?.messageId && newValue?.chart) {
+    if (newValue?.messageId) {
+      const mesagge = chatsStore.currentChat.messages.find(
+        (item) => item.id == newValue?.messageId
+      );
+
       leftWidth.value = 40;
+      createChart(mesagge.nodes, svgElement.value, 1540, window.innerHeight);
     } else {
       leftWidth.value = 0;
+      svgElement.value.innerHTML = "";
     }
   },
   {
