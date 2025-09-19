@@ -3,6 +3,7 @@
     class="chat__chart-full flex flex--column"
     :style="{ width: leftWidth + '%' }"
     v-show="chatsStore.currentChat.activeChart?.messageId"
+    ref="chatChartFull"
   >
     <div class="chart-full__actions flex justify--end">
       <div class="box__action chart-full__action" @click="downloadUrl">
@@ -13,9 +14,18 @@
       </div>
     </div>
     <div class="chart-full__content flex flex--column items--center">
-      <svg ref="svgElement"></svg>
+      <div ref="svgElement"></div>
     </div>
-    <div></div>
+    <div class="chart-full__minimap">
+      <div class="minimap__content">
+        <div class="minimap__chart" ref="svgMinimapElement"></div>
+        <div class="minimap__viewport" ref="svgMinimapViewportElement"></div>
+      </div>
+    </div>
+    <div class="chart-full__zoom flex">
+      <IconButton :icon="IconMinus" type="secondary" @click="zoomOutFunction" />
+      <IconButton :icon="IconPlus" type="secondary" @click="zoomInFunction" />
+    </div>
     <div class="chat__splitter" @mousedown="startResize">
       <div class="splitter__drag"></div>
     </div>
@@ -37,36 +47,63 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, ref, watch } from "vue";
+import { nextTick, onBeforeUnmount, ref, watch } from "vue";
 import { useChatsStore } from "../../stores/chats";
 import ChatMessage from "../chat/ChatMessage.vue";
 import MessageInput from "../general/MessageInput.vue";
-import { IconArrowsMinimize, IconDownload } from "@tabler/icons-vue";
+import {
+  IconArrowsMinimize,
+  IconDownload,
+  IconPlus,
+  IconMinus,
+} from "@tabler/icons-vue";
 import { Canvg } from "canvg";
 import { useNetworkChart } from "../../composables/useNetworkChart";
+import * as d3 from "d3";
+import IconButton from "../general/IconButton.vue";
 
-const { createChart } = useNetworkChart();
+const { updateChart } = useNetworkChart();
 const chatsStore = useChatsStore();
 
 const svgElement = ref(null);
+const svgMinimapElement = ref(null);
+const svgMinimapViewportElement = ref(null);
+const chatChartFull = ref(null);
 
 const leftWidth = ref(0);
 let startX = 0;
 let startWidth = 0;
 
+const zoomInFunction = ref(null);
+const zoomOutFunction = ref(null);
+
 watch(
   () => chatsStore.currentChat.activeChart,
-  (newValue, oldValue) => {
+  async (newValue, oldValue) => {
     if (newValue?.messageId) {
-      const mesagge = chatsStore.currentChat.messages.find(
-        (item) => item.id == newValue?.messageId
+      leftWidth.value = 40;
+
+      svgElement.value.innerHTML = newValue.chart;
+
+      svgMinimapElement.value.innerHTML = newValue.chart;
+      d3.select(svgMinimapElement.value).select("g").attr("transform", "");
+
+      await nextTick();
+
+      const { zoomIn, zoomOut } = updateChart(
+        svgElement.value,
+        chatChartFull.value,
+        svgMinimapViewportElement.value,
+        svgMinimapElement.value
       );
 
-      leftWidth.value = 40;
-      createChart(mesagge.nodes, svgElement.value, 1540, window.innerHeight);
+      zoomInFunction.value = zoomIn;
+      zoomOutFunction.value = zoomOut;
     } else {
       leftWidth.value = 0;
+
       svgElement.value.innerHTML = "";
+      svgMinimapElement.value.innerHTML = "";
     }
   },
   {
@@ -143,7 +180,7 @@ const downloadUrl = function () {
 };
 </script>
 
-<style scoped>
+<style>
 .chat__content {
   position: relative;
   width: 100%;
@@ -166,6 +203,66 @@ const downloadUrl = function () {
   gap: 1.5rem;
 }
 
+.chat__chart-full {
+  position: relative;
+}
+
+.chat__chart-full .chart-full__zoom {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  gap: 8px;
+}
+
+.chat__chart-full .chart-full__minimap {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 2.5rem;
+
+  height: 120px;
+  width: 220px;
+  border-radius: 0.5rem;
+  border: 0.341px solid var(--white-100, rgba(255, 255, 255, 0.1));
+  background: linear-gradient(
+      172deg,
+      rgba(71, 120, 234, 0) -30.31%,
+      rgba(71, 120, 234, 0.04) 124.3%
+    ),
+    rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(1.34375rem);
+}
+
+.chat__chart-full .chart-full__minimap .minimap__content {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.chat__chart-full .chart-full__minimap .minimap__content .minimap__viewport {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 90px;
+  border-radius: 8px;
+  border: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
+  background: var(--white-100, rgba(255, 255, 255, 0.1));
+}
+
+.chat__chart-full .chart-full__minimap .minimap__content .minimap__chart {
+  height: 100%;
+}
+
+.chat__chart-full .chart-full__minimap .minimap__content .minimap__chart svg {
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: auto;
+  height: 100%;
+}
+
 .chat__chart-full + .chat__content .chat__messages .messages__inner {
   padding: 0px 3rem 13.75rem;
 }
@@ -178,6 +275,7 @@ const downloadUrl = function () {
 .chat__chart-full .chart-full__actions {
   flex: 0 0 auto;
   gap: 1rem;
+  padding: 0px 40px;
 }
 
 .chat__chart-full .chart-full__actions .chart-full__action {

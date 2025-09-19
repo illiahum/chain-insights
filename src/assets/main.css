@@ -385,7 +385,7 @@ button {
 
 .chat__chart-full {
   position: relative;
-  padding: 2.5rem 1.5rem;
+  padding: 2.5rem 0rem;
   background: linear-gradient(
       172deg,
       rgba(71, 120, 234, 0) -30.31%,
@@ -413,6 +413,9 @@ button {
 }
 .chat__chart-full .chart-full__content {
   flex: 1 1 auto;
+  max-width: 100%;
+  overflow: hidden;
+  position: relative;
 }
 .chat__chart-full .chart-full__content > div {
   width: 100%;
@@ -422,8 +425,12 @@ button {
   justify-content: center;
 }
 .chat__chart-full .chart-full__content svg {
-  width: 45rem;
-  height: auto;
+  position: absolute;
+  top: 0px;
+  left: 0%;
+  transform: translate(0%, 0);
+  width: auto;
+  height: 100%;
 }
 
 /* CHAT MESSAGES */
@@ -518,6 +525,21 @@ button {
 .chat__message .message__box .box__content {
   padding: 1rem;
   border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.chat__message .message__box.message__box--network__chart .box__content {
+  position: relative;
+  overflow: hidden;
+  height: 274px;
+}
+
+.chat__message .message__box.message__box--network__chart .box__content svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
 }
 
 .chat__message .message__box table {

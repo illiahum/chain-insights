@@ -27,7 +27,7 @@
     </template>
 
     <template #content>
-      <div class="chart__content">
+      <div class="chart__content" v-show="!fullChart">
         <svg ref="chart">
           <defs>
             <!-- GOLD -->
@@ -126,6 +126,8 @@ const closeChart = function () {
 };
 
 onMounted(() => {
-  createChart(props.nodes, chart.value);
+  createChart(props.nodes, chart.value, window.innerWidth, window.innerHeight, {
+    intialScale: 2,
+  });
 });
 </script>

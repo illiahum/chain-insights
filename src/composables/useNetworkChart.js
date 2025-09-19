@@ -36,7 +36,13 @@ export const useNetworkChart = () => {
     return { nodes, links, typesColors };
   }
 
-  function createChart(chartData, chartElement, width = 442, height = 274) {
+  function createChart(
+    chartData,
+    chartElement,
+    width = 442,
+    height = 274,
+    config = {}
+  ) {
     const colors = {
       gold: "#AE9D71",
       peach: "#AE7171",
@@ -54,9 +60,7 @@ export const useNetworkChart = () => {
     const svgSel = d3
       .select(chartElement)
       .attr("viewBox", `0 0 ${width} ${height}`)
-      .attr("preserveAspectRatio", "xMidYMid meet")
-      .style("width", "100%")
-      .style("height", "100%");
+      .attr("preserveAspectRatio", "xMidYMid meet");
 
     // root group for pan/zoom
     const root = svgSel.append("g");
@@ -70,9 +74,13 @@ export const useNetworkChart = () => {
     const radius = d3
       .scaleSqrt()
       .domain(valueExtent[0] == null ? [1, 1] : valueExtent)
-      .range([32, 48]);
+      .range([64, 128]);
 
-    const color = d3.scaleOrdinal(d3.schemeTableau10);
+    function radiusRound(d) {
+      const r = radius(d);
+
+      return Math.round(r / 24) * 24;
+    }
 
     // simulation
     simulation = d3
@@ -83,13 +91,13 @@ export const useNetworkChart = () => {
           .forceLink(links)
           .id((d) => d.id)
           .distance((d) => d.distance ?? 120)
-          .strength(2)
+          .strength(1.5)
       )
-      .force("charge", d3.forceManyBody().strength(-120))
+      .force("charge", d3.forceManyBody().strength(-260))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force(
         "collision",
-        d3.forceCollide().radius((d) => radius(d.value) + 8)
+        d3.forceCollide().radius((d) => radiusRound(d.value) + 45)
       );
 
     // draw links
@@ -119,12 +127,12 @@ export const useNetworkChart = () => {
 
     node
       .append("circle")
-      .attr("r", (d) => radius(d.value))
+      .attr("r", (d) => radiusRound(d.value))
       .attr("fill", "#18181A");
 
     node
       .append("circle")
-      .attr("r", (d) => radius(d.value))
+      .attr("r", (d) => radiusRound(d.value))
       .attr("fill", (d) => colors[typesColors[d.type]])
       .attr("fill-opacity", "0.3")
       .attr("stroke", "#fff")
@@ -133,17 +141,16 @@ export const useNetworkChart = () => {
 
     node
       .append("circle")
-      .attr("r", (d) => radius(d.value))
+      .attr("r", (d) => radiusRound(d.value))
       .attr("fill", "url('#buble_radial')")
       .attr("fill-opacity", "0.1");
 
     node
       .append("circle")
-      .attr("r", (d) => radius(d.value))
+      .attr("r", (d) => radiusRound(d.value))
       .attr("fill", "url('#buble_linear')")
       .attr("fill-opacity", "0.3");
 
-    // center text using tspans for simple wrapping
     node
       .append("text")
       .attr("text-anchor", "middle")
@@ -154,8 +161,8 @@ export const useNetworkChart = () => {
       .style("fill", "#fff")
       .each(function (d) {
         const words = String(d.label ?? d.id).split(/\s+/);
-        const lineHeight = 1.1; // em
-        const maxChars = 12; // naive wrap limit per line
+        const lineHeight = 1.1;
+        const maxChars = 12;
         let lines = [];
         let cur = "";
         for (const w of words) {
@@ -179,7 +186,6 @@ export const useNetworkChart = () => {
       })
       .style("font-size", (d) => Math.max(10, radius(d.value) / 3) + "px");
 
-    // tooltip (title) fallback
     node.append("title").text((d) => d.title ?? d.label ?? d.id);
 
     simulation.on("tick", () => {
@@ -191,33 +197,140 @@ export const useNetworkChart = () => {
 
       node.attr("transform", (d) => `translate(${d.x},${d.y})`);
     });
+  }
 
-    // zoom
-    // zoomBehavior = d3
-    //   .zoom()
-    //   .scaleExtent([0.2, 4])
-    //   .on("zoom", (event) => {
-    //     root.attr("transform", event.transform);
-    //   });
+  function updateChart(svgElement, chatBox, viewport, viewportChart) {
+    const svgSel = d3.select(svgElement);
+    const svgElementRoot = svgSel.select("g");
 
-    //svgSel.call(zoomBehavior);
+    const viewportChartSel = d3.select(viewportChart);
+    const viewportChartRoot = viewportChartSel.select("g");
 
-    // double-click to center and zoom
-    //svgSel.on("dblclick.zoom", null);
-    // svgSel.on("dblclick", (event) => {
-    //   const [mx, my] = d3.pointer(event);
-    //   svgSel
-    //     .transition()
-    //     .duration(600)
-    //     .call(
-    //       zoomBehavior.transform,
-    //       d3.zoomIdentity.translate(width / 2 - mx, height / 2 - my).scale(1.2)
-    //     );
-    // });
+    const width = chatBox.clientWidth;
+    const height = chatBox.clientHeight;
+
+    const bbox = svgElementRoot.node().getBBox();
+    const graphCenterX = bbox.x + bbox.width / 2;
+    const graphCenterY = bbox.y + bbox.height / 2;
+
+    const svgCenterX = width / 2;
+    const svgCenterY = height / 2;
+
+    const scale = Math.min(width / bbox.width, height / bbox.height) * 2;
+
+    const tx = svgCenterX - graphCenterX * scale;
+
+    const svgWidth = svgElement.querySelector("svg").clientWidth;
+
+    const zoom = d3
+      .zoom()
+      .scaleExtent([0.1, 4])
+      .on("zoom", (event) => {
+        const scale = event.transform.k;
+        const tx = event.transform.x;
+        const cssOffsetX = (width - svgWidth) / 2;
+
+        const transform = d3.zoomIdentity.translate(tx, 0).scale(scale);
+
+        const viewWidth = width / scale;
+        const viewX = (220 * -tx) / svgWidth;
+
+        d3.select(viewport)
+          .style("left", viewX + "px")
+          .style("width", viewWidth * 0.1 + "px");
+
+        svgElementRoot.attr("transform", transform);
+      });
+
+    svgSel.call(zoom);
+
+    const initialTransform = d3.zoomIdentity.translate(tx, 0).scale(scale);
+    svgSel.call(zoom.transform, initialTransform);
+
+    const initialViewportTransform = (220 * tx) / svgWidth;
+    viewportChartRoot.attr(
+      "transform",
+      `translate(${initialViewportTransform}px, 0)`
+    );
+
+    let currentTransform = d3.zoomIdentity;
+    const zoomStep = 0.2;
+
+    function zoomIn() {
+      const newScale = Math.min(currentTransform.k + zoomStep, 4);
+      const transform = d3.zoomIdentity
+        .translate(currentTransform.x, currentTransform.y)
+        .scale(newScale);
+
+      svgSel.call(zoom.transform, transform);
+    }
+
+    function zoomOut() {
+      const newScale = Math.max(currentTransform.k - zoomStep, 0.1);
+      const transform = d3.zoomIdentity
+        .translate(currentTransform.x, currentTransform.y)
+        .scale(newScale);
+
+      svgSel.call(zoom.transform, transform);
+    }
+
+    return { zoomIn, zoomOut };
+  }
+
+  function createMiniMap(
+    mainSvg,
+    miniMapElement,
+    viewportEl,
+    width = 200,
+    height = 120
+  ) {
+    // Очистимо міні-мапу
+    d3.select(miniMapElement).html("");
+
+    // Клонуємо основний SVG
+    const clonedNode = mainSvg.cloneNode(true);
+
+    miniMapElement.appendChild(clonedNode);
+
+    const bbox = mainSvg.getBBox();
+    const scale = Math.min(width / bbox.width, height / bbox.height);
+
+    d3.select(clonedNode)
+      .attr("width", width)
+      .attr("height", height)
+      .style("width", width)
+      .style("height", height);
+
+    // d3.select(clonedNode)
+    //   .select("g")
+    //   .attr("transform", `translate(${-bbox.x}, ${-bbox.y}) scale(${scale})`);
+
+    const viewport = d3
+      .select(clonedNode)
+      .append("rect")
+      .attr("stroke", "red")
+      .attr("fill", "rgba(255,0,0,0.1)")
+      .attr("pointer-events", "none"); // просто показуємо
+
+    // Функція для оновлення viewport
+    function updateViewport(transform) {
+      const k = transform.k;
+      const mainSvgEl = d3.select(mainSvg);
+
+      viewport
+        .attr("x", (-transform.x * scale) / k)
+        .attr("y", (-transform.y * scale) / k);
+      // .attr("width", (mainSvgEl.attr("width") * scale) / k)
+      // .attr("height", (mainSvgEl.attr("height") * scale) / k);
+    }
+
+    return { updateViewport };
   }
 
   return {
     flatten,
     createChart,
+    updateChart,
+    createMiniMap,
   };
 };
