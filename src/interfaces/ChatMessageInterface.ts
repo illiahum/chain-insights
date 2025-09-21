@@ -8,6 +8,14 @@ export default interface ChatMessageInterface{
         head: String[]
         row: Array<Array<String>>
     },
+    data ?: {
+        name: string
+        rows: {
+            label: string,
+            text: string
+        }[],
+        button_url?: string,
+    }
     options ?: ChatMessageOptionInterface[], 
     chart ?: null,
     nodes ?: ChatMessageNetworkNode[] | null

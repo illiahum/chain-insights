@@ -1,12 +1,15 @@
 <template>
   <ChatMessageBox
-    :name="name"
     type="chart"
     :class="{
       chart__hide: fullChart,
     }"
   >
-    <template #box-actions>
+    <template #head>
+      <IconChartLine v-show="fullChart" />
+      {{ name }}
+    </template>
+    <template #actions>
       <div
         class="box__action message__action"
         @click="closeChart"
@@ -66,6 +69,7 @@ import { useChatsStore } from "../../stores/chats";
 import {
   IconArrowsMaximize,
   IconArrowsMinimize,
+  IconChartLine,
   IconDownload,
 } from "@tabler/icons-vue";
 import ChatMessageBox from "./ChatMessageBox.vue";
@@ -253,7 +257,7 @@ const downloadUrl = function () {
 };
 
 const openChart = function () {
-  chatsStore.openChart(props.messageId, chart.value.outerHTML);
+  chatsStore.openChart(props.messageId, chart.value.outerHTML, "chart");
 };
 
 const closeChart = function () {

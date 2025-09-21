@@ -12,5 +12,6 @@ export default interface CurrentChatInterface{
 
 interface CurrentChatActiveChartInterface{
     messageId: string,
+    type: string,
     chart: string
 }

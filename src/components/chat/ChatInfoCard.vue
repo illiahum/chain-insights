@@ -1,28 +1,30 @@
 <template>
-  <ChatMessageBox type="table">
+  <ChatMessageBox type="infocard">
     <template #head>{{ name }}</template>
     <template #actions>
       <div class="box__action message__action">
         <IconCopy />
       </div>
-      <div class="box__action message__action">
-        <IconDownload />
-      </div>
     </template>
 
     <template #content
       ><table class="body-14 body--reg">
-        <thead>
-          <tr>
-            <td v-for="col in head">{{ col }}</td>
-          </tr>
-        </thead>
         <tbody>
-          <tr v-for="row in rows">
-            <td v-for="col in row">{{ col }}</td>
+          <tr v-for="(row, index) in rows" :key="index">
+            <td>{{ row?.label }}</td>
+            <th>{{ row?.text }}</th>
           </tr>
         </tbody>
       </table>
+      <BaseButton
+        :icon="IconArrowRight"
+        type="secondary"
+        text="View more"
+        :fullWidth="true"
+        size="m"
+        iconPosition="right"
+        :url="button_url"
+      />
     </template>
   </ChatMessageBox>
 </template>
@@ -30,28 +32,25 @@
 <script setup>
 import { computed } from "vue";
 import { useChatsStore } from "../../stores/chats";
-import { IconCopy, IconDownload } from "@tabler/icons-vue";
+import { IconArrowRight, IconCopy } from "@tabler/icons-vue";
 import ChatMessageBox from "./ChatMessageBox.vue";
+import BaseButton from "../general/BaseButton.vue";
 
 const chatsStore = useChatsStore();
 const props = defineProps({
   name: String,
-  head: {
-    type: Array,
-    default: [],
-  },
   rows: {
     type: Array,
     default: [],
   },
-  class: {
+  button_url: {
     type: String,
     default: "",
   },
 });
 
 const classes = computed(() => {
-  let classes = `${props.class} message__table flex flex--column`;
+  let classes = `${props.class} message__infocard flex flex--column`;
 
   return classes;
 });

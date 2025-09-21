@@ -424,13 +424,22 @@ button {
   align-items: center;
   justify-content: center;
 }
-.chat__chart-full .chart-full__content svg {
+.chat__chart-full.chat__network-chart--open > div {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+.chat__chart-full.chat__network-chart--open .chart-full__content svg {
   position: absolute;
   top: 0px;
   left: 0%;
   transform: translate(0%, 0);
   width: auto;
   height: 100%;
+}
+.chat__chart-full:not(.chat__network-chart--open) .chart-full__content svg {
+  width: 100%;
+  max-width: 45rem;
+  height: auto;
 }
 
 /* CHAT MESSAGES */
@@ -505,11 +514,28 @@ button {
   max-width: 45rem;
 }
 
+.chat__message .message__box.message__box--infocard {
+  max-width: 18.875rem;
+}
+
 .chat__message .message__box .box__top {
   border-radius: 0.75rem 0.75rem 0 0;
   border-bottom: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
   padding: 0px 1rem;
   min-height: 3rem;
+}
+
+.chat__message .message__box .box__top .box__name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--white-800);
+}
+
+.chat__message .message__box .box__top .box__name svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke: var(--gold-1000, #f2dda6);
 }
 
 .chat__message .message__box .box__top .box__actions {
@@ -533,7 +559,13 @@ button {
   height: 274px;
 }
 
-.chat__message .message__box.message__box--network__chart .box__content svg {
+.chat__message
+  .message__box.message__box--network__chart
+  .box__content
+  .chat__message
+  .message__box.message__box--network__chart
+  .box__content
+  svg {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -556,12 +588,32 @@ button {
   color: var(--white-600);
 }
 
-.chat__message .message__box table tbody td {
+.chat__message .message__box.message__box--table table tbody td {
   height: 3rem;
 }
 
-.chat__message .message__box table tbody tr + tr td {
+.chat__message .message__box.message__box--table table tbody tr + tr td {
   border-top: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
+}
+
+.chat__message .message__box.message__box--infocard table tbody td,
+.chat__message .message__box.message__box--infocard table tbody th {
+  padding-top: 0.71875rem;
+  padding-bottom: 0.71875rem;
+}
+
+.chat__message .message__box.message__box--infocard table tbody td {
+  color: var(--white-600);
+}
+
+.chat__message .message__box.message__box--infocard table tbody th {
+  text-align: right;
+  color: var(--white-1000);
+  font-weight: normal;
+}
+
+.chat__message .message__box.message__box--infocard button {
+  margin-top: 1rem;
 }
 
 .chat__message .message__options {
@@ -609,10 +661,16 @@ button {
   height: 0.3125rem;
 }
 
-.chat__message .message__box.message__box--chart.chart__hide .box__top {
+.chat__message .message__box.message__box--chart.chart__hide .box__top,
+.chat__message
+  .message__box.message__box--network__chart.chart__hide
+  .box__top {
   border-bottom: 0px;
 }
 
-.chat__message .message__box.message__box--chart.chart__hide .box__content {
+.chat__message .message__box.message__box--chart.chart__hide .box__content,
+.chat__message
+  .message__box.message__box--network__chart.chart__hide
+  .box__content {
   display: none;
 }

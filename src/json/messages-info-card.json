@@ -43,67 +43,26 @@
   },
   {
     "id": "msg8",
-    "type": "network_graph",
-    "text": "Here is the example of",
-    "author": "bot",
-    "nodes": {
-      "name": "Address 1",
-      "type": "Addresses",
-      "relationType": null,
-      "value": 10,
-      "nodes": [
+    "type": "infocard",
+    "data": {
+      "name": "Outgoing transfers summary",
+      "rows": [
         {
-          "name": "Address 2",
-          "type": "Exchanges",
-          "relationType": "direct",
-          "value": 8,
-          "nodes": [
-            {
-              "name": "Address 5",
-              "type": "D",
-              "relationType": "direct",
-              "value": 6,
-              "nodes": []
-            }
-          ]
+          "label": "Total transfers",
+          "text": "25"
         },
         {
-          "name": "Address 3",
-          "type": "DeFi Platforms",
-          "relationType": "indirect",
-          "value": 6,
-          "nodes": []
+          "label": "Total amount",
+          "text": "150,000 alpha tokens"
         },
         {
-          "name": "Address 4",
-          "type": "Unknown Entities",
-          "relationType": "indirect",
-          "value": 8,
-          "nodes": [
-            {
-              "name": "Address 7",
-              "type": "DeFi Platforms",
-              "relationType": "direct",
-              "value": 6,
-              "nodes": []
-            }
-          ]
-        },
-        {
-          "name": "Address 6",
-          "type": "Suspicious Addresses",
-          "relationType": "direct",
-          "value": 8,
-          "nodes": []
-        },
-        {
-          "name": "Address 8",
-          "type": "Suspicious Addresses",
-          "relationType": "direct",
-          "value": 6,
-          "nodes": []
+          "label": "Top recipient",
+          "text": "[address]"
         }
-      ]
-    }
+      ],
+      "more_url": "#"
+    },
+    "text": "Here is the example of",
+    "author": "bot"
   }
 ]

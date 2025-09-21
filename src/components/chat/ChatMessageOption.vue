@@ -1,6 +1,10 @@
 <template>
-  <ChatMessageBox :name="name" type="option">
-    <template #box-actions>
+  <ChatMessageBox type="option">
+    <template #head>
+      {{ name }}
+    </template>
+
+    <template #actions>
       <div class="box__action message__action">
         <IconCopy />
       </div>

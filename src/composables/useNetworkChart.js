@@ -228,16 +228,14 @@ export const useNetworkChart = () => {
       .on("zoom", (event) => {
         const scale = event.transform.k;
         const tx = event.transform.x;
-        const cssOffsetX = (width - svgWidth) / 2;
+        const ty = event.transform.y;
 
-        const transform = d3.zoomIdentity.translate(tx, 0).scale(scale);
+        const transform = d3.zoomIdentity.translate(tx, ty).scale(scale);
 
-        const viewWidth = width / scale;
         const viewX = (220 * -tx) / svgWidth;
 
-        d3.select(viewport)
-          .style("left", viewX + "px")
-          .style("width", viewWidth * 0.1 + "px");
+        d3.select(viewport).style("left", viewX + "px");
+        //.style("width", viewWidth * 0.1 + "px");
 
         svgElementRoot.attr("transform", transform);
       });
@@ -277,60 +275,44 @@ export const useNetworkChart = () => {
     return { zoomIn, zoomOut };
   }
 
-  function createMiniMap(
-    mainSvg,
-    miniMapElement,
-    viewportEl,
-    width = 200,
-    height = 120
-  ) {
-    // Очистимо міні-мапу
-    d3.select(miniMapElement).html("");
+  // function getChartLegend(root){
+  //   let colors = ["#AE9D71", "#AE7171", "#86AE71", "#71AEA7", "#717BAE", "#9E71AE"];
 
-    // Клонуємо основний SVG
-    const clonedNode = mainSvg.cloneNode(true);
+  //   const typesColors = {};
+  //   const nodes = [];
+  //   const edges = [];
 
-    miniMapElement.appendChild(clonedNode);
+  //   function getChartLegend(node, parent = null) {
+  //     edges.push({
+  //       id: node.name,
+  //       label: node.name,
+  //       type: node.type,
+  //       value: node.value,
+  //     });
 
-    const bbox = mainSvg.getBBox();
-    const scale = Math.min(width / bbox.width, height / bbox.height);
+  //     if (!typesColors.hasOwnProperty(node.type)) {
+  //       typesColors[node.type] = colors.shift();
+  //     }
 
-    d3.select(clonedNode)
-      .attr("width", width)
-      .attr("height", height)
-      .style("width", width)
-      .style("height", height);
+  //     if (parent) {
+  //       links.push({
+  //         source: parent.name,
+  //         target: node.name,
+  //         relationType: node.relationType,
+  //       });
+  //     }
+  //     if (node.nodes) {
+  //       node.nodes.forEach((child) => recurse(child, node));
+  //     }
+  //   }
 
-    // d3.select(clonedNode)
-    //   .select("g")
-    //   .attr("transform", `translate(${-bbox.x}, ${-bbox.y}) scale(${scale})`);
-
-    const viewport = d3
-      .select(clonedNode)
-      .append("rect")
-      .attr("stroke", "red")
-      .attr("fill", "rgba(255,0,0,0.1)")
-      .attr("pointer-events", "none"); // просто показуємо
-
-    // Функція для оновлення viewport
-    function updateViewport(transform) {
-      const k = transform.k;
-      const mainSvgEl = d3.select(mainSvg);
-
-      viewport
-        .attr("x", (-transform.x * scale) / k)
-        .attr("y", (-transform.y * scale) / k);
-      // .attr("width", (mainSvgEl.attr("width") * scale) / k)
-      // .attr("height", (mainSvgEl.attr("height") * scale) / k);
-    }
-
-    return { updateViewport };
-  }
+  //   getChartLegend(root);
+  //   return { nodes, links, typesColors };
+  // }
 
   return {
     flatten,
     createChart,
     updateChart,
-    createMiniMap,
   };
 };

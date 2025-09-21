@@ -1,5 +1,5 @@
 <template>
-  <button :class="buttonClasses">
+  <button :class="buttonClasses" @click="openUrl">
     <span v-if="icon && iconPosition === 'left'" class="icon">
       <slot name="icon">
         <component :is="icon" />
@@ -35,6 +35,10 @@ const props = defineProps({
     type: String,
     default: "l",
   },
+  url: {
+    type: String,
+    default: "",
+  },
   fullWidth: {
     type: Boolean,
     default: false,
@@ -54,4 +58,10 @@ const buttonClasses = computed(() => {
 
   return classes;
 });
+
+function openUrl() {
+  if (props.url != "") {
+    window.location.href = props.url;
+  }
+}
 </script>

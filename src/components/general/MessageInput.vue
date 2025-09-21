@@ -6,13 +6,33 @@
     </div>
     <div class="message__tools flex justify--between align--end">
       <div class="message__params flex">
-        <MessageParamButton :icon="IconListSearch" name="Deep Research" />
-        <MessageParamButton :icon="IconLayoutGrid" name="Agent Style" />
-        <MessageParamButton :icon="IconNetwork" name="Select Network" />
-        <MessageParamButton :icon="IconCube3dSphere" name="Select Asset" />
+        <MessageParamButton
+          :icon="IconListSearch"
+          name="Deep Research"
+          :hideLabel="hideLabels"
+        />
+        <MessageParamButton
+          :icon="IconLayoutGrid"
+          name="Agent Style"
+          :hideLabel="hideLabels"
+        />
+        <MessageParamButton
+          :icon="IconNetwork"
+          name="Select Network"
+          :hideLabel="hideLabels"
+        />
+        <MessageParamButton
+          :icon="IconCube3dSphere"
+          name="Select Asset"
+          :hideLabel="hideLabels"
+        />
       </div>
       <div class="message__actions flex">
-        <IconButton :icon="VoiceIcon" type="secondary" />
+        <IconButton
+          :icon="VoiceIcon"
+          type="secondary"
+          class="message__action-main"
+        />
       </div>
     </div>
   </div>
@@ -29,6 +49,13 @@ import {
 import MessageParamButton from "./message-inputs/MessageParamButton.vue";
 import IconButton from "./IconButton.vue";
 import VoiceIcon from "../icons/VoiceIcon.vue";
+
+const props = defineProps({
+  hideLabels: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>
 
 <style>
@@ -89,6 +116,10 @@ import VoiceIcon from "../icons/VoiceIcon.vue";
 
 .chatbot__message-input .message__actions .button--icon {
   border-radius: 0.75rem;
+}
+
+.chatbot__message-input .message__actions .message__action-main.button--icon {
+  padding: 0.5625rem;
 }
 
 .chatbot__message-input .message__actions .button--icon svg {

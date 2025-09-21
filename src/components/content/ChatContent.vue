@@ -3,26 +3,49 @@
     class="chat__chart-full flex flex--column"
     :style="{ width: leftWidth + '%' }"
     v-show="chatsStore.currentChat.activeChart?.messageId"
+    :class="{
+      'chat__chart-full--open': leftWidth > 0,
+      'chat__network-chart--open':
+        chatsStore.currentChat.activeChart?.type == 'network_chart',
+    }"
     ref="chatChartFull"
   >
-    <div class="chart-full__actions flex justify--end">
+    <!-- <ChartNetworkLegendContent
+      v-show="chatsStore.currentChat.activeChart?.type == 'network_chart'"
+    /> -->
+    <div class="chart-full__actions flex justify--end align--center">
       <div class="box__action chart-full__action" @click="downloadUrl">
         <IconDownload />
       </div>
       <div class="box__action chart-full__action" @click="closeChart">
         <IconArrowsMinimize />
       </div>
+      <BaseButton
+        v-show="leftWidth == 100"
+        type="secondary"
+        text="Show Chat"
+        size="m"
+        class="chat__hide-content"
+        @click="() => (leftWidth = 40)"
+      />
     </div>
-    <div class="chart-full__content flex flex--column items--center">
-      <div ref="svgElement"></div>
-    </div>
-    <div class="chart-full__minimap">
+    <div
+      class="chart-full__content flex flex--column items--center"
+      ref="svgElement"
+    ></div>
+    <div
+      class="chart-full__minimap"
+      v-show="chatsStore.currentChat.activeChart?.type == 'network_chart'"
+    >
       <div class="minimap__content">
         <div class="minimap__chart" ref="svgMinimapElement"></div>
         <div class="minimap__viewport" ref="svgMinimapViewportElement"></div>
       </div>
     </div>
-    <div class="chart-full__zoom flex">
+    <div
+      class="chart-full__zoom flex"
+      v-show="chatsStore.currentChat.activeChart?.type == 'network_chart'"
+    >
       <IconButton :icon="IconMinus" type="secondary" @click="zoomOutFunction" />
       <IconButton :icon="IconPlus" type="secondary" @click="zoomInFunction" />
     </div>
@@ -30,7 +53,22 @@
       <div class="splitter__drag"></div>
     </div>
   </div>
-  <div class="chat__content" :style="{ width: 100 - leftWidth + '%' }">
+  <div
+    class="chat__content"
+    :style="{ width: 100 - leftWidth + '%' }"
+    v-show="
+      (leftWidth > 0 && leftWidth < 100) ||
+      !chatsStore.currentChat.activeChart?.messageId
+    "
+  >
+    <BaseButton
+      v-show="leftWidth > 0"
+      type="secondary"
+      text="Hide Chat"
+      size="m"
+      class="chat__hide-content"
+      @click="() => (leftWidth = 100)"
+    />
     <div class="chat__messages">
       <div
         class="messages__inner flex flex--column align--start justify--end body-16 body--reg"
@@ -42,7 +80,7 @@
         />
       </div>
     </div>
-    <MessageInput />
+    <MessageInput :hideLabels="leftWidth >= 50" />
   </div>
 </template>
 
@@ -61,6 +99,8 @@ import { Canvg } from "canvg";
 import { useNetworkChart } from "../../composables/useNetworkChart";
 import * as d3 from "d3";
 import IconButton from "../general/IconButton.vue";
+import BaseButton from "../general/BaseButton.vue";
+import ChartNetworkLegendContent from "./ChartNetworkLegendContent.vue";
 
 const { updateChart } = useNetworkChart();
 const chatsStore = useChatsStore();
@@ -85,20 +125,30 @@ watch(
 
       svgElement.value.innerHTML = newValue.chart;
 
-      svgMinimapElement.value.innerHTML = newValue.chart;
-      d3.select(svgMinimapElement.value).select("g").attr("transform", "");
+      if (chatsStore.currentChat.activeChart?.type == "network_chart") {
+        svgMinimapElement.value.innerHTML = newValue.chart;
+        d3.select(svgMinimapElement.value).select("g").attr("transform", "");
 
-      await nextTick();
+        await nextTick();
 
-      const { zoomIn, zoomOut } = updateChart(
-        svgElement.value,
-        chatChartFull.value,
-        svgMinimapViewportElement.value,
-        svgMinimapElement.value
-      );
+        const containerWidth = document.querySelector(
+          ".chatbot .chatbot__content"
+        ).offsetWidth;
+        const viewportWidth = (containerWidth * leftWidth.value) / 100;
+        changeViewportWidth(viewportWidth);
 
-      zoomInFunction.value = zoomIn;
-      zoomOutFunction.value = zoomOut;
+        const { zoomIn, zoomOut } = updateChart(
+          svgElement.value,
+          chatChartFull.value,
+          svgMinimapViewportElement.value,
+          svgMinimapElement.value
+        );
+
+        zoomInFunction.value = zoomIn;
+        zoomOutFunction.value = zoomOut;
+      } else if (chatsStore.currentChat.activeChart?.type == "chart") {
+        //d3.select(svgElement.value).select("g").attr("transform", "scale(2)");
+      }
     } else {
       leftWidth.value = 0;
 
@@ -121,13 +171,25 @@ function startResize(e) {
 
 function onResize(e) {
   const dx = e.clientX - startX;
-  const containerWidth = document.querySelector(".chatbot").offsetWidth;
-  const newWidth =
-    (((startWidth / 100) * containerWidth + dx) / containerWidth) * 100;
+  const containerWidth = document.querySelector(
+    ".chatbot .chatbot__content"
+  ).offsetWidth;
+  const viewportWidth = (startWidth / 100) * containerWidth + dx;
+  const newWidth = (viewportWidth / containerWidth) * 100;
 
-  if (newWidth > 30 && newWidth < 80) {
+  if (newWidth > 30 && newWidth < 65) {
     leftWidth.value = newWidth;
+
+    if (chatsStore.currentChat.activeChart?.type == "network_chart") {
+      changeViewportWidth(viewportWidth);
+    }
   }
+}
+
+function changeViewportWidth(width) {
+  const svgWidth = svgElement.value.querySelector("svg").clientWidth;
+
+  svgMinimapViewportElement.value.style.width = `${(width * 220) / svgWidth}px`;
 }
 
 function stopResize() {
@@ -187,6 +249,12 @@ const downloadUrl = function () {
   height: 100%;
 }
 
+.chat__content .chat__hide-content {
+  position: absolute;
+  top: 2.5rem;
+  left: 3rem;
+}
+
 .chat__content .chatbot__message-input {
   left: 9.375rem;
   right: 9.375rem;
@@ -209,9 +277,9 @@ const downloadUrl = function () {
 
 .chat__chart-full .chart-full__zoom {
   position: absolute;
-  bottom: 40px;
-  right: 40px;
-  gap: 8px;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  gap: 0.5rem;
 }
 
 .chat__chart-full .chart-full__minimap {
@@ -219,7 +287,7 @@ const downloadUrl = function () {
   bottom: 2.5rem;
   left: 2.5rem;
 
-  height: 120px;
+  height: auto;
   width: 220px;
   border-radius: 0.5rem;
   border: 0.341px solid var(--white-100, rgba(255, 255, 255, 0.1));
@@ -242,8 +310,6 @@ const downloadUrl = function () {
   position: absolute;
   top: 4px;
   bottom: 4px;
-  left: 50%;
-  transform: translate(-50%, 0);
   width: 90px;
   border-radius: 8px;
   border: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
@@ -255,19 +321,20 @@ const downloadUrl = function () {
 }
 
 .chat__chart-full .chart-full__minimap .minimap__content .minimap__chart svg {
-  position: absolute;
-  top: 0px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  width: auto;
-  height: 100%;
+  width: 100%;
+  height: auto;
 }
 
-.chat__chart-full + .chat__content .chat__messages .messages__inner {
+.chat__chart-full.chat__chart-full--open
+  + .chat__content
+  .chat__messages
+  .messages__inner {
   padding: 0px 3rem 13.75rem;
 }
 
-.chat__chart-full + .chat__content .chatbot__message-input {
+.chat__chart-full.chat__chart-full--open
+  + .chat__content
+  .chatbot__message-input {
   left: 3rem;
   right: 3rem;
 }
@@ -275,11 +342,15 @@ const downloadUrl = function () {
 .chat__chart-full .chart-full__actions {
   flex: 0 0 auto;
   gap: 1rem;
-  padding: 0px 40px;
+  padding: 0px 2.5rem;
 }
 
 .chat__chart-full .chart-full__actions .chart-full__action {
   cursor: pointer;
+}
+
+.chat__chart-full .chart-full__actions .chat__hide-content {
+  margin-left: 1.5rem;
 }
 
 .chat__chart-full .chart-full__actions svg {

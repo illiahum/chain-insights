@@ -7,6 +7,13 @@
       :rows="msg?.table?.row"
     />
 
+    <ChatInfoCard
+      v-if="msg?.type == 'infocard'"
+      :name="msg?.data?.name"
+      :rows="msg?.data?.rows"
+      :buttonUrl="msg?.data?.button_url"
+    />
+
     <ChatMessageOptions
       v-if="msg?.type == 'options'"
       :options="msg?.options"
@@ -55,6 +62,7 @@ import ChatTable from "./ChatTable.vue";
 import ChatMessageOptions from "./ChatMessageOptions.vue";
 import ChatChart from "./ChatChart.vue";
 import ChatNetworkChart from "./ChatNetworkChart.vue";
+import ChatInfoCard from "./ChatInfoCard.vue";
 
 const chatsStore = useChatsStore();
 const props = defineProps({

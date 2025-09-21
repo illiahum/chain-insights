@@ -1,9 +1,11 @@
 <template>
   <div :class="classes">
     <div class="box__top flex justify--between align--center">
-      <p class="body-14 body--reg">{{ name }}</p>
+      <div class="box__name body-14 body--reg">
+        <slot name="head"> </slot>
+      </div>
       <div class="box__actions message__actions flex align--center">
-        <slot name="box-actions"> </slot>
+        <slot name="actions"> </slot>
       </div>
     </div>
     <div class="box__content">

@@ -3,7 +3,9 @@ import chatMessages from "../json/messages-table.json";
 import chatMessagesTable from "../json/messages.json";
 import chatMessagesOptions from "../json/messages-option.json";
 import chatMessagesChart from "../json/messages-chart.json";
+import chatMessagesInfocard from "../json/messages-info-card.json";
 import chatMessagesNetworkChart from "../json/messages-network-chart.json";
+
 import type ChatInterface from "../interfaces/ChatInterface";
 import type CurrentChatInterface from "../interfaces/CurrentChatInterface";
 import type ChatMessageInterface from "../interfaces/ChatMessageInterface";
@@ -14,6 +16,8 @@ const fakeMessages: ChatMessageInterface[][] = [
   chatMessagesChart as ChatMessageInterface[],
   chatMessagesOptions as ChatMessageInterface[],
   chatMessagesNetworkChart as ChatMessageInterface[],
+  chatMessagesInfocard as ChatMessageInterface[],
+
 ]
 
 export const useChatsStore = defineStore("chats", {
@@ -48,13 +52,9 @@ export const useChatsStore = defineStore("chats", {
       sevenDaysAgo.setHours(0, 0, 0, 0);
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-      const fourteenDaysAgo = new Date();
-      fourteenDaysAgo.setHours(0, 0, 0, 0);
-      fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
-
       return state.chats.filter(chat => {
         const date = new Date(chat.last_activity_date);
-        return date >= fourteenDaysAgo && date < sevenDaysAgo;
+        return date < sevenDaysAgo;
       });
     },
   },
@@ -71,7 +71,7 @@ export const useChatsStore = defineStore("chats", {
       const chatIndex = this.chats.findIndex((chat) => chat.id == id);
 
       // Have to be changed
-      const chatMessages = fakeMessages[chatIndex % 5];
+      const chatMessages = fakeMessages[chatIndex % 6];
 
       this.currentChat = {
         ...chatData,
@@ -96,9 +96,10 @@ export const useChatsStore = defineStore("chats", {
       this.currentChat.messages[messageIndex].options[option].is_choosen = true;
     },
 
-    openChart(messageId: string, chart: string) {
+    openChart(messageId: string, chart: string, type:string) {
       this.currentChat.activeChart = {
         messageId: messageId, 
+        type: type,
         chart: chart
       }
     },
@@ -111,14 +112,15 @@ export const useChatsStore = defineStore("chats", {
       this.chats = [
         { id: "3430flldlv4lfrll", name: "Top 5 crypto coins", currency: "USDT", last_activity_date: new Date() },
         { id: "9ee9r9r9rjvjvj8rj", name: "TAO transfers in the last 24 hours", currency: "BTC", last_activity_date: new Date() },
-        { id: "dke93kd9e3kd9ee3", name: "ETH gas fee tracker", currency: "ETH", last_activity_date: new Date("2025-09-02T19:48:00") },
+        { id: "dke93kd9e3kd9ee3", name: "Chart Element", currency: "ETH", last_activity_date: new Date("2025-09-02T19:48:00") },
         { id: "33kd9dke9ddkd993", name: "Whale BTC movements", currency: "BTC", last_activity_date: new Date("2025-09-01T07:22:00") },
         { id: "f9e9f9f9f9f9f9f9", name: "Stablecoins overview", currency: "USDC", last_activity_date: new Date("2025-08-28T22:05:00") },
-        { id: "kkd9e9d9kd9kd9e9", name: "Top gainers today", currency: "SOL", last_activity_date: new Date("2025-09-10T12:00:00") },
-        { id: "a1b2c3d4e5f6g7h8", name: "BTC Market Updates", currency: "BTC", last_activity_date: new Date("2025-09-09T10:12:00") },
+        { id: "kkd9e9d9kd9kd9e9", name: "Infocard Element", currency: "SOL", last_activity_date: new Date("2025-09-10T12:00:00") },
+        { id: "a1b2c3d4e5f6g7h8", name: "Table Element", currency: "BTC", last_activity_date: new Date("2025-09-09T10:12:00") },
         { id: "b2c3d4e5f6g7h8i9", name: "ETH Price Alerts", currency: "ETH", last_activity_date: new Date("2025-09-08T15:45:00") },
         { id: "f9e9f9f9f9f9f9f4", name: "Stablecoins overview", currency: "USDC", last_activity_date: new Date("2025-08-28T22:05:00") },
-        { id: "kkd9e9d9kd9kd9e0", name: "Top gainers today", currency: "SOL", last_activity_date: new Date("2025-09-10T12:00:00") },
+        { id: "kkd9e9d9kd9kd9e0", name: "Options Element", currency: "SOL", last_activity_date: new Date("2025-09-10T12:00:00") },
+        { id: "k38982-1-29939dk", name: "Buble Chart Element", currency: "SOL", last_activity_date: new Date("2025-09-10T12:00:00") },
       ];
     },
   },
