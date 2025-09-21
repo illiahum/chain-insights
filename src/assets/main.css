@@ -424,7 +424,7 @@ button {
   align-items: center;
   justify-content: center;
 }
-.chat__chart-full.chat__network-chart--open > div {
+.chat__chart-full > div.chart-full__content {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
 }

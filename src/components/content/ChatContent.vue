@@ -146,8 +146,6 @@ watch(
 
         zoomInFunction.value = zoomIn;
         zoomOutFunction.value = zoomOut;
-      } else if (chatsStore.currentChat.activeChart?.type == "chart") {
-        //d3.select(svgElement.value).select("g").attr("transform", "scale(2)");
       }
     } else {
       leftWidth.value = 0;
