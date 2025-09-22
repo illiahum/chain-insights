@@ -34,6 +34,36 @@ export const useChatsStore = defineStore("chats", {
 
       return state.chats.filter((chat) => chat.last_activity_date >= today);
     },
+    twoDaysAgoChats(state) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const daysStart = new Date(today);
+      daysStart.setDate(today.getDate() - 2);
+
+      const daysEnd = new Date(today);
+      daysEnd.setDate(today.getDate() - 1);
+
+      return state.chats.filter((chat) => {
+        const chatDate = new Date(chat.last_activity_date);
+        return chatDate >= daysStart && chatDate < daysEnd;
+      });
+    },
+    threeDaysAgoChats(state) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const daysStart = new Date(today);
+      daysStart.setDate(today.getDate() - 3);
+
+      const daysEnd = new Date(today);
+      daysEnd.setDate(today.getDate() - 2);
+
+      return state.chats.filter((chat) => {
+        const chatDate = new Date(chat.last_activity_date);
+        return chatDate >= daysStart && chatDate < daysEnd;
+      });
+    },
     lastWeekChats(state){
       const startToday = new Date();
       startToday.setHours(0, 0, 0, 0);
@@ -123,5 +153,28 @@ export const useChatsStore = defineStore("chats", {
         { id: "k38982-1-29939dk", name: "Buble Chart Element", currency: "SOL", last_activity_date: new Date("2025-09-10T12:00:00") },
       ];
     },
+
+    searchChats(search: string){
+      // You have to put the search API here
+      let chats : {
+        id: string,
+        name: string,
+        last_activity_date: Date,
+        matchingString: string
+      }[] = [];
+
+      this.$state.chats.forEach((chat) =>{
+        if(chat.name.toLowerCase().includes(search.toLowerCase())){ //Have to be changed with responses from server
+          chats.push({
+            id: chat.id,
+            name: chat.name,
+            last_activity_date: chat.last_activity_date,
+            matchingString: "The current movements in the crypto market indicate a bullish sentiment <span>with the overall</span> market cap reaching $1.96 trillion, showing a 1.36% increase." //Change it with response from server
+          })
+        }
+      });
+
+      return chats;
+    }
   },
 });
