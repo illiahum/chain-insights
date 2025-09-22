@@ -1,7 +1,7 @@
 <template>
   <div :class="classes" @click="buttonClick">
     <span class="chat__currency body-12 body--reg">{{ currency }}</span>
-    <span class="chat__name body-14 body--reg">{{ name }}</span>
+    <span class="chat__name body-14 body--reg">{{ name }}1</span>
   </div>
 </template>
 
