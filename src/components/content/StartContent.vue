@@ -33,6 +33,8 @@
         </div>
       </TabsComponent>
     </TabsComponent>
+
+    <MessageInput />
   </div>
 </template>
 
@@ -40,6 +42,7 @@
 import { ref } from "vue";
 import TabsComponent from "../general/tabs/TabsComponent.vue";
 import ChatOption from "./ChatOption.vue";
+import MessageInput from "../general/MessageInput.vue";
 
 const mainTabs = ref([
   "Money Flow Analysis",
@@ -59,6 +62,7 @@ const nestedTabs = ref([
 
 <style scoped>
 .chat__start-screen {
+  position: relative;
   height: 100%;
   background-image: url("@/assets/img/bg-pattern.png");
   background-position: top left;
@@ -93,5 +97,10 @@ const nestedTabs = ref([
 .chat__start-screen .start__options .chat-option {
   width: 100%;
   height: 4.1875rem;
+}
+
+.chat__start-screen .chatbot__message-input {
+  right: 9.375rem;
+  left: 9.375rem;
 }
 </style>
