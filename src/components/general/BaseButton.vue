@@ -1,5 +1,5 @@
 <template>
-  <button :class="buttonClasses" @click="openUrl">
+  <button :class="buttonClasses" @click="openUrl" :disabled="disabled">
     <span v-if="icon && iconPosition === 'left'" class="icon">
       <slot name="icon">
         <component :is="icon" />
@@ -40,6 +40,10 @@ const props = defineProps({
     default: "",
   },
   fullWidth: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
     type: Boolean,
     default: false,
   },
