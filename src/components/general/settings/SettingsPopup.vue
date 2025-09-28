@@ -356,10 +356,6 @@ const changePopup = (tab = "settings") => {
   padding-bottom: 1rem;
 }
 
-.popup.popup-settings .button--google:deep(svg) {
-  stroke: none;
-}
-
 .popup.popup-settings .credits-bar {
   gap: 0.5rem;
 }

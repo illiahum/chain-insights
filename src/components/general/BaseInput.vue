@@ -1,6 +1,10 @@
 <template>
   <div :class="inputClasses" @click="$emit('click')">
-    <label v-if="label != ''" class="body-16 body--reg">{{ label }}</label>
+    <div class="field__label flex align--center justify--between">
+      <label v-if="label != ''" class="body-16 body--reg">{{ label }}</label>
+
+      <slot name="label-action"> </slot>
+    </div>
     <div class="field__input">
       <span v-if="icon && iconPosition === 'left'" class="icon">
         <slot name="icon">
@@ -18,8 +22,11 @@
         v-if="type == 'password'"
         @click="() => (inputType = inputType == 'text' ? 'password' : 'text')"
       >
-        <IconEye class="icon icon--20" v-if="inputType == 'password'" />
-        <IconEyeClosed class="icon icon--20" v-else />
+        <IconEye
+          class="icon icon--20 icon--white--600"
+          v-if="inputType == 'password'"
+        />
+        <IconEyeClosed class="icon icon--20 icon--white--600" v-else />
       </span>
       <span
         v-if="icon && iconPosition === 'right' && type != 'password'"
@@ -30,6 +37,9 @@
     </div>
     <div class="field__hint body-12 body--reg flex align--center" v-if="hint">
       <slot name="hint"></slot>
+    </div>
+    <div class="field__error body-14 body--reg color--red mt--8" v-if="error">
+      {{ error }}
     </div>
   </div>
 </template>
@@ -69,6 +79,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  error: {
+    type: String,
+    default: "",
+  },
   class: {
     type: String,
     default: "",
@@ -78,6 +92,10 @@ const inputType = ref(props.type);
 
 const inputClasses = computed(() => {
   let classes = `${props.class} field field--${props.type}`;
+
+  if (props.error != "") {
+    classes += ` field--error`;
+  }
 
   return classes;
 });

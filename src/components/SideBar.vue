@@ -13,7 +13,10 @@
       <ChatButtons />
     </div>
 
-    <div class="sidebar__bottom flex flex--column">
+    <div
+      class="sidebar__bottom flex flex--column"
+      v-if="currentUser.currentUser?.id"
+    >
       <BaseButton
         :icon="IconMessagePlus"
         text="New Chat"
@@ -23,17 +26,52 @@
 
       <CreditsBar />
     </div>
+    <div class="sidebar__bottom flex flex--column" v-else>
+      <div class="sidebar__login-message flex flex--column mb-24">
+        <IconLockOpen class="icon icon--24 icon--gold" />
+
+        <p class="body-14 body--semi color--gold">Unlock All Chat Features</p>
+
+        <p class="body-14 body--reg">
+          Log in to your profile to unlock all chat features, ensure secure
+          interactions, and receive 100 FREE credits!
+        </p>
+      </div>
+
+      <BaseButton
+        :icon="IconUser"
+        text="Log in"
+        :full-width="true"
+        @click="showAuthPopup = !showAuthPopup"
+        type="primary"
+      />
+    </div>
   </div>
+
+  <Teleport to="body">
+    <AuthPopup
+      :is_hide="!showAuthPopup"
+      @close-popup="showAuthPopup = !showAuthPopup"
+    />
+  </Teleport>
 </template>
 
 <script setup>
-import { IconMessagePlus } from "@tabler/icons-vue";
+import { IconLockOpen, IconMessagePlus, IconUser } from "@tabler/icons-vue";
 import BaseButton from "./general/BaseButton.vue";
 import MainLogo from "./general/MainLogo.vue";
 import SidebarHideIcon from "./icons/SidebarHideIcon.vue";
 import ChatButtons from "./sidebar/ChatButtons.vue";
 import SearchButton from "./sidebar/SearchButton.vue";
 import CreditsBar from "./general/CreditsBar.vue";
+import { useUserStore } from "../stores/user";
+
+import AuthPopup from "./general/auth/AuthPopup.vue";
+import { ref, Teleport } from "vue";
+
+const currentUser = useUserStore();
+
+const showAuthPopup = ref(false);
 </script>
 
 <style scoped>
@@ -69,5 +107,13 @@ import CreditsBar from "./general/CreditsBar.vue";
 .chatbot__sidebar .sidebar__bottom {
   flex: 0 0 auto;
   gap: 1.5rem;
+}
+
+.chatbot__sidebar .sidebar__bottom .sidebar__login-message {
+  border-radius: 1.25rem;
+  border: 1px solid var(--gold-1000, #f2dda6);
+  background: var(--gold-100, rgba(242, 221, 166, 0.1));
+  padding: 1.25rem 1rem;
+  gap: 0.5rem;
 }
 </style>
