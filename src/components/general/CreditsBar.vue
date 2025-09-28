@@ -5,7 +5,7 @@
         <AtomIcon />
       </div>
       <div class="bar__data flex flex--column justify--between">
-        <p class="body-14 body--reg">5/30 credits</p>
+        <p class="body-14 body--reg">5/300 credits</p>
         <div class="bar__line">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +103,11 @@
         </div>
       </div>
     </div>
-    <BaseButton text="Buy credits" size="m" />
+    <BaseButton
+      text="Buy credits"
+      size="m"
+      @click="() => (isCreditsShow = !isCreditsShow)"
+    />
     <div class="bar__menu flex flex--column" v-show="isBarMenuShow">
       <div
         class="menu__item flex align--center body-14 body--reg"
@@ -112,7 +116,10 @@
         <IconSettings class="icon icon--16" />
         Settings
       </div>
-      <div class="menu__item flex align--center body-14 body--reg">
+      <div
+        class="menu__item flex align--center body-14 body--reg"
+        @click="() => (isCreditsShow = !isCreditsShow)"
+      >
         <IconTopologyStar2 class="icon icon--16" />
         Buy credits
       </div>
@@ -128,6 +135,7 @@
 
   <Teleport to="body">
     <SettingsPopup :is_hide="!isSettingsShow" @closePopup="closeSettingPopup" />
+    <CreditsPopup :is_hide="!isCreditsShow" @closePopup="closeCreditsPopup" />
   </Teleport>
 </template>
 
@@ -137,6 +145,7 @@ import BaseButton from "./BaseButton.vue";
 import AtomIcon from "../icons/AtomIcon.vue";
 import { IconLogout, IconSettings, IconTopologyStar2 } from "@tabler/icons-vue";
 import SettingsPopup from "./settings/SettingsPopup.vue";
+import CreditsPopup from "./credits/CreditsPopup.vue";
 
 const props = defineProps({
   class: String,
@@ -144,9 +153,14 @@ const props = defineProps({
 
 const isBarMenuShow = ref(false);
 const isSettingsShow = ref(false);
+const isCreditsShow = ref(false);
 
 const closeSettingPopup = () => {
   isSettingsShow.value = !isSettingsShow.value;
+};
+
+const closeCreditsPopup = () => {
+  isCreditsShow.value = !isCreditsShow.value;
 };
 
 const mainClasses = computed(() => {

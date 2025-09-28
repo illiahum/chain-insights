@@ -65,8 +65,8 @@ const openEmailModal = () => {
 </script>
 
 <style scoped>
-.popup-settings.popup-settings-email .settings__row + .settings__row {
-  margin-top: 2rem;
+.popup-settings.popup-settings-email .popup__content {
+  gap: 2rem;
 }
 .popup-settings.popup-settings-email
   .email-setting__current-email

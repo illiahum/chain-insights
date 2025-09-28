@@ -330,8 +330,8 @@ const changePopup = (tab = "settings") => {
 </script>
 
 <style scoped>
-.popup.popup-settings .popup__content .settings__group + .settings__group {
-  margin-top: 1rem;
+.popup.popup-settings .popup__content {
+  gap: 1rem;
 }
 .popup.popup-settings .popup__content .button--delete {
   margin-top: 1rem;

@@ -5,7 +5,7 @@
         <component :is="icon" />
       </slot>
     </span>
-    <span class="text">{{ text }}</span>
+    <span class="text" v-html="text"></span>
     <span v-if="icon && iconPosition === 'right'" class="icon">
       <slot name="icon">
         <component :is="icon" />

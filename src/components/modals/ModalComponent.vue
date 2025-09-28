@@ -1,5 +1,6 @@
 <template>
   <div :class="popupClass" v-show="!is_hide">
+    <slot name="background"></slot>
     <div class="popup__body">
       <div class="popup__top">
         <div @click="$emit('changePopup')" v-if="show_back" class="popup__back">
@@ -14,7 +15,7 @@
           <IconX class="icon icon--16" />
         </div>
       </div>
-      <div class="popup__content">
+      <div class="popup__content flex flex--column">
         <slot name="content"></slot>
       </div>
     </div>
@@ -52,3 +53,5 @@ const popupClass = computed(() => {
 
 defineEmits(["closePopup", "changePopup"]);
 </script>
+
+<style scoped></style>

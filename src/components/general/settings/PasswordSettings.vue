@@ -68,9 +68,3 @@ const openEmailModal = () => {
   isEmailModalShow.value = !isEmailModalShow.value;
 };
 </script>
-
-<style scoped>
-.popup-settings.popup-settings-password .settings__row + .settings__row {
-  margin-top: 1.5rem;
-}
-</style>
