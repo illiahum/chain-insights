@@ -22,7 +22,7 @@ router.afterEach((to) => {
   document.body.className = "";
 
   if (to.name) {
-    document.body.classList.add(`page-${to.name}`);
+    document.body.classList.add(`page-${String(to.name)}`);
   }
 });
 
