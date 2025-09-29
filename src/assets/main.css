@@ -89,6 +89,12 @@ html {
   font-size: calc(8px + 8 * ((100vw - 960px) / 960));
 }
 
+@media screen and (min-width: 2560px) {
+  html {
+    font-size: 16px;
+  }
+}
+
 svg {
   display: block;
 }
