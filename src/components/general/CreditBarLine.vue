@@ -43,7 +43,13 @@ import { computed, useId } from "vue";
 const props = defineProps({
   credits: { type: Number, required: true },
   max: { type: Number, required: true },
+  height: {
+    type: Number,
+    default: 4,
+  },
 });
+
+console.log("Hi");
 
 const progress = computed(() => {
   const percent = Math.min(props.credits / props.max, 1) * 100;

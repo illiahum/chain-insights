@@ -46,23 +46,147 @@
     "type": "network_graph",
     "text": "Here is the example of",
     "author": "bot",
+    "legendNodes": {
+      "sizes": [
+        {
+          "name": "Large Nodes",
+          "value": "High transaction volume or significant activity"
+        },
+        {
+          "name": "Medium Nodes",
+          "value": "Moderate activity or balance"
+        },
+        {
+          "name": "Small Nodes",
+          "value": "Low activity or small balances"
+        }
+      ],
+      "edges": [
+        {
+          "name": "Solid Lines",
+          "value": "Direct transactions between addresses"
+        },
+        {
+          "name": "Dotted Lines",
+          "value": "Indirect or less frequent interactions"
+        },
+        {
+          "name": "Thicker Lines",
+          "value": "Larger transaction volume"
+        },
+        {
+          "name": "Thinner Lines",
+          "value": "Smaller transaction volume"
+        }
+      ]
+    },
     "nodes": {
       "name": "Address 1",
       "type": "Addresses",
       "relationType": null,
       "value": 10,
+      "data": [
+        {
+          "name": "Address",
+          "value": "5C4n8kb3mno7i8vQmqNgsQbwZozHvPyou8TAfZfZ7msTkS5f"
+        },
+        {
+          "name": "Network",
+          "value": "Torus"
+        },
+        {
+          "name": "Balance",
+          "value": "$1,250,300"
+        },
+        {
+          "name": "Inflow (30d)",
+          "value": "$250,000"
+        },
+        {
+          "name": "Outflow (30d)",
+          "value": "$360,000"
+        },
+        {
+          "name": "Tx Count (30d)",
+          "value": "140"
+        },
+        {
+          "name": "Degree",
+          "value": "58"
+        }
+      ],
       "nodes": [
         {
           "name": "Address 2",
           "type": "Exchanges",
           "relationType": "direct",
           "value": 8,
+          "data": [
+            {
+              "name": "Address",
+              "value": "5C4n8kb3mno7i8vQmqNgsQbwZozHvPyou8TAfZfZ334fe3d"
+            },
+            {
+              "name": "Network",
+              "value": "Torus"
+            },
+            {
+              "name": "Balance",
+              "value": "$1,250,300"
+            },
+            {
+              "name": "Inflow (30d)",
+              "value": "$250,000"
+            },
+            {
+              "name": "Outflow (30d)",
+              "value": "$360,000"
+            },
+            {
+              "name": "Tx Count (30d)",
+              "value": "140"
+            },
+            {
+              "name": "Degree",
+              "value": "58"
+            }
+          ],
           "nodes": [
             {
               "name": "Address 5",
               "type": "D",
               "relationType": "direct",
               "value": 6,
+              "data": [
+                {
+                  "name": "Address",
+                  "value": "5C4n8kb3mno7i8sccwWsQbwZozHvPyou8TAfZfZ334fe3d"
+                },
+                {
+                  "name": "Network",
+                  "value": "Torus"
+                },
+                {
+                  "name": "Balance",
+                  "value": "$1,250,300"
+                },
+                {
+                  "name": "Inflow (30d)",
+                  "value": "$250,000"
+                },
+                {
+                  "name": "Outflow (30d)",
+                  "value": "$360,000"
+                },
+                {
+                  "name": "Tx Count (30d)",
+                  "value": "140"
+                },
+                {
+                  "name": "Degree",
+                  "value": "58"
+                }
+              ],
               "nodes": []
             }
           ]
@@ -72,6 +196,36 @@
           "type": "DeFi Platforms",
           "relationType": "indirect",
           "value": 6,
+          "data": [
+            {
+              "name": "Address",
+              "value": "5C4n8kb3mno7i8vQmqNgsQbwZoz54gQ24sAfZfZ334fe3d"
+            },
+            {
+              "name": "Network",
+              "value": "Torus"
+            },
+            {
+              "name": "Balance",
+              "value": "$1,250,300"
+            },
+            {
+              "name": "Inflow (30d)",
+              "value": "$250,000"
+            },
+            {
+              "name": "Outflow (30d)",
+              "value": "$360,000"
+            },
+            {
+              "name": "Tx Count (30d)",
+              "value": "140"
+            },
+            {
+              "name": "Degree",
+              "value": "58"
+            }
+          ],
           "nodes": []
         },
         {
@@ -79,6 +233,36 @@
           "type": "Unknown Entities",
           "relationType": "indirect",
           "value": 8,
+          "data": [
+            {
+              "name": "Address",
+              "value": "234dQ3db3mno7i8vQmqNgsQbwZozHvPyou8TAfZfZ334fe3d"
+            },
+            {
+              "name": "Network",
+              "value": "Torus"
+            },
+            {
+              "name": "Balance",
+              "value": "$1,250,300"
+            },
+            {
+              "name": "Inflow (30d)",
+              "value": "$250,000"
+            },
+            {
+              "name": "Outflow (30d)",
+              "value": "$360,000"
+            },
+            {
+              "name": "Tx Count (30d)",
+              "value": "140"
+            },
+            {
+              "name": "Degree",
+              "value": "58"
+            }
+          ],
           "nodes": [
             {
               "name": "Address 7",
@@ -94,12 +278,72 @@
           "type": "Suspicious Addresses",
           "relationType": "direct",
           "value": 8,
+          "data": [
+            {
+              "name": "Address",
+              "value": "5C4n8kb3mno7i8vQmqfeoei5bwZozHvPyou8TAfZfZ334fe3d"
+            },
+            {
+              "name": "Network",
+              "value": "Torus"
+            },
+            {
+              "name": "Balance",
+              "value": "$1,250,300"
+            },
+            {
+              "name": "Inflow (30d)",
+              "value": "$250,000"
+            },
+            {
+              "name": "Outflow (30d)",
+              "value": "$360,000"
+            },
+            {
+              "name": "Tx Count (30d)",
+              "value": "140"
+            },
+            {
+              "name": "Degree",
+              "value": "58"
+            }
+          ],
           "nodes": []
         },
         {
           "name": "Address 8",
           "type": "Suspicious Addresses",
           "relationType": "direct",
+          "data": [
+            {
+              "name": "Address",
+              "value": "5C4n8kb3mno7i8vQmqNgsQ43GEf4you8TAfZfZ334fe3d"
+            },
+            {
+              "name": "Network",
+              "value": "Torus"
+            },
+            {
+              "name": "Balance",
+              "value": "$1,250,300"
+            },
+            {
+              "name": "Inflow (30d)",
+              "value": "$250,000"
+            },
+            {
+              "name": "Outflow (30d)",
+              "value": "$360,000"
+            },
+            {
+              "name": "Tx Count (30d)",
+              "value": "140"
+            },
+            {
+              "name": "Degree",
+              "value": "58"
+            }
+          ],
           "value": 6,
           "nodes": []
         }

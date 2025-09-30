@@ -76,6 +76,20 @@
   font-display: swap;
 }
 
+::-webkit-scrollbar {
+  background: rgba(82, 181, 75, 0) !important;
+  width: 8px !important;
+}
+::-webkit-scrollbar-track {
+  background: rgba(82, 181, 75, 0) !important;
+  width: 4px !important;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 99px;
+  background: var(--white-100, rgba(255, 255, 255, 0.1));
+  width: 4px !important;
+}
+
 *,
 *::after,
 *::before {
@@ -139,6 +153,10 @@ input:focus {
 
 .color--white-600 {
   color: var(--white-600, rgba(255, 255, 255, 0.6));
+}
+
+.color--white-400 {
+  color: var(--white-400, rgba(255, 255, 255, 0.4));
 }
 
 .color--red {
@@ -212,6 +230,10 @@ input:focus {
 
 .icon.icon--white--600 {
   stroke: var(--white-600, rgba(255, 255, 255, 0.6));
+}
+
+.icon.icon--white--400 {
+  stroke: var(--white-400, rgba(255, 255, 255, 0.6));
 }
 
 .icon.icon--gold--filled {
@@ -342,6 +364,9 @@ ul {
   margin-top: 1.5rem;
 }
 
+.gap--4 {
+  gap: 0.25rem;
+}
 .gap--8 {
   gap: 0.5rem;
 }
@@ -532,6 +557,10 @@ button {
   text-decoration: underline;
 }
 
+.chart .chart__axis-label {
+  fill: var(--white-300, rgba(255, 255, 255, 0.3));
+}
+
 .chat__chart-full {
   position: relative;
   padding: 2.5rem 0rem;
@@ -573,6 +602,30 @@ button {
   align-items: center;
   justify-content: center;
 }
+.chat__chart-full .chart-full__content div.chart__content {
+  flex-direction: column;
+}
+.chat__chart-full .chart-full__content div.chart__content div.chart__svg {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chat__chart-full .chart-full__content div.chart__content div.chart__legend {
+  width: 100%;
+  max-width: 45rem;
+  margin-top: 1.0625rem;
+  gap: 1.375rem;
+}
+.chat__chart-full
+  .chart-full__content
+  div.chart__content
+  div.chart__legend
+  .chart__legend--item {
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
 .chat__chart-full > div.chart-full__content {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
@@ -585,10 +638,14 @@ button {
   width: auto;
   height: 100%;
 }
-.chat__chart-full:not(.chat__network-chart--open) .chart-full__content svg {
+.chat__chart-full .chart-full__content svg.chart {
   width: 100%;
   max-width: 45rem;
   height: auto;
+}
+
+.chat__chart-full .chart-full__content svg g.node {
+  cursor: pointer;
 }
 
 /* CHAT MESSAGES */
@@ -781,10 +838,6 @@ button {
 
 .chat__message .message__box.message__box--chart svg .tick text {
   color: var(--white-800, rgba(255, 255, 255, 0.8));
-}
-
-.chat__message .message__box.message__box--chart svg .chart__axis-label {
-  fill: var(--white-300, rgba(255, 255, 255, 0.3));
 }
 
 .chat__message .message__box.message__box--chart .chart__legend {
@@ -1084,6 +1137,34 @@ button {
   border-radius: 0.5rem;
 }
 
+.field.field--checkbox label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  border: 0.5px solid var(--white-100, rgba(255, 255, 255, 0.1));
+  background: linear-gradient(
+      172deg,
+      rgba(255, 255, 255, 0) -30.31%,
+      rgba(255, 255, 255, 0.04) 124.3%
+    ),
+    rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(1.125rem);
+  height: 3rem;
+  padding: 0 1.25rem;
+  transition: all 0.3s linear;
+}
+
+.field.field--checkbox label input {
+  display: none;
+}
+
+.field.field--checkbox label:has(input:checked) {
+  border-color: var(--gold-400, rgba(242, 221, 166, 0.4));
+  background: var(--gold-100, rgba(242, 221, 166, 0.1));
+}
+
 .field.field__switcher label {
   position: relative;
   width: 2.25rem;
@@ -1172,4 +1253,50 @@ button {
 
 .credits-bar-line svg .credits-bar__pattern {
   fill: #171718;
+}
+
+/* CARD */
+.card {
+  border-radius: 1.25rem;
+  border: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
+  background: linear-gradient(
+      172deg,
+      rgba(71, 120, 234, 0) -30.31%,
+      rgba(71, 120, 234, 0.04) 124.3%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.04) 100%
+    ),
+    rgba(24, 24, 26, 0.6);
+
+  backdrop-filter: blur(3.25rem);
+  overflow: hidden;
+}
+
+.card .card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 3rem;
+
+  padding: 0px 1rem;
+
+  border-radius: 0.75rem 0.75rem 0 0;
+  border-bottom: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
+}
+
+.card .card__body {
+  padding: 1rem;
+}
+
+.card .card__body .card__row {
+  height: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0px 0.5rem;
 }

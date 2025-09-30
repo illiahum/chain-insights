@@ -14,6 +14,7 @@ export const useNetworkChart = () => {
         label: node.name,
         type: node.type,
         value: node.value,
+        data: node.data,
       });
 
       if (!typesColors.hasOwnProperty(node.type)) {
@@ -118,12 +119,14 @@ export const useNetworkChart = () => {
       .attr("stroke-opacity", 0.5);
 
     // node groups (g) with circle + text
+    let nodeData = null;
     const node = gNode
       .selectAll("g.node")
       .data(nodes, (d) => d.id)
       .enter()
       .append("g")
-      .attr("class", "node");
+      .attr("class", "node")
+      .attr("data-info", (d) => JSON.stringify(d.data));
 
     node
       .append("circle")
@@ -274,41 +277,6 @@ export const useNetworkChart = () => {
 
     return { zoomIn, zoomOut };
   }
-
-  // function getChartLegend(root){
-  //   let colors = ["#AE9D71", "#AE7171", "#86AE71", "#71AEA7", "#717BAE", "#9E71AE"];
-
-  //   const typesColors = {};
-  //   const nodes = [];
-  //   const edges = [];
-
-  //   function getChartLegend(node, parent = null) {
-  //     edges.push({
-  //       id: node.name,
-  //       label: node.name,
-  //       type: node.type,
-  //       value: node.value,
-  //     });
-
-  //     if (!typesColors.hasOwnProperty(node.type)) {
-  //       typesColors[node.type] = colors.shift();
-  //     }
-
-  //     if (parent) {
-  //       links.push({
-  //         source: parent.name,
-  //         target: node.name,
-  //         relationType: node.relationType,
-  //       });
-  //     }
-  //     if (node.nodes) {
-  //       node.nodes.forEach((child) => recurse(child, node));
-  //     }
-  //   }
-
-  //   getChartLegend(root);
-  //   return { nodes, links, typesColors };
-  // }
 
   return {
     flatten,

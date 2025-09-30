@@ -10,9 +10,12 @@
     }"
     ref="chatChartFull"
   >
-    <!-- <ChartNetworkLegendContent
+    <ChartNetworkLegendContent
       v-show="chatsStore.currentChat.activeChart?.type == 'network_chart'"
-    /> -->
+      :colors="chatsStore.currentChat.activeChart?.legend?.colors"
+      :sizes="chatsStore.currentChat.activeChart?.legend?.sizes"
+      :edges="chatsStore.currentChat.activeChart?.legend?.edges"
+    />
     <div class="chart-full__actions flex justify--end align--center">
       <div class="box__action chart-full__action" @click="downloadUrl">
         <IconDownload />
@@ -29,13 +32,32 @@
         @click="() => (leftWidth = 40)"
       />
     </div>
+    <div class="chat__network-node-details card" v-if="networkNodeDetails">
+      <div class="card__head">
+        <p class="body-14 body--reg">Details Panel</p>
+        <IconCopy class="icon icon--20 icon--white--600" />
+      </div>
+      <div class="card__body">
+        <div
+          v-for="(row, index) in networkNodeDetails"
+          :key="index"
+          class="card__row"
+        >
+          <span class="body-14 body--reg color--white-600">{{ row.name }}</span>
+          <span class="body-14 body--reg">{{ row.value }}</span>
+        </div>
+      </div>
+    </div>
     <div
       class="chart-full__content flex flex--column items--center"
       ref="svgElement"
     ></div>
     <div
       class="chart-full__minimap"
-      v-show="chatsStore.currentChat.activeChart?.type == 'network_chart'"
+      v-show="
+        chatsStore.currentChat.activeChart?.type == 'network_chart' &&
+        !networkNodeDetails
+      "
     >
       <div class="minimap__content">
         <div class="minimap__chart" ref="svgMinimapElement"></div>
@@ -69,7 +91,7 @@
       class="chat__hide-content"
       @click="() => (leftWidth = 100)"
     />
-    <div class="chat__messages">
+    <div class="chat__messages" ref="chatMessagesEl">
       <div
         class="messages__inner flex flex--column align--start justify--end body-16 body--reg"
       >
@@ -85,7 +107,7 @@
 </template>
 
 <script setup>
-import { nextTick, onBeforeUnmount, ref, watch } from "vue";
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useChatsStore } from "../../stores/chats";
 import ChatMessage from "../chat/ChatMessage.vue";
 import MessageInput from "../general/MessageInput.vue";
@@ -94,7 +116,9 @@ import {
   IconDownload,
   IconPlus,
   IconMinus,
+  IconCopy,
 } from "@tabler/icons-vue";
+
 import { Canvg } from "canvg";
 import { useNetworkChart } from "../../composables/useNetworkChart";
 import * as d3 from "d3";
@@ -109,6 +133,9 @@ const svgElement = ref(null);
 const svgMinimapElement = ref(null);
 const svgMinimapViewportElement = ref(null);
 const chatChartFull = ref(null);
+const chatMessagesEl = ref(null);
+
+const networkNodeDetails = ref(null);
 
 const leftWidth = ref(0);
 let startX = 0;
@@ -128,6 +155,23 @@ watch(
       if (chatsStore.currentChat.activeChart?.type == "network_chart") {
         svgMinimapElement.value.innerHTML = newValue.chart;
         d3.select(svgMinimapElement.value).select("g").attr("transform", "");
+        d3.select(svgElement.value)
+          .selectAll("g.node")
+          .on("click", (event) => {
+            const group = event.target.closest("g.node");
+            const nodeData = JSON.parse(group.dataset.info);
+
+            networkNodeDetails.value = nodeData;
+          });
+
+        d3.select(svgElement.value).on("click", (e) => {
+          if (
+            !e.target.classList.contains("node") &&
+            e.target.tagName != "circle"
+          ) {
+            networkNodeDetails.value = null;
+          }
+        });
 
         await nextTick();
 
@@ -156,6 +200,17 @@ watch(
   },
   {
     deep: true,
+  }
+);
+
+watch(
+  () => chatsStore.currentChat,
+  async (newValue, oldValue) => {
+    await nextTick();
+
+    if (chatMessagesEl.value) {
+      chatMessagesEl.value.scrollTop = chatMessagesEl.value.scrollHeight;
+    }
   }
 );
 
@@ -197,6 +252,12 @@ function stopResize() {
 
 onBeforeUnmount(() => {
   stopResize();
+});
+
+onMounted(() => {
+  if (chatMessagesEl.value) {
+    chatMessagesEl.value.scrollTop = chatMessagesEl.value.scrollHeight;
+  }
 });
 
 function closeChart() {
@@ -355,5 +416,24 @@ const downloadUrl = function () {
   width: 1.25rem;
   height: 1.25rem;
   color: var(--white-600);
+}
+
+/* CHAT BUBLE NODE ELEMENTS */
+.chat__network-node-details {
+  width: 74%;
+  position: absolute;
+
+  bottom: 2.5rem;
+  left: 2.5rem;
+  z-index: 10;
+}
+
+/* BUBLE LEGEND */
+.chat__chart-full .chat__network-chart-legend {
+  position: absolute;
+  top: 2.5rem;
+  left: 2.5rem;
+  width: auto;
+  z-index: 10;
 }
 </style>

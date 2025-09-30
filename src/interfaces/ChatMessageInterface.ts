@@ -17,8 +17,20 @@ export default interface ChatMessageInterface{
         button_url?: string,
     }
     options ?: ChatMessageOptionInterface[], 
-    chart ?: null,
+    chart ?: ChatMessageChartDataInterface,
+    legendNodes ?: CurrentChatNetworkLegendInterface,
     nodes ?: ChatMessageNetworkNode[] | null
+}
+
+interface CurrentChatNetworkLegendInterface{
+    sizes: {
+        name: string,
+        value: string
+    }[],
+    edges: {
+        name: string,
+        value: string
+    }[],
 }
 
 interface ChatMessageOptionInterface{
@@ -27,11 +39,25 @@ interface ChatMessageOptionInterface{
     text: string
 }
 
+interface ChatMessageChartDataInterface{
+    legend: string[],
+    data: ChatMessageChartInterface[][],
+}
+
+interface ChatMessageChartInterface{
+    name: string,
+    value: number | string,
+}
+
 interface ChatMessageNetworkNode{
     id: string,
     name: string,
     type: string, 
     relationType: "direct" | "indirect" | null,
     value: number,
+    data: {
+        name: string,
+        value: string,
+    }[]
     childs: ChatMessageNetworkNode[]
 }

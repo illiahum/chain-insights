@@ -44,6 +44,29 @@
   {
     "id": "msg8",
     "type": "chart",
+    "chart": {
+      "legend": ["Address 1", "Address 2"],
+      "data": [
+        [
+          { "name": "2025-01-01", "value": 30 },
+          { "name": "2025-01-02", "value": 80 },
+          { "name": "2025-01-03", "value": 45 },
+          { "name": "2025-01-04", "value": 60 },
+          { "name": "2025-01-05", "value": 20 },
+          { "name": "2025-01-06", "value": 90 },
+          { "name": "2025-01-07", "value": 55 }
+        ],
+        [
+          { "name": "2025-01-01", "value": 55 },
+          { "name": "2025-01-02", "value": 90 },
+          { "name": "2025-01-03", "value": 20 },
+          { "name": "2025-01-04", "value": 60 },
+          { "name": "2025-01-05", "value": 45 },
+          { "name": "2025-01-06", "value": 80 },
+          { "name": "2025-01-07", "value": 30 }
+        ]
+      ]
+    },
     "text": "Here is the example of the graph for tracking the alpha token accumulation patterns for subnet 15 participants. Description: <ul><li>X-Axis (Date): Shows the timeline, with each point representing a specific day.</li><li>Y-Axis (Accumulated Alpha Tokens): Represents the total amount of alpha tokens accumulated over time.</li><li>Lines: Represent the accumulation patterns for two different addresses (Address 1 and Address 2).</li><li>Labels: The graph includes a title and axes labels for clarity.</li></ul>",
     "author": "bot"
   }

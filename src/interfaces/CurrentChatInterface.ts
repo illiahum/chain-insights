@@ -13,5 +13,17 @@ export default interface CurrentChatInterface{
 interface CurrentChatActiveChartInterface{
     messageId: string,
     type: string,
-    chart: string
+    chart: string,
+    legend?: CurrentChatActiveChartLegendInterface | null
+}
+
+interface CurrentChatActiveChartLegendInterface{
+    sizes: {
+        name: string,
+        value: string
+    }[],
+    edges: {
+        name: string,
+        value: string
+    }[],
 }

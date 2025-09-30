@@ -22,16 +22,17 @@
 
     <ChatChart
       v-if="msg?.type == 'chart'"
-      :legend="['Address 1', 'Address 2']"
+      :data="msg.chart.data"
+      :legend="msg.chart.legend"
       name="Alpha Token Accumulation for Subnet 15 Participants"
       :messageId="msg?.id"
     />
 
     <ChatNetworkChart
       v-if="msg?.type == 'network_graph'"
-      :legend="['Address 1', 'Address 2']"
       name="Connections between the validator and other addresses"
       :nodes="msg?.nodes"
+      :legend="msg?.legendNodes"
       :messageId="msg?.id"
     />
 

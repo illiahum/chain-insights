@@ -74,10 +74,12 @@ const props = defineProps({
   messageId: String,
   name: String,
   nodes: Array,
+  legend: Object,
 });
 
 const chart = ref(null);
 const fullChart = ref(false);
+const legendColors = ref(null);
 
 watch(
   () => chatsStore.currentChat.activeChart,
@@ -93,7 +95,7 @@ watch(
   }
 );
 
-const { createChart } = useNetworkChart();
+const { createChart, flatten } = useNetworkChart();
 
 const downloadUrl = function () {
   if (!chart.value) return "";
@@ -121,7 +123,16 @@ const downloadUrl = function () {
 };
 
 const openChart = function () {
-  chatsStore.openChart(props.messageId, chart.value.outerHTML, "network_chart");
+  chatsStore.openChart(
+    props.messageId,
+    chart.value.outerHTML,
+    "network_chart",
+    {
+      colors: legendColors.value,
+      sizes: props.legend.sizes,
+      edges: props.legend.edges,
+    }
+  );
 };
 
 const closeChart = function () {
@@ -132,5 +143,8 @@ onMounted(() => {
   createChart(props.nodes, chart.value, window.innerWidth, window.innerHeight, {
     intialScale: 2,
   });
+
+  const { typesColors } = flatten(props.nodes);
+  legendColors.value = typesColors;
 });
 </script>

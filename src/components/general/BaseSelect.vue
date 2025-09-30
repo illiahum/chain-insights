@@ -4,20 +4,23 @@
     <div class="field__input field__select" @click="toggleDropdown">
       <span v-if="icon">
         <slot name="icon">
-          <component :is="icon" class="icon icon--20" />
+          <component :is="icon" :class="`icon icon--${iconSize}`" />
         </slot>
       </span>
 
-      <span class="body-14 body--reg select__current-value"
-        ><component
-          v-if="selected.icon"
+      <span class="body-14 body--reg select__current-value" v-if="selected">
+        <component
+          v-if="selected?.icon"
           :is="selected.icon"
           iconClass="icon icon--16"
         ></component
-        >{{ selected.label }}</span
+        ><span v-if="!hideLabel">{{ selected.label }}</span></span
+      >
+      <span class="body-14 body--reg select__current-value" v-else
+        ><span v-if="!hideLabel">{{ defaultName }}</span></span
       >
 
-      <span><IconChevronDown class="icon icon--20" /></span>
+      <span><IconChevronDown :class="`icon icon--${iconSize}`" /></span>
     </div>
 
     <Teleport to="body">
@@ -29,14 +32,14 @@
           class="select__option body-14 body--reg"
         >
           <component
-            v-if="option.icon"
-            :is="option.icon"
+            v-if="'icon' in option"
+            :is="option?.icon"
             iconClass="icon icon--16"
           ></component>
           <span>{{ option.label }}</span>
           <IconCircleCheckFilled
             class="icon icon--16 icon--gold--filled"
-            v-show="option.value == selected.value"
+            v-show="option.value == selected?.value"
           />
         </div>
       </div>
@@ -65,10 +68,14 @@ const props = defineProps({
   modelValue: { type: [String, Number], default: null },
   placeholder: { type: String, default: "" },
   label: { type: String, default: "" },
+  hideLabel: { type: Boolean, default: false },
+  defaultName: { type: String, default: "" },
   icon: { type: Object, default: null },
+  iconSize: { type: [String, Number], default: "20" },
   hint: { type: Boolean, default: false },
   class: { type: String, default: "" },
-  options: { type: Array, default: () => [] }, // [{ label: 'Option 1', value: 1 }]
+  options: { type: Array, default: () => [] }, // [{ label: 'Option 1', value: 1, icon }]
+  optionsPosition: { type: String, default: "bottom" },
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -88,8 +95,16 @@ function updatePosition() {
   const el = dropdown.value;
 
   el.style.position = "fixed";
-  el.style.top = rect.bottom + 4 + "px";
-  el.style.right = window.innerWidth - rect.right + "px";
+
+  if (props.optionsPosition == "bottom") {
+    el.style.top = rect.bottom + 4 + "px";
+    el.style.right = window.innerWidth - rect.right + "px";
+  }
+
+  if (props.optionsPosition == "top") {
+    el.style.top = rect.top - el.clientHeight - 8 + "px";
+    el.style.right = window.innerWidth - rect.right + "px";
+  }
 }
 
 onMounted(() => {

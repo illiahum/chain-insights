@@ -30,8 +30,8 @@
     </template>
 
     <template #content>
-      <div class="chart__content">
-        <div ref="chart"></div>
+      <div class="chart__content" ref="chartBoxEl">
+        <div class="chart__svg" ref="chart"></div>
         <div class="chart__legend flex justify--end align--center">
           <div
             class="chart__legend--item flex align--center body-12 body-reg"
@@ -81,6 +81,7 @@ const props = defineProps({
   messageId: String,
   name: String,
   legend: Array,
+  data: Array,
 });
 
 const colors = ref([
@@ -92,6 +93,7 @@ const colors = ref([
   "#DEA6F2",
 ]);
 const chart = ref(null);
+const chartBoxEl = ref(null);
 const fullChart = ref(false);
 
 watch(
@@ -109,26 +111,7 @@ watch(
 );
 
 const createChart = function () {
-  const data = [
-    [
-      { name: "2025-01-01", value: 30 },
-      { name: "2025-01-02", value: 80 },
-      { name: "2025-01-03", value: 45 },
-      { name: "2025-01-04", value: 60 },
-      { name: "2025-01-05", value: 20 },
-      { name: "2025-01-06", value: 90 },
-      { name: "2025-01-07", value: 55 },
-    ],
-    [
-      { name: "2025-01-01", value: 55 },
-      { name: "2025-01-02", value: 90 },
-      { name: "2025-01-03", value: 20 },
-      { name: "2025-01-04", value: 60 },
-      { name: "2025-01-05", value: 45 },
-      { name: "2025-01-06", value: 80 },
-      { name: "2025-01-07", value: 30 },
-    ],
-  ];
+  const data = props.data;
 
   const allValues = data.flat();
 
@@ -143,6 +126,7 @@ const createChart = function () {
   const svg = d3
     .select(chart.value)
     .append("svg")
+    .attr("class", "chart")
     .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("preserveAspectRatio", "xMidYMid meet");
 
@@ -205,7 +189,7 @@ const createChart = function () {
     .append("text")
     .attr("class", "chart__x-label chart__axis-label body-12 body-reg")
     .attr("x", width / 2)
-    .attr("y", height) // відступ вниз
+    .attr("y", height)
     .style("text-anchor", "middle")
     .text("Date");
 
@@ -224,9 +208,9 @@ const createChart = function () {
   svg
     .append("text")
     .attr("class", "chart__y-label chart__axis-label body-12 body-reg")
-    .attr("x", -innerHeight / 2) // центр осі Y
-    .attr("y", 20) // відступ вліво
-    .attr("transform", "rotate(-90)") // повернути вертикально
+    .attr("x", -innerHeight / 2)
+    .attr("y", 20)
+    .attr("transform", "rotate(-90)")
     .style("text-anchor", "middle")
     .text("Accumulated Alpha Tokens");
 };
@@ -257,7 +241,7 @@ const downloadUrl = function () {
 };
 
 const openChart = function () {
-  chatsStore.openChart(props.messageId, chart.value.outerHTML, "chart");
+  chatsStore.openChart(props.messageId, chartBoxEl.value.outerHTML, "chart");
 };
 
 const closeChart = function () {
