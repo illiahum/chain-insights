@@ -868,6 +868,40 @@ button {
   border-radius: 0 0 0.75rem 0.75rem;
 }
 
+@media screen and (max-width: 767px) {
+  .chat__message .message__box .box__top {
+    gap: 2rem;
+  }
+
+  .chat__message .message__box .box__top .box__name span {
+    width: 14.875rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .chat__message .message__box .box__top .box__name svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    stroke: var(--gold-1000, #f2dda6);
+  }
+
+  .chat__message .message__box .box__top .box__actions {
+    gap: 1rem;
+  }
+
+  .chat__message .message__box .box__top .box__actions svg {
+    stroke: var(--white-600, rgba(255, 255, 255, 0.6));
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .chat__message .message__box .box__content {
+    padding: 1rem;
+    border-radius: 0 0 0.75rem 0.75rem;
+  }
+}
+
 .chat__message .message__box.message__box--network__chart .box__content {
   position: relative;
   overflow: hidden;
@@ -990,6 +1024,36 @@ button {
   .message__box.message__box--network__chart.chart__hide
   .box__content {
   display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .chat__message .message__box.message__box--chart svg {
+    height: auto;
+  }
+
+  .chat__message .message__box.message__box--chart .chart__legend {
+    gap: 0.4375rem;
+    margin-top: 0.3125rem;
+    margin-right: 0rem;
+    margin-bottom: 0rem;
+  }
+
+  .chat__message
+    .message__box.message__box--chart
+    .chart__legend
+    .chart__legend--item {
+    gap: 0.25rem;
+    font-size: 0.375rem;
+  }
+
+  .chat__message
+    .message__box.message__box--chart
+    .chart__legend
+    .chart__legend--item
+    svg {
+    width: 0.9375rem;
+    height: 0.3125rem;
+  }
 }
 
 /* CHAT BUTTON */
@@ -1149,17 +1213,25 @@ button {
   }
 
   .popup .popup__body {
-    position: relative;
-    z-index: 1;
-    max-width: 100%;
-    border-radius: 1rem 1rem 0 0;
-
-    border: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
-    background: var(--sidebar-color, #131318);
+    display: flex;
+    flex-direction: column;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
   }
 
   .popup.popup--small .popup__body {
     max-width: 100%;
+  }
+
+  .popup .popup__body .popup__top {
+    flex-shrink: 0;
+  }
+
+  .popup .popup__body .popup__top .popup__title {
+    width: 14.875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .popup .popup__body .popup__error-icon {

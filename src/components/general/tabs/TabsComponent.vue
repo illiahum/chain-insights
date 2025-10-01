@@ -1,8 +1,14 @@
 <template>
   <div :class="classes">
-    <div class="tabs__list flex">
-      <TabsButton v-for="(tab, index) in tabs" :text="tab" :key="index" />
-    </div>
+    <Swiper class="tabs__list flex" slides-per-view="auto" space-between="8">
+      <SwiperSlide v-for="(tab, index) in tabs" :key="index">
+        <TabsButton
+          :text="tab.title"
+          @click="selectTab(tab)"
+          :isActive="tab.isActive"
+        />
+      </SwiperSlide>
+    </Swiper>
 
     <div class="tabs__content">
       <slot></slot>
@@ -11,14 +17,11 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, onMounted, provide, ref } from "vue";
 import TabsButton from "./TabsButton.vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
 
 const props = defineProps({
-  tabs: {
-    type: Array,
-    default: null,
-  },
   variant: {
     type: String,
     default: "variant-1",
@@ -33,10 +36,31 @@ const props = defineProps({
   },
 });
 
+const tabs = ref([]);
+
+const addTab = (tab) => {
+  tabs.value.push(tab);
+};
+
+const selectTab = (selectedTab) => {
+  tabs.value.forEach((tab) => {
+    tab.isActive = tab === selectedTab;
+  });
+};
+
+provide("addTab", addTab);
+provide("selectTab", selectTab);
+
 const classes = computed(() => {
   let classesEl = `${props.class} tabs tabs--${props.orientation} tabs--${props.variant}`;
 
   return classesEl;
+});
+
+onMounted(() => {
+  if (tabs.value.length > 0) {
+    selectTab(tabs.value[0]);
+  }
 });
 </script>
 
@@ -62,6 +86,18 @@ const classes = computed(() => {
   max-width: 100%;
   overflow: hidden;
 }
+.tabs .tabs__list .swiper-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.tabs.tabs--horizontal .tabs__list .swiper-wrapper {
+  flex-direction: column;
+  flex: 0 0 16.25rem;
+}
+.tabs .tabs__list .swiper-wrapper .swiper-slide {
+  flex: 0 0 auto;
+}
 .tabs.tabs--horizontal .tabs__list {
   flex-direction: column;
   flex: 0 0 16.25rem;
@@ -80,7 +116,8 @@ const classes = computed(() => {
 }
 
 .tabs.tabs--variant-1 > .tabs__list .tabs__button:hover,
-.tabs.tabs--variant-1 > .tabs__list .tabs__button:focus {
+.tabs.tabs--variant-1 > .tabs__list .tabs__button:focus,
+.tabs.tabs--variant-1 > .tabs__list .tabs__button.tabs__button--active {
   border: 1px solid var(--gold-1000, #f2dda6);
   background: rgba(242, 221, 166, 0.1);
 }
@@ -101,7 +138,8 @@ const classes = computed(() => {
 }
 
 .tabs.tabs--variant-2 > .tabs__list .tabs__button:hover,
-.tabs.tabs--variant-2 > .tabs__list .tabs__button:focus {
+.tabs.tabs--variant-2 > .tabs__list .tabs__button:focus,
+.tabs.tabs--variant-2 > .tabs__list .tabs__button.tabs__button--active {
   border-left-color: var(--gold-1000, #f2dda6);
 }
 
@@ -132,50 +170,29 @@ const classes = computed(() => {
   .tabs .tabs__list {
     position: relative;
     display: flex;
-    gap: 0.5rem;
     max-width: 100%;
     overflow: hidden;
   }
+
   .tabs.tabs--horizontal .tabs__list {
-    flex-direction: row;
     flex: 0 0 auto;
   }
-  .tabs.tabs--variant-1 > .tabs__list .tabs__button {
-    flex-shrink: 0;
-    padding: 0.875rem;
-    border-radius: 16px;
-    border: 0.5px solid var(--white-100, rgba(255, 255, 255, 0.1));
-    background: var(--white-40, rgba(232, 233, 235, 0.04));
-    backdrop-filter: blur(18.049999237060547px);
-    transition: all 0.3s linear;
-  }
 
-  .tabs.tabs--variant-1 > .tabs__list .tabs__button:hover,
-  .tabs.tabs--variant-1 > .tabs__list .tabs__button:focus {
-    border: 1px solid var(--gold-1000, #f2dda6);
-    background: rgba(242, 221, 166, 0.1);
-  }
-
-  .tabs.tabs--variant-2 > .tabs__list {
-    gap: 0px;
-    border-bottom: 1px solid var(--white-50, rgba(255, 255, 255, 0.05));
-    mask-image: none;
+  .tabs.tabs--horizontal .tabs__list .swiper-wrapper {
+    flex-direction: row;
+    flex: 0 0 auto;
   }
 
   .tabs.tabs--variant-2 > .tabs__list .tabs__button {
     flex: 0 0 auto;
-
-    display: flex;
-    align-items: center;
-
-    height: 2.5rem;
 
     border-left: none;
     border-bottom: 1px solid transparent;
   }
 
   .tabs.tabs--variant-2 > .tabs__list .tabs__button:hover,
-  .tabs.tabs--variant-2 > .tabs__list .tabs__button:focus {
+  .tabs.tabs--variant-2 > .tabs__list .tabs__button:focus,
+  .tabs.tabs--variant-2 > .tabs__list .tabs__button.tabs__button--active {
     border-bottom-color: var(--gold-1000, #f2dda6);
   }
 

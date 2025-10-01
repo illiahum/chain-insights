@@ -15,6 +15,7 @@ interface CurrentChatActiveChartInterface{
     type: string,
     chart: string,
     legend?: CurrentChatActiveChartLegendInterface | null
+    name: string,
 }
 
 interface CurrentChatActiveChartLegendInterface{

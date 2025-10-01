@@ -131,7 +131,8 @@ const openChart = function () {
       colors: legendColors.value,
       sizes: props.legend.sizes,
       edges: props.legend.edges,
-    }
+    },
+    props.name
   );
 };
 

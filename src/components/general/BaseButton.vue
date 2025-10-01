@@ -54,7 +54,7 @@ const props = defineProps({
 });
 
 const buttonClasses = computed(() => {
-  let classes = `${props.class} button button--${props.type} button--${props.size}`;
+  let classes = `${props.class} button button--${props.type} button--${props["size"]}`;
 
   if (props.fullWidth) {
     classes += ` button--full`;

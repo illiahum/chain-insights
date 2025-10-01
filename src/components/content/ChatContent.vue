@@ -2,6 +2,7 @@
   <div
     class="chat__chart-full flex flex--column"
     :style="{ width: leftWidth + '%' }"
+    v-if="!isMobile"
     v-show="chatsStore.currentChat.activeChart?.messageId"
     :class="{
       'chat__chart-full--open': leftWidth > 0,
@@ -75,6 +76,100 @@
       <div class="splitter__drag"></div>
     </div>
   </div>
+  <Teleport to="body">
+    <ModalComponent
+      :is_hide="!chatsStore.currentChat.activeChart?.messageId"
+      @close-popup="() => closeChart()"
+      v-if="isMobile"
+      class="chat__chart-popup--full"
+    >
+      <template #head>
+        {{ chatsStore.currentChat.activeChart?.name }}
+      </template>
+
+      <template #content>
+        <div
+          class="popup__chart-popup--full flex flex--column align--center justify--center"
+          :class="{
+            'popup__network-chart-popup':
+              chatsStore.currentChat.activeChart?.type == 'network_chart',
+          }"
+          ref="chatChartFull"
+        >
+          <ChartNetworkLegendContent
+            v-show="chatsStore.currentChat.activeChart?.type == 'network_chart'"
+            :colors="chatsStore.currentChat.activeChart?.legend?.colors"
+            :sizes="chatsStore.currentChat.activeChart?.legend?.sizes"
+            :edges="chatsStore.currentChat.activeChart?.legend?.edges"
+          />
+          <div
+            class="chat__network-node-details card"
+            v-if="networkNodeDetails"
+          >
+            <div class="card__head">
+              <p class="body-14 body--reg">Details Panel</p>
+              <IconCopy class="icon icon--20 icon--white--600" />
+            </div>
+            <div class="card__body">
+              <div
+                v-for="(row, index) in networkNodeDetails"
+                :key="index"
+                class="card__row"
+              >
+                <span class="body-14 body--reg color--white-600">{{
+                  row.name
+                }}</span>
+                <span class="body-14 body--reg">{{ row.value }}</span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="chart-full__content flex flex--column items--center"
+            ref="svgElement"
+          ></div>
+          <div
+            class="chart-full__minimap"
+            v-show="
+              chatsStore.currentChat.activeChart?.type == 'network_chart' &&
+              !networkNodeDetails
+            "
+          >
+            <div class="minimap__content">
+              <div class="minimap__chart" ref="svgMinimapElement"></div>
+              <div
+                class="minimap__viewport"
+                ref="svgMinimapViewportElement"
+              ></div>
+            </div>
+          </div>
+          <div
+            class="chart-full__zoom flex"
+            v-show="chatsStore.currentChat.activeChart?.type == 'network_chart'"
+          >
+            <IconButton
+              :icon="IconMinus"
+              type="secondary"
+              @click="zoomOutFunction"
+            />
+            <IconButton
+              :icon="IconPlus"
+              type="secondary"
+              @click="zoomInFunction"
+            />
+          </div>
+        </div>
+        <div class="popup__button">
+          <BaseButton
+            type="secondary"
+            text="Download chart"
+            :icon="IconDownload"
+            size="m"
+            iconPosition="right"
+          />
+        </div>
+      </template>
+    </ModalComponent>
+  </Teleport>
   <div
     class="chat__content"
     :style="{ width: 100 - leftWidth + '%' }"
@@ -107,7 +202,15 @@
 </template>
 
 <script setup>
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import {
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+  Teleport,
+} from "vue";
 import { useChatsStore } from "../../stores/chats";
 import ChatMessage from "../chat/ChatMessage.vue";
 import MessageInput from "../general/MessageInput.vue";
@@ -125,6 +228,7 @@ import * as d3 from "d3";
 import IconButton from "../general/IconButton.vue";
 import BaseButton from "../general/BaseButton.vue";
 import ChartNetworkLegendContent from "./ChartNetworkLegendContent.vue";
+import ModalComponent from "../modals/ModalComponent.vue";
 
 const { updateChart } = useNetworkChart();
 const chatsStore = useChatsStore();
@@ -254,10 +358,23 @@ onBeforeUnmount(() => {
   stopResize();
 });
 
+const isMobile = ref(false);
+
+const checkScreen = () => {
+  isMobile.value = window.innerWidth <= 768;
+};
+
 onMounted(() => {
   if (chatMessagesEl.value) {
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
+
     chatMessagesEl.value.scrollTop = chatMessagesEl.value.scrollHeight;
   }
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", checkScreen);
 });
 
 function closeChart() {
@@ -340,6 +457,17 @@ const downloadUrl = function () {
 @media screen and (min-width: 1921px) {
   .chat__content .chat__messages .messages__inner {
     padding: 0px 12.5rem 13.75rem;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .chat__content .chat__messages .messages__inner {
+    padding: 2rem 1rem;
+  }
+
+  .chat__content .chatbot__message-input {
+    left: 0px;
+    width: 100%;
   }
 }
 
@@ -451,51 +579,78 @@ const downloadUrl = function () {
 }
 
 @media screen and (max-width: 767px) {
-  .chat__content {
-    position: relative;
+  .popup.chat__chart-popup--full .popup__body {
+    height: 91.47%;
+  }
+
+  .popup.chat__chart-popup--full .popup__body .popup__content {
+    height: 100%;
+  }
+
+  .popup.chat__chart-popup--full .popup__body .popup__chart-popup--full {
+    height: 100%;
+  }
+
+  .popup.chat__chart-popup--full .chart-full__content,
+  .popup.chat__chart-popup--full .chart-full__content .chart__content,
+  .popup.chat__chart-popup--full .chart-full__content .chart__svg {
     width: 100%;
+  }
+
+  .popup.chat__chart-popup--full .chart-full__content {
+    position: relative;
     height: 100%;
   }
 
-  .chat__content .chat__hide-content {
+  .popup.chat__chart-popup--full .chart-full__content svg {
     position: absolute;
-    top: 2.5rem;
-    left: 3rem;
+    top: 0px;
+    left: 0px;
+    right: 0px;
   }
 
-  .chat__content .chatbot__message-input {
-    left: 0;
-    right: 0;
+  .popup.chat__chart-popup--full .chart-full__content .chart__legend {
+    gap: 0.4375rem;
+    margin-top: 0.3125rem;
   }
 
-  .chat__content .chat__messages {
-    height: 100%;
-    overflow-y: auto;
+  .popup.chat__chart-popup--full
+    .chart-full__content
+    .chart__legend
+    .chart__legend--item {
+    gap: 0.25rem;
+    font-size: 0.375rem;
   }
 
-  .chat__content .chat__messages .messages__inner {
-    padding: 3.9375rem 1rem 7.5rem;
-    gap: 1.5rem;
+  .chat__content {
+    flex: 0 0 auto;
   }
 
-  .chat__chart-full {
+  /* POPUP */
+  .popup__chart-popup--full {
     position: relative;
   }
 
-  .chat__chart-full .chart-full__zoom {
+  .chat__chart-popup--full:has(.popup__network-chart-popup)
+    .popup__body
+    .popup__content {
+    padding: 0;
+  }
+
+  .popup__chart-popup--full .chart-full__zoom {
     position: absolute;
-    bottom: 2.5rem;
-    right: 2.5rem;
+    top: 1rem;
+    right: 1rem;
     gap: 0.5rem;
   }
 
-  .chat__chart-full .chart-full__minimap {
+  .popup__chart-popup--full .chart-full__minimap {
     position: absolute;
-    bottom: 2.5rem;
-    left: 2.5rem;
+    bottom: 1rem;
+    left: 1rem;
 
-    height: auto;
-    width: 220px;
+    height: 5rem;
+    width: 140px;
     border-radius: 0.5rem;
     border: 0.341px solid var(--white-100, rgba(255, 255, 255, 0.1));
     background: linear-gradient(
@@ -507,13 +662,16 @@ const downloadUrl = function () {
     backdrop-filter: blur(1.34375rem);
   }
 
-  .chat__chart-full .chart-full__minimap .minimap__content {
+  .popup__chart-popup--full .chart-full__minimap .minimap__content {
     position: relative;
     height: 100%;
     overflow: hidden;
   }
 
-  .chat__chart-full .chart-full__minimap .minimap__content .minimap__viewport {
+  .popup__chart-popup--full
+    .chart-full__minimap
+    .minimap__content
+    .minimap__viewport {
     position: absolute;
     top: 4px;
     bottom: 4px;
@@ -523,66 +681,50 @@ const downloadUrl = function () {
     background: var(--white-100, rgba(255, 255, 255, 0.1));
   }
 
-  .chat__chart-full .chart-full__minimap .minimap__content .minimap__chart {
+  .popup__chart-popup--full
+    .chart-full__minimap
+    .minimap__content
+    .minimap__chart {
     height: 100%;
   }
 
-  .chat__chart-full .chart-full__minimap .minimap__content .minimap__chart svg {
+  .popup__chart-popup--full
+    .chart-full__minimap
+    .minimap__content
+    .minimap__chart
+    svg {
     width: 100%;
     height: auto;
   }
 
-  .chat__chart-full.chat__chart-full--open
-    + .chat__content
-    .chat__messages
-    .messages__inner {
-    padding: 0px 3rem 13.75rem;
-  }
-
-  .chat__chart-full.chat__chart-full--open
-    + .chat__content
-    .chatbot__message-input {
-    left: 3rem;
-    right: 3rem;
-  }
-
-  .chat__chart-full .chart-full__actions {
-    flex: 0 0 auto;
-    gap: 1rem;
-    padding: 0px 2.5rem;
-  }
-
-  .chat__chart-full .chart-full__actions .chart-full__action {
-    cursor: pointer;
-  }
-
-  .chat__chart-full .chart-full__actions .chat__hide-content {
-    margin-left: 1.5rem;
-  }
-
-  .chat__chart-full .chart-full__actions svg {
-    width: 1.25rem;
-    height: 1.25rem;
-    color: var(--white-600);
-  }
-
   /* CHAT BUBLE NODE ELEMENTS */
-  .chat__network-node-details {
-    width: 74%;
+  .popup__chart-popup--full .chat__network-node-details {
     position: absolute;
 
-    bottom: 2.5rem;
-    left: 2.5rem;
+    bottom: 0rem;
+    left: 1rem;
+    right: 1rem;
+    width: auto;
     z-index: 10;
   }
 
   /* BUBLE LEGEND */
-  .chat__chart-full .chat__network-chart-legend {
+  .popup__chart-popup--full .chat__network-chart-legend {
     position: absolute;
-    top: 2.5rem;
-    left: 2.5rem;
-    width: auto;
+    top: 1rem;
+    left: 1rem;
     z-index: 10;
+  }
+  .popup__chart-popup--full
+    .chat__network-chart-legend.chat__network-chart-legend--open {
+    right: 1rem;
+  }
+  .chat__chart-popup--full .popup__button {
+    padding: 0rem 1rem 2rem;
+  }
+
+  .chat__chart-popup--full .popup__button button {
+    width: 100%;
   }
 }
 </style>

@@ -7,7 +7,7 @@
   >
     <template #head>
       <IconChartLine v-show="fullChart" />
-      {{ name }}
+      <span>{{ name }}</span>
     </template>
     <template #actions>
       <div
@@ -241,7 +241,13 @@ const downloadUrl = function () {
 };
 
 const openChart = function () {
-  chatsStore.openChart(props.messageId, chartBoxEl.value.outerHTML, "chart");
+  chatsStore.openChart(
+    props.messageId,
+    chartBoxEl.value.outerHTML,
+    "chart",
+    null,
+    props.name
+  );
 };
 
 const closeChart = function () {

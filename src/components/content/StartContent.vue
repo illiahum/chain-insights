@@ -8,30 +8,535 @@
       </p>
     </div>
 
-    <TabsComponent :tabs="mainTabs">
-      <TabsComponent
-        :tabs="nestedTabs"
-        variant="variant-2"
-        orientation="horizontal"
-      >
-        <div class="start__options flex flex--column">
-          <ChatOption
-            text="Show me all TAO transfers from wallet [address] in the last 30 days"
-          />
-          <ChatOption
-            text="Find all incoming alpha token transactions to [address]"
-          />
-          <ChatOption
-            text="Trace money flow between two specific Bittensor addresses"
-          />
-          <ChatOption
-            text="Show the transaction path from [source] to [destination] for TAO transfers"
-          />
-          <ChatOption
-            text="Find all outgoing transfers from [address] filtered by alpha tokens"
-          />
-        </div>
-      </TabsComponent>
+    <TabsComponent>
+      <TabPanel title="Money Flow Analysis">
+        <TabsComponent variant="variant-2" orientation="horizontal">
+          <TabPanel title="Basic Flow Tracking">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel title="Basic Flow Tracking 2">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel title="Basic Flow Tracking 3">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+        </TabsComponent>
+      </TabPanel>
+      <TabPanel title="Shortest Path Analysis">
+        <TabsComponent variant="variant-2" orientation="horizontal">
+          <TabPanel title="Basic Flow Tracking">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="1 sFind all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel title="Basic Flow Tracking 2">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel title="Basic Flow Tracking 3">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+        </TabsComponent>
+      </TabPanel>
+      <TabPanel title="Similarity Search">
+        <TabsComponent variant="variant-2" orientation="horizontal">
+          <TabPanel title="Basic Flow Tracking">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="2 Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel title="Basic Flow Tracking 2">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel title="Basic Flow Tracking 3">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+        </TabsComponent>
+      </TabPanel>
+      <TabPanel title="Balance Transfers Analysis">
+        <TabsComponent variant="variant-2" orientation="horizontal">
+          <TabPanel title="Basic Flow Tracking">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="3 Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel title="Basic Flow Tracking 2">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel title="Basic Flow Tracking 3">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+        </TabsComponent>
+      </TabPanel>
+      <TabPanel title="Balance Series Analysis">
+        <TabsComponent variant="variant-2" orientation="horizontal">
+          <TabPanel title="Basic Flow Tracking">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="4 Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel title="Basic Flow Tracking 2">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel title="Basic Flow Tracking 3">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+        </TabsComponent>
+      </TabPanel>
+      <TabPanel title="Cross-Category Advanced Queries">
+        <TabsComponent variant="variant-2" orientation="horizontal">
+          <TabPanel title="Basic Flow Tracking">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="5 Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel title="Basic Flow Tracking 2">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel title="Basic Flow Tracking 3">
+            <div class="start__options flex flex--column">
+              <ChatOption
+                text="Show me all TAO transfers from wallet [address] in the last 30 days"
+              />
+              <ChatOption
+                text="Find all incoming alpha token transactions to [address]"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+              <ChatOption
+                text="Trace money flow between two specific Bittensor addresses"
+              />
+              <ChatOption
+                text="Show the transaction path from [source] to [destination] for TAO transfers"
+              />
+              <ChatOption
+                text="Find all outgoing transfers from [address] filtered by alpha tokens"
+              />
+            </div>
+          </TabPanel>
+        </TabsComponent>
+      </TabPanel>
     </TabsComponent>
 
     <MessageInput />
@@ -43,15 +548,7 @@ import { ref } from "vue";
 import TabsComponent from "../general/tabs/TabsComponent.vue";
 import ChatOption from "./ChatOption.vue";
 import MessageInput from "../general/MessageInput.vue";
-
-const mainTabs = ref([
-  "Money Flow Analysis",
-  "Shortest Path Analysis",
-  "Similarity Search",
-  "Balance Transfers Analysis",
-  "Balance Series Analysis",
-  "Cross-Category Advanced Queries",
-]);
+import TabPanel from "../general/tabs/TabPanel.vue";
 
 const nestedTabs = ref([
   "Basic Flow Tracking",
@@ -125,16 +622,11 @@ const nestedTabs = ref([
     background-position: top left;
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 0px 1rem;
-  }
-
-  .chatbot__content .chat__start-screen {
-    padding-top: 17.875rem;
+    padding: 14.375rem 1rem 1rem;
   }
 
   .chat__start-screen .start__title-inner {
     padding-top: 4rem;
-    background-image: url("@/assets/img/bg-start-title.png");
     background-size: 8.5rem 5rem;
     margin-bottom: 6rem;
   }

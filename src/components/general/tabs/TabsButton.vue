@@ -13,10 +13,18 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const buttonClasses = computed(() => {
   let classes = `${props.class} tabs__button`;
+
+  if (props.isActive) {
+    classes += " tabs__button--active";
+  }
 
   return classes;
 });

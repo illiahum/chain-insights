@@ -126,12 +126,13 @@ export const useChatsStore = defineStore("chats", {
       this.currentChat.messages[messageIndex].options[option].is_choosen = true;
     },
 
-    openChart(messageId: string, chart: string, type:string, legend: any = null) {
+    openChart(messageId: string, chart: string, type:string, legend: any = null, name = "") {
       this.currentChat.activeChart = {
         messageId: messageId, 
         type: type,
         chart: chart,
-        legend: legend
+        legend: legend,
+        name: name
       }
     },
 
