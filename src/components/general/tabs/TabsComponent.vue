@@ -18,7 +18,6 @@ const props = defineProps({
   tabs: {
     type: Array,
     default: null,
-    
   },
   variant: {
     type: String,
@@ -60,6 +59,8 @@ const classes = computed(() => {
   mask-mode: alpha;
   mask-repeat: no-repeat;
   mask-position: right top;
+  max-width: 100%;
+  overflow: hidden;
 }
 .tabs.tabs--horizontal .tabs__list {
   flex-direction: column;
@@ -110,5 +111,80 @@ const classes = computed(() => {
 
 .tabs.tabs--horizontal .tabs__content {
   flex: 1 1 100%;
+}
+
+@media screen and (max-width: 767px) {
+  .tabs {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .tabs.tabs--horizontal {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .tabs.tabs--vertical {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .tabs .tabs__list {
+    position: relative;
+    display: flex;
+    gap: 0.5rem;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .tabs.tabs--horizontal .tabs__list {
+    flex-direction: row;
+    flex: 0 0 auto;
+  }
+  .tabs.tabs--variant-1 > .tabs__list .tabs__button {
+    flex-shrink: 0;
+    padding: 0.875rem;
+    border-radius: 16px;
+    border: 0.5px solid var(--white-100, rgba(255, 255, 255, 0.1));
+    background: var(--white-40, rgba(232, 233, 235, 0.04));
+    backdrop-filter: blur(18.049999237060547px);
+    transition: all 0.3s linear;
+  }
+
+  .tabs.tabs--variant-1 > .tabs__list .tabs__button:hover,
+  .tabs.tabs--variant-1 > .tabs__list .tabs__button:focus {
+    border: 1px solid var(--gold-1000, #f2dda6);
+    background: rgba(242, 221, 166, 0.1);
+  }
+
+  .tabs.tabs--variant-2 > .tabs__list {
+    gap: 0px;
+    border-bottom: 1px solid var(--white-50, rgba(255, 255, 255, 0.05));
+    mask-image: none;
+  }
+
+  .tabs.tabs--variant-2 > .tabs__list .tabs__button {
+    flex: 0 0 auto;
+
+    display: flex;
+    align-items: center;
+
+    height: 2.5rem;
+
+    border-left: none;
+    border-bottom: 1px solid transparent;
+  }
+
+  .tabs.tabs--variant-2 > .tabs__list .tabs__button:hover,
+  .tabs.tabs--variant-2 > .tabs__list .tabs__button:focus {
+    border-bottom-color: var(--gold-1000, #f2dda6);
+  }
+
+  .tabs .tabs__content {
+    width: 100%;
+  }
+
+  .tabs.tabs--horizontal .tabs__content {
+    flex: 1 1 100%;
+  }
 }
 </style>

@@ -15,6 +15,8 @@ const props = defineProps({
   currency: String,
 });
 
+const emit = defineEmits(["click"]);
+
 const chatsStore = useChatsStore();
 
 const buttonClick = () => {

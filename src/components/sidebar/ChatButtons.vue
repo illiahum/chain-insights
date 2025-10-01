@@ -9,6 +9,7 @@
           :currency="chat.currency"
           :id="chat.id"
           :key="chat.id"
+          @click="$emit('click')"
         />
       </div>
     </div>
@@ -22,6 +23,7 @@
           :currency="chat.currency"
           :id="chat.id"
           :key="chat.id"
+          @click="$emit('click')"
         />
       </div>
     </div>

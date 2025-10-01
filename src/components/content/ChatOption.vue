@@ -1,6 +1,6 @@
 <template>
   <button :class="classes">
-    <span class="text body-16 body-reg">{{ text }}</span>
+    <span class="text body-16 body-14--mobile body-reg">{{ text }}</span>
     <IconArrowNarrowRight />
   </button>
 </template>

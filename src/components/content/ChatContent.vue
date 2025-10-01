@@ -436,4 +436,140 @@ const downloadUrl = function () {
   width: auto;
   z-index: 10;
 }
+
+@media screen and (max-width: 767px) {
+  .chat__content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .chat__content .chat__hide-content {
+    position: absolute;
+    top: 2.5rem;
+    left: 3rem;
+  }
+
+  .chat__content .chatbot__message-input {
+    left: 0;
+    right: 0;
+  }
+
+  .chat__content .chat__messages {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .chat__content .chat__messages .messages__inner {
+    padding: 3.9375rem 1rem 7.5rem;
+    gap: 1.5rem;
+  }
+
+  .chat__chart-full {
+    position: relative;
+  }
+
+  .chat__chart-full .chart-full__zoom {
+    position: absolute;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    gap: 0.5rem;
+  }
+
+  .chat__chart-full .chart-full__minimap {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 2.5rem;
+
+    height: auto;
+    width: 220px;
+    border-radius: 0.5rem;
+    border: 0.341px solid var(--white-100, rgba(255, 255, 255, 0.1));
+    background: linear-gradient(
+        172deg,
+        rgba(71, 120, 234, 0) -30.31%,
+        rgba(71, 120, 234, 0.04) 124.3%
+      ),
+      rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(1.34375rem);
+  }
+
+  .chat__chart-full .chart-full__minimap .minimap__content {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .chat__chart-full .chart-full__minimap .minimap__content .minimap__viewport {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    width: 90px;
+    border-radius: 8px;
+    border: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
+    background: var(--white-100, rgba(255, 255, 255, 0.1));
+  }
+
+  .chat__chart-full .chart-full__minimap .minimap__content .minimap__chart {
+    height: 100%;
+  }
+
+  .chat__chart-full .chart-full__minimap .minimap__content .minimap__chart svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .chat__chart-full.chat__chart-full--open
+    + .chat__content
+    .chat__messages
+    .messages__inner {
+    padding: 0px 3rem 13.75rem;
+  }
+
+  .chat__chart-full.chat__chart-full--open
+    + .chat__content
+    .chatbot__message-input {
+    left: 3rem;
+    right: 3rem;
+  }
+
+  .chat__chart-full .chart-full__actions {
+    flex: 0 0 auto;
+    gap: 1rem;
+    padding: 0px 2.5rem;
+  }
+
+  .chat__chart-full .chart-full__actions .chart-full__action {
+    cursor: pointer;
+  }
+
+  .chat__chart-full .chart-full__actions .chat__hide-content {
+    margin-left: 1.5rem;
+  }
+
+  .chat__chart-full .chart-full__actions svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--white-600);
+  }
+
+  /* CHAT BUBLE NODE ELEMENTS */
+  .chat__network-node-details {
+    width: 74%;
+    position: absolute;
+
+    bottom: 2.5rem;
+    left: 2.5rem;
+    z-index: 10;
+  }
+
+  /* BUBLE LEGEND */
+  .chat__chart-full .chat__network-chart-legend {
+    position: absolute;
+    top: 2.5rem;
+    left: 2.5rem;
+    width: auto;
+    z-index: 10;
+  }
+}
 </style>

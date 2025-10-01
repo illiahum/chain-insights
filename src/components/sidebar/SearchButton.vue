@@ -1,6 +1,6 @@
 <template>
   <button
-    class="sidebar__search-button flex align--center"
+    class="sidebar__search-button flex align--center body-16 body--reg"
     @click="() => (isModalHide = false)"
   >
     <IconSearch class="icon icon--16" /> Search in History

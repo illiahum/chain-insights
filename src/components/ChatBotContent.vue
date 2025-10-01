@@ -17,6 +17,7 @@ const chatsStore = useChatsStore();
 
 <style scoped>
 .chatbot__content {
+  position: relative;
   flex: 1 1 auto;
   height: 100vh;
   width: 100%;

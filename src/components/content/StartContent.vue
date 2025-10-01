@@ -103,4 +103,50 @@ const nestedTabs = ref([
   right: 9.375rem;
   left: 9.375rem;
 }
+
+@media screen and (max-width: 767px) {
+  .chat__start-screen {
+    position: relative;
+    height: 100%;
+    background-image: url("@/assets/img/bg-pattern.png");
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0px 1rem;
+  }
+
+  .chatbot__content .chat__start-screen {
+    padding-top: 17.875rem;
+  }
+
+  .chat__start-screen .start__title-inner {
+    padding-top: 4rem;
+    background-image: url("@/assets/img/bg-start-title.png");
+    background-size: 8.5rem 5rem;
+    margin-bottom: 6rem;
+  }
+
+  .chat__start-screen .start__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .chat__start-screen .start__options {
+    gap: 0.5rem;
+  }
+
+  .chat__start-screen .start__options .chat-option {
+    width: 100%;
+    height: auto;
+    text-align: left;
+  }
+
+  .chat__start-screen .chatbot__message-input {
+    left: 0rem;
+    width: 100vw;
+  }
+}
 </style>

@@ -15,4 +15,8 @@ const chatsStore = useChatsStore();
 chatsStore.loadFakeData();
 </script>
 
-<style scoped></style>
+<style scoped>
+.chatbot {
+  overflow: hidden;
+}
+</style>
