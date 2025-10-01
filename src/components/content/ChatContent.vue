@@ -319,6 +319,13 @@ const downloadUrl = function () {
   right: 9.375rem;
 }
 
+@media screen and (min-width: 1921px) {
+  .chat__content .chatbot__message-input {
+    left: 12.5rem;
+    right: 12.5rem;
+  }
+}
+
 .chat__content .chat__messages {
   height: 100%;
   overflow-y: auto;
@@ -328,6 +335,12 @@ const downloadUrl = function () {
   width: 100%;
   padding: 0px 9.375rem 13.75rem;
   gap: 1.5rem;
+}
+
+@media screen and (min-width: 1921px) {
+  .chat__content .chat__messages .messages__inner {
+    padding: 0px 12.5rem 13.75rem;
+  }
 }
 
 .chat__chart-full {

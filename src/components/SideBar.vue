@@ -138,6 +138,12 @@ const isMobileOpen = ref(false);
   gap: 2rem;
 }
 
+@media screen and (min-width: 1921px) {
+  .chatbot__sidebar {
+    flex: 0 0 35rem;
+  }
+}
+
 .chatbot__sidebar .sidebar__top {
   gap: 2rem;
 }

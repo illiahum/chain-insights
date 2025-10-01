@@ -71,6 +71,12 @@ const nestedTabs = ref([
   padding: 5rem 9.375rem 0px;
 }
 
+@media screen and (min-width: 1921px) {
+  .chat__start-screen {
+    padding: 5rem 12.5rem 0px;
+  }
+}
+
 .chat__start-screen .start__title-inner {
   padding-top: 7.8125rem;
   background-image: url("@/assets/img/bg-start-title.png");
@@ -102,6 +108,13 @@ const nestedTabs = ref([
 .chat__start-screen .chatbot__message-input {
   right: 9.375rem;
   left: 9.375rem;
+}
+
+@media screen and (min-width: 1921px) {
+  .chat__start-screen .chatbot__message-input {
+    right: 12.5rem;
+    left: 12.5rem;
+  }
 }
 
 @media screen and (max-width: 767px) {
