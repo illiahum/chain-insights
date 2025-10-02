@@ -5,7 +5,7 @@
     @close-popup="$emit('closePopup')"
     @change-popup="$emit('changePopup')"
     size="small"
-    class="popup-settings popup-settings-email"
+    class="popup-settings-email"
   >
     <template #head> Change email </template>
 

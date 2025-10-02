@@ -10,6 +10,7 @@
     <ModalComponent
       :is_hide="isModalHide"
       @close-popup="() => (isModalHide = true)"
+      class="popup-search"
     >
       <template #head>
         <input
@@ -426,5 +427,33 @@ function buttonClick(chatId) {
 
 .popup .popup-search__results .popup-search__results--empty p {
   color: var(--white-400, rgba(255, 255, 255, 0.4));
+}
+
+@media screen and (max-width: 767px) {
+  .popup .popup-search__new-chat-button {
+    margin-bottom: 0rem;
+  }
+
+  .popup:deep(.popup__body) {
+    height: 80.76%;
+  }
+
+  .popup:deep(.popup__content) {
+    flex: 1 1 auto;
+  }
+
+  .popup .popup-search__results {
+    flex: 1 1 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .popup .popup-search__chats-list {
+    height: 0px;
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
 }
 </style>

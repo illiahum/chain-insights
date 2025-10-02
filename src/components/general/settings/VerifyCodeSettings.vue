@@ -5,7 +5,7 @@
     @close-popup="$emit('closePopup')"
     @change-popup="$emit('changePopup')"
     size="small"
-    class="popup-settings popup-verify-code"
+    class="popup-verify-code"
   >
     <template #head> Enter verify code </template>
 
@@ -117,19 +117,29 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.popup-settings.popup-verify-code .settings__row + .settings__row {
-  margin-top: 2rem;
-}
-
-.popup-settings.popup-verify-code .settings__code {
+.popup-verify-code .settings__code {
   gap: 1.5rem;
 }
 
-.popup-settings.popup-verify-code .settings__code .field {
+.popup-verify-code .settings__code .field {
   flex: 1 1 100%;
 }
 
-.popup-settings.popup-verify-code .settings__code .field:deep(input) {
+.popup-verify-code .settings__code .field:deep(input) {
   text-align: center;
+}
+
+@media screen and (max-width: 767px) {
+  .popup-verify-code .settings__code {
+    gap: 1.5rem;
+  }
+
+  .popup-verify-code .settings__code .field {
+    flex: 1 1 100%;
+  }
+
+  .popup-verify-code .settings__code .field:deep(input) {
+    text-align: center;
+  }
 }
 </style>

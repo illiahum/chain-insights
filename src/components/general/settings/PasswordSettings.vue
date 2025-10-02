@@ -5,7 +5,7 @@
     @close-popup="$emit('closePopup')"
     @change-popup="$emit('changePopup')"
     size="small"
-    class="popup-settings popup-settings-password"
+    class="popup-settings-password"
   >
     <template #head> Change password </template>
 
@@ -38,7 +38,7 @@
         <BaseButton
           text="Set new password"
           :full-width="true"
-          @click="() => $emit('changePopup', 'settings')"
+          @click="() => changePassword()"
         />
       </div>
     </template>
@@ -52,6 +52,7 @@ import ModalComponent from "../../modals/ModalComponent.vue";
 import BaseInput from "../BaseInput.vue";
 import BaseButton from "../BaseButton.vue";
 import { ref } from "vue";
+import { useToast } from "../../../composables/useToast";
 
 const isEmailModalShow = ref(false);
 const currentPassword = ref("");
@@ -62,9 +63,17 @@ const props = defineProps({
   is_hide: Boolean,
 });
 
-defineEmits(["closePopup", "changePopup"]);
+const emit = defineEmits(["closePopup", "changePopup"]);
 
-const openEmailModal = () => {
-  isEmailModalShow.value = !isEmailModalShow.value;
+const { addMessage } = useToast();
+
+const changePassword = () => {
+  addMessage({
+    type: "success",
+    title: "Password was successfuly changed!",
+    text: "Your new password has been applied.<br/>You can now log in to your account using the new password.",
+  });
+
+  emit("changePopup", "settings");
 };
 </script>

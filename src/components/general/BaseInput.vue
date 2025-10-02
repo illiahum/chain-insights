@@ -1,7 +1,10 @@
 <template>
   <div :class="inputClasses" @click="$emit('click')">
-    <div class="field__label flex align--center justify--between">
-      <label v-if="label != ''" class="body-16 body--reg">{{ label }}</label>
+    <div
+      class="field__label flex align--center justify--between"
+      v-if="label != ''"
+    >
+      <label class="body-16 body--reg">{{ label }}</label>
 
       <slot name="label-action"> </slot>
     </div>
