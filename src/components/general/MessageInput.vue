@@ -8,11 +8,20 @@
     </div>
     <div class="message__input flex align--center">
       <IconPaperclip stroke="{2}" class="hide--mobile" />
-      <textarea
-        type="text"
-        placeholder="How can I help?"
-        v-model="message"
-      ></textarea>
+      <div
+        contenteditable="true"
+        class="input"
+        @input="onInput"
+        @focus="() => (isInputFocused = true)"
+        @blur="() => (isInputFocused = false)"
+      >
+        <p
+          class="body-14 body--reg color--white-600"
+          v-if="message == '' && !isInputFocused"
+        >
+          How can I help?
+        </p>
+      </div>
       <IconSend class="icon icon--20 icon--white--600 hide--desktop" />
     </div>
     <div
@@ -216,11 +225,16 @@ const assetOptions = [
 ];
 
 const isMobile = ref(false);
+const isInputFocused = ref(false);
 const isShowAdvencedPopup = ref(false);
 
 const checkScreen = () => {
   isMobile.value = window.innerWidth <= 768;
 };
+
+function onInput(event) {
+  message.value = event.target.innerText;
+}
 
 onMounted(() => {
   checkScreen();
@@ -254,11 +268,17 @@ onUnmounted(() => {
   gap: 1rem;
 }
 
-.chatbot__message-input .message__input textarea {
+.chatbot__message-input .message__input .input {
   width: 100%;
   height: auto;
   border: none;
   background-color: transparent;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.chatbot__message-input .message__input .input:focus {
+  outline: none;
 }
 
 .chatbot__message-input .message__input svg {

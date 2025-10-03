@@ -54,6 +54,6 @@ const chatsStore = useChatsStore();
 .sidebar__chats {
   flex: 1 1 auto;
   overflow-y: auto;
-  min-height: 0px;
+  height: 0px;
 }
 </style>

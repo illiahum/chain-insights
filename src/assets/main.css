@@ -130,6 +130,8 @@ body {
   font-weight: 400;
   line-height: 120%;
   color: var(--white-1000);
+  max-height: 100vh;
+  height: 100vh;
 }
 
 input,
