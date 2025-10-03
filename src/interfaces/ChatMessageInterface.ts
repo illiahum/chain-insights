@@ -50,14 +50,19 @@ interface ChatMessageChartInterface{
 }
 
 interface ChatMessageNetworkNode{
-    id: string,
-    name: string,
-    type: string, 
-    relationType: "direct" | "indirect" | null,
-    value: number,
-    data: {
-        name: string,
-        value: string,
-    }[]
-    childs: ChatMessageNetworkNode[]
+    objects: {
+        id: string,
+        type: string, 
+        value: number,
+        data: {
+            name: string,
+            value: string,
+        }[]
+    }[],
+    links: {
+        source: string,
+        target: string,
+        value: number,
+        relationType: "direct" | "indirect" | null,
+    }[],
 }

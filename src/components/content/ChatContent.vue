@@ -259,6 +259,7 @@ watch(
       if (chatsStore.currentChat.activeChart?.type == "network_chart") {
         svgMinimapElement.value.innerHTML = newValue.chart;
         d3.select(svgMinimapElement.value).select("g").attr("transform", "");
+
         d3.select(svgElement.value)
           .selectAll("g.node")
           .on("click", (event) => {
@@ -283,7 +284,6 @@ watch(
           ".chatbot .chatbot__content"
         ).offsetWidth;
         const viewportWidth = (containerWidth * leftWidth.value) / 100;
-        changeViewportWidth(viewportWidth);
 
         const { zoomIn, zoomOut } = updateChart(
           svgElement.value,
@@ -336,17 +336,7 @@ function onResize(e) {
 
   if (newWidth > 30 && newWidth < 65) {
     leftWidth.value = newWidth;
-
-    if (chatsStore.currentChat.activeChart?.type == "network_chart") {
-      changeViewportWidth(viewportWidth);
-    }
   }
-}
-
-function changeViewportWidth(width) {
-  const svgWidth = svgElement.value.querySelector("svg").clientWidth;
-
-  svgMinimapViewportElement.value.style.width = `${(width * 220) / svgWidth}px`;
 }
 
 function stopResize() {
@@ -434,6 +424,7 @@ const downloadUrl = function () {
 .chat__content .chatbot__message-input {
   left: 9.375rem;
   right: 9.375rem;
+  z-index: 5;
 }
 
 @media screen and (min-width: 1921px) {

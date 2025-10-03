@@ -13,17 +13,21 @@
       <div
         class="box__action message__action"
         @click="closeChart"
-        v-if="fullChart"
+        v-if="fullChart && !isRendering"
       >
         <IconArrowsMinimize />
       </div>
-      <div class="box__action message__action" @click="openChart" v-else>
+      <div
+        class="box__action message__action"
+        @click="openChart"
+        v-else-if="!isRendering"
+      >
         <IconArrowsMaximize />
       </div>
       <div
         class="box__action message__action"
         @click="downloadUrl"
-        v-if="!fullChart"
+        v-if="!fullChart && !isRendering"
       >
         <IconDownload />
       </div>
@@ -31,6 +35,9 @@
 
     <template #content>
       <div class="chart__content" v-show="!fullChart">
+        <div class="chart__placeholder" v-if="isRendering">
+          <p class="body-14 body--rem">Rendering chart...</p>
+        </div>
         <svg ref="chart">
           <defs>
             <!-- GOLD -->
@@ -80,6 +87,7 @@ const props = defineProps({
 const chart = ref(null);
 const fullChart = ref(false);
 const legendColors = ref(null);
+const isRendering = ref(true);
 
 watch(
   () => chatsStore.currentChat.activeChart,
@@ -141,9 +149,16 @@ const closeChart = function () {
 };
 
 onMounted(() => {
-  createChart(props.nodes, chart.value, window.innerWidth, window.innerHeight, {
-    intialScale: 2,
-  });
+  createChart(
+    props.nodes,
+    chart.value,
+    isRendering,
+    window.innerWidth,
+    window.innerHeight,
+    {
+      intialScale: 2,
+    }
+  );
 
   const { typesColors } = flatten(props.nodes);
   legendColors.value = typesColors;

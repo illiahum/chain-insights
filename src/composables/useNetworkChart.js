@@ -5,41 +5,22 @@ export const useNetworkChart = () => {
     let colors = ["gold", "peach", "salad", "sky", "lavanda", "pink"];
 
     const typesColors = {};
-    const nodes = [];
-    const links = [];
+    const nodes = root.objects;
+    const links = root.links;
 
-    function recurse(node, parent = null) {
-      nodes.push({
-        id: node.name,
-        label: node.name,
-        type: node.type,
-        value: node.value,
-        data: node.data,
-      });
-
+    nodes.forEach((node) => {
       if (!typesColors.hasOwnProperty(node.type)) {
         typesColors[node.type] = colors.shift();
       }
+    });
 
-      if (parent) {
-        links.push({
-          source: parent.name,
-          target: node.name,
-          relationType: node.relationType,
-        });
-      }
-      if (node.nodes) {
-        node.nodes.forEach((child) => recurse(child, node));
-      }
-    }
-
-    recurse(root);
     return { nodes, links, typesColors };
   }
 
   function createChart(
     chartData,
     chartElement,
+    isRenderingVar,
     width = 442,
     height = 274,
     config = {}
@@ -75,12 +56,12 @@ export const useNetworkChart = () => {
     const radius = d3
       .scaleSqrt()
       .domain(valueExtent[0] == null ? [1, 1] : valueExtent)
-      .range([64, 128]);
+      .range([12, 32]);
 
     function radiusRound(d) {
       const r = radius(d);
 
-      return Math.round(r / 24) * 24;
+      return Math.round(r / 4) * 2;
     }
 
     // simulation
@@ -91,14 +72,20 @@ export const useNetworkChart = () => {
         d3
           .forceLink(links)
           .id((d) => d.id)
-          .distance((d) => d.distance ?? 120)
-          .strength(1.5)
+          .distance((d) =>
+            Math.max(
+              100,
+              radiusRound(d.source?.value ?? 1) +
+                radiusRound(d.target?.value ?? 1) +
+                20
+            )
+          )
       )
-      .force("charge", d3.forceManyBody().strength(-260))
+      .force("charge", d3.forceManyBody().strength(-30 - nodes.length / 20))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force(
         "collision",
-        d3.forceCollide().radius((d) => radiusRound(d.value) + 45)
+        d3.forceCollide().radius((d) => radiusRound(d.value) + 40)
       );
 
     // draw links
@@ -143,31 +130,20 @@ export const useNetworkChart = () => {
       .attr("stroke-opacity", 0.2);
 
     node
-      .append("circle")
-      .attr("r", (d) => radiusRound(d.value))
-      .attr("fill", "url('#buble_radial')")
-      .attr("fill-opacity", "0.1");
-
-    node
-      .append("circle")
-      .attr("r", (d) => radiusRound(d.value))
-      .attr("fill", "url('#buble_linear')")
-      .attr("fill-opacity", "0.3");
-
-    node
       .append("text")
       .attr("text-anchor", "middle")
-      .attr("dominant-baseline", "central")
+      .attr("y", (d) => radiusRound(d.value) + 12)
       .style("pointer-events", "none")
       .style("font-family", "Inter, sans-serif")
-      .style("font-size", "12px")
+      .style("font-size", (d) => Math.max(10, radiusRound(d.value) / 3) + "px")
       .style("fill", "#fff")
       .each(function (d) {
         const words = String(d.label ?? d.id).split(/\s+/);
-        const lineHeight = 1.1;
         const maxChars = 12;
+        const lineHeight = 1.1;
         let lines = [];
         let cur = "";
+
         for (const w of words) {
           if ((cur + " " + w).trim().length > maxChars) {
             if (cur) lines.push(cur.trim());
@@ -186,10 +162,11 @@ export const useNetworkChart = () => {
             .attr("dy", i === 0 ? "0em" : `${lineHeight}em`)
             .text(lines[i]);
         }
-      })
-      .style("font-size", (d) => Math.max(10, radius(d.value) / 3) + "px");
+      });
 
     node.append("title").text((d) => d.title ?? d.label ?? d.id);
+
+    simulation.alpha(1).restart();
 
     simulation.on("tick", () => {
       link
@@ -200,70 +177,100 @@ export const useNetworkChart = () => {
 
       node.attr("transform", (d) => `translate(${d.x},${d.y})`);
     });
+
+    simulation.on("end", () => {
+      const xExtent = d3.extent(nodes, (d) => d.x);
+      const yExtent = d3.extent(nodes, (d) => d.y);
+
+      const minX = xExtent[0] - 100;
+      const maxX = xExtent[1] + 100;
+      const minY = yExtent[0] - 100;
+      const maxY = yExtent[1] + 100;
+
+      const width = maxX - minX;
+      const height = maxY - minY;
+
+      svgSel.attr("viewBox", `${minX} ${minY} ${width} ${height}`);
+
+      isRenderingVar.value = false;
+    });
   }
 
   function updateChart(svgElement, chatBox, viewport, viewportChart) {
     const svgSel = d3.select(svgElement);
-    const svgElementRoot = svgSel.select("g");
+    const svgRoot = svgSel.select("g");
 
     const viewportChartSel = d3.select(viewportChart);
-    const viewportChartRoot = viewportChartSel.select("g");
+    const viewportRoot = viewportChartSel.select("g");
 
     const width = chatBox.clientWidth;
     const height = chatBox.clientHeight;
 
-    const bbox = svgElementRoot.node().getBBox();
+    // bounding box графа
+    const bbox = svgRoot.node().getBBox();
     const graphCenterX = bbox.x + bbox.width / 2;
     const graphCenterY = bbox.y + bbox.height / 2;
-
     const svgCenterX = width / 2;
     const svgCenterY = height / 2;
 
-    const scale = Math.min(width / bbox.width, height / bbox.height) * 2;
+    // початковий масштаб і трансляція
+    const scale = Math.min(width / bbox.width, height / bbox.height) * 0.9;
+    const initialTransform = d3.zoomIdentity
+      .translate(
+        svgCenterX - graphCenterX * scale,
+        svgCenterY - graphCenterY * scale
+      )
+      .scale(scale);
 
-    const tx = svgCenterX - graphCenterX * scale;
+    let currentTransform = initialTransform;
 
-    const svgWidth = svgElement.querySelector("svg").clientWidth;
+    const miniWidth = viewportChart.clientWidth;
+    const miniHeight = viewportChart.clientHeight;
+
+    const scaleX = miniWidth / bbox.width;
+    const scaleY = miniHeight / bbox.height;
+    const miniScale = Math.min(scaleX, scaleY);
 
     const zoom = d3
       .zoom()
-      .scaleExtent([0.1, 4])
+      .scaleExtent([0.1, 24])
       .on("zoom", (event) => {
-        const scale = event.transform.k;
-        const tx = event.transform.x;
-        const ty = event.transform.y;
+        currentTransform = event.transform;
 
-        const transform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+        svgRoot.attr("transform", currentTransform);
 
-        const viewX = (220 * -tx) / svgWidth;
-
-        d3.select(viewport).style("left", viewX + "px");
-        //.style("width", viewWidth * 0.1 + "px");
-
-        svgElementRoot.attr("transform", transform);
+        updateMiniViewport();
       });
 
-    svgSel.call(zoom);
+    svgSel.call(zoom).call(zoom.transform, initialTransform);
 
-    const initialTransform = d3.zoomIdentity.translate(tx, 0).scale(scale);
-    svgSel.call(zoom.transform, initialTransform);
+    function updateMiniViewport() {
+      const svgClientWidth = svgElement.clientWidth;
+      const svgClientHeight = svgElement.clientHeight;
 
-    const initialViewportTransform = (220 * tx) / svgWidth;
-    viewportChartRoot.attr(
-      "transform",
-      `translate(${initialViewportTransform}px, 0)`
-    );
+      const viewWidth = svgClientWidth / currentTransform.k;
+      const viewHeight = svgClientHeight / currentTransform.k;
 
-    let currentTransform = d3.zoomIdentity;
+      const viewX = -currentTransform.x / currentTransform.k;
+      const viewY = -currentTransform.y / currentTransform.k;
+
+      d3.select(viewport)
+        .style("left", viewX * miniScale + "px")
+        .style("top", viewY * miniScale + "px")
+        .style("width", viewWidth * miniScale + "px")
+        .style("height", viewHeight * miniScale + "px");
+    }
+
+    updateMiniViewport();
+
     const zoomStep = 0.2;
 
     function zoomIn() {
-      const newScale = Math.min(currentTransform.k + zoomStep, 4);
+      const newScale = Math.min(currentTransform.k + zoomStep, 24);
       const transform = d3.zoomIdentity
         .translate(currentTransform.x, currentTransform.y)
         .scale(newScale);
-
-      svgSel.call(zoom.transform, transform);
+      svgSel.transition().duration(200).call(zoom.transform, transform);
     }
 
     function zoomOut() {
@@ -271,8 +278,7 @@ export const useNetworkChart = () => {
       const transform = d3.zoomIdentity
         .translate(currentTransform.x, currentTransform.y)
         .scale(newScale);
-
-      svgSel.call(zoom.transform, transform);
+      svgSel.transition().duration(200).call(zoom.transform, transform);
     }
 
     return { zoomIn, zoomOut };
