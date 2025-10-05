@@ -447,9 +447,9 @@ const downloadUrl = function () {
   }
 }
 
-/* .chat__content .chat__messages {
+.chat__content .chat__messages {
   height: 100%;
-} */
+}
 
 .chat__content .chat__messages .messages__inner {
   width: 100%;
