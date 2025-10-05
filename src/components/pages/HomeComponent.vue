@@ -17,6 +17,15 @@ chatsStore.loadFakeData();
 
 <style scoped>
 .chatbot {
+  height: 100vh;
   overflow: hidden;
+}
+
+@media screen and (max-width: 767px) {
+  .chatbot {
+    flex-direction: column;
+    padding-top: 3.9375rem;
+    padding-bottom: 5.5625rem;
+  }
 }
 </style>

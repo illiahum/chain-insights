@@ -19,7 +19,7 @@ const chatsStore = useChatsStore();
 .chatbot__content {
   position: relative;
   flex: 1 1 auto;
-  height: 100vh;
+  height: 100%;
   width: 100%;
 }
 
@@ -28,10 +28,9 @@ const chatsStore = useChatsStore();
 }
 
 @media screen and (max-width: 767px) {
-  /* .chatbot__content {
-    padding-top: 3.9375rem;
-    padding-bottom: 5.5625rem;
-  } */
+  .chatbot__content {
+    height: 0px;
+  }
 
   .chatbot__content > div {
     height: 100%;
