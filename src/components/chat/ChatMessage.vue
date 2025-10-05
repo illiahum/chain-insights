@@ -69,6 +69,10 @@ const chatsStore = useChatsStore();
 const props = defineProps({
   id: String,
   msg: Object,
+  class: {
+    type: String,
+    default: "",
+  },
 });
 
 const classes = computed(() => {

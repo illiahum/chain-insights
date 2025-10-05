@@ -30,11 +30,11 @@ const chatsStore = useChatsStore();
 @media screen and (max-width: 767px) {
   .chatbot__content {
     height: 0px;
+    overflow-y: scroll;
   }
 
   .chatbot__content > div {
     height: 100%;
-    overflow-y: scroll;
   }
 }
 </style>
