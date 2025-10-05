@@ -74,14 +74,14 @@ export const useNetworkChart = () => {
           .id((d) => d.id)
           .distance((d) =>
             Math.max(
-              100,
+              70,
               radiusRound(d.source?.value ?? 1) +
                 radiusRound(d.target?.value ?? 1) +
-                20
+                10
             )
           )
       )
-      .force("charge", d3.forceManyBody().strength(-30 - nodes.length / 20))
+      .force("charge", d3.forceManyBody().strength(-20 - nodes.length / 30))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force(
         "collision",
@@ -166,8 +166,6 @@ export const useNetworkChart = () => {
 
     node.append("title").text((d) => d.title ?? d.label ?? d.id);
 
-    simulation.alpha(1).restart();
-
     simulation.on("tick", () => {
       link
         .attr("x1", (d) => d.source.x)
@@ -190,13 +188,34 @@ export const useNetworkChart = () => {
       const width = maxX - minX;
       const height = maxY - minY;
 
-      svgSel.attr("viewBox", `${minX} ${minY} ${width} ${height}`);
+      svgSel.attr(
+        "data-viewport-viewbox",
+        `${minX} ${minY} ${width} ${height}`
+      );
+
+      svgSel.attr("data-group-width", width);
+
+      svgSel.attr("data-group-height", height);
 
       isRenderingVar.value = false;
     });
   }
 
-  function updateChart(svgElement, chatBox, viewport, viewportChart) {
+  function updateChart(
+    svgElement,
+    chatBox,
+    viewport,
+    viewportChart,
+    originalWidth,
+    originalHeight
+  ) {
+    console.log("updateChart", {
+      svgElement,
+      chatBox,
+      viewport,
+      viewportChart,
+    });
+
     const svgSel = d3.select(svgElement);
     const svgRoot = svgSel.select("g");
 
@@ -215,12 +234,10 @@ export const useNetworkChart = () => {
 
     // початковий масштаб і трансляція
     const scale = Math.min(width / bbox.width, height / bbox.height) * 0.9;
-    const initialTransform = d3.zoomIdentity
-      .translate(
-        svgCenterX - graphCenterX * scale,
-        svgCenterY - graphCenterY * scale
-      )
-      .scale(scale);
+    const initialTransform = d3.zoomIdentity.translate(
+      svgCenterX - graphCenterX * scale,
+      svgCenterY - graphCenterY * scale
+    );
 
     let currentTransform = initialTransform;
 
@@ -255,15 +272,15 @@ export const useNetworkChart = () => {
       const viewY = -currentTransform.y / currentTransform.k;
 
       d3.select(viewport)
-        .style("left", viewX * miniScale + "px")
-        .style("top", viewY * miniScale + "px")
+        .style("left", viewX * miniScale + miniWidth / 2 + "px")
+        .style("top", viewY * miniScale + miniHeight / 2 + "px")
         .style("width", viewWidth * miniScale + "px")
         .style("height", viewHeight * miniScale + "px");
     }
 
     updateMiniViewport();
 
-    const zoomStep = 0.2;
+    const zoomStep = 1;
 
     function zoomIn() {
       const newScale = Math.min(currentTransform.k + zoomStep, 24);

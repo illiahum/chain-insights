@@ -28,10 +28,10 @@ const chatsStore = useChatsStore();
 }
 
 @media screen and (max-width: 767px) {
-  .chatbot__content {
+  /* .chatbot__content {
     padding-top: 3.9375rem;
     padding-bottom: 5.5625rem;
-  }
+  } */
 
   .chatbot__content > div {
     height: 100%;

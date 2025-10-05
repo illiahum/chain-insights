@@ -270,7 +270,15 @@ const changePopup = (tab = "settings") => {
 </script>
 
 <style scoped>
-.popup.popup-settings .popup__content {
+.popup.popup-settings:deep(.popup__body) {
+  height: 80.76%;
+
+  display: flex;
+  flex-direction: column;
+}
+.popup.popup-settings:deep(.popup__content) {
+  flex: 1 1 auto;
+  overflow-y: auto;
   gap: 1rem;
 }
 .popup.popup-settings .popup__content .button--delete {

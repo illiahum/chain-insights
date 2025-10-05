@@ -258,7 +258,23 @@ watch(
 
       if (chatsStore.currentChat.activeChart?.type == "network_chart") {
         svgMinimapElement.value.innerHTML = newValue.chart;
-        d3.select(svgMinimapElement.value).select("g").attr("transform", "");
+        const svgMinimapD3 = d3.select(svgMinimapElement.value).select("svg");
+
+        const originalWidth = svgMinimapD3.attr("data-group-width");
+        const originalHeight = svgMinimapD3.attr("data-group-height");
+
+        svgMinimapD3.attr(
+          "viewBox",
+          svgMinimapD3.attr("data-viewport-viewbox")
+        );
+        svgMinimapD3.select("g").attr("transform", "");
+
+        svgMinimapViewportElement.value.style.width = `${
+          svgElement.value.clientWidth / originalWidth
+        }px`;
+        svgMinimapViewportElement.value.style.height = `${
+          svgElement.value.clientHeight / originalHeight
+        }px`;
 
         d3.select(svgElement.value)
           .selectAll("g.node")
@@ -280,16 +296,13 @@ watch(
 
         await nextTick();
 
-        const containerWidth = document.querySelector(
-          ".chatbot .chatbot__content"
-        ).offsetWidth;
-        const viewportWidth = (containerWidth * leftWidth.value) / 100;
-
         const { zoomIn, zoomOut } = updateChart(
           svgElement.value,
           chatChartFull.value,
           svgMinimapViewportElement.value,
-          svgMinimapElement.value
+          svgMinimapElement.value,
+          originalWidth,
+          originalHeight
         );
 
         zoomInFunction.value = zoomIn;
@@ -479,7 +492,7 @@ const downloadUrl = function () {
   left: 2.5rem;
 
   height: auto;
-  width: 220px;
+  width: 320px;
   border-radius: 0.5rem;
   border: 0.341px solid var(--white-100, rgba(255, 255, 255, 0.1));
   background: linear-gradient(
