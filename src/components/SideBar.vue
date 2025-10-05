@@ -117,8 +117,8 @@ const isMobileOpen = ref(false);
 .chatbot__sidebar {
   position: relative;
   flex: 0 0 23.75rem;
-  height: 100vh;
-  max-height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
 
   border-right: 1px solid rgba(175, 175, 175, 0.4);
   background: linear-gradient(
