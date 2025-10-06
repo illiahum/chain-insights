@@ -250,6 +250,8 @@ onUnmounted(() => {
 .chatbot__message-input {
   position: absolute;
   bottom: 2.5rem;
+  right: 9.375rem;
+  left: 9.375rem;
 
   padding: 1.25rem;
   border-radius: 1.25rem;
@@ -320,10 +322,19 @@ onUnmounted(() => {
   height: 1.25rem;
 }
 
+@media screen and (min-width: 1921px) {
+  .chatbot__message-input {
+    right: 12.5rem;
+    left: 12.5rem;
+  }
+}
+
 @media screen and (max-width: 767px) {
   .chatbot__message-input {
     position: fixed;
     bottom: 0rem;
+    left: 0rem;
+    width: 100vw;
 
     padding: 1rem 1rem 1.5rem;
 

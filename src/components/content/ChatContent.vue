@@ -171,32 +171,35 @@
     </ModalComponent>
   </Teleport>
   <div
-    class="chat__content"
+    class="chat__content flex flex--column"
     :style="{ width: 100 - leftWidth + '%' }"
     v-show="
       (leftWidth > 0 && leftWidth < 100) ||
       !chatsStore.currentChat.activeChart?.messageId
     "
   >
-    <BaseButton
-      v-show="leftWidth > 0"
-      type="secondary"
-      text="Hide Chat"
-      size="m"
-      class="chat__hide-content"
-      @click="() => (leftWidth = 100)"
-    />
-    <div class="chat__messages" ref="chatMessagesEl">
-      <div
-        class="messages__inner flex flex--column align--start justify--end body-16 body--reg"
-      >
-        <ChatMessage
-          v-for="msg in chatsStore.currentChat.messages"
-          v-bind:key="msg.id"
-          :msg="msg"
-        />
+    <ChatContentWrapper>
+      <BaseButton
+        v-show="leftWidth > 0"
+        type="secondary"
+        text="Hide Chat"
+        size="m"
+        class="chat__hide-content"
+        @click="() => (leftWidth = 100)"
+      />
+      <div class="chat__messages">
+        <div
+          class="messages__inner flex flex--column align--start justify--end body-16 body--reg"
+        >
+          <ChatMessage
+            v-for="msg in chatsStore.currentChat.messages"
+            v-bind:key="msg.id"
+            :msg="msg"
+          />
+        </div>
       </div>
-    </div>
+    </ChatContentWrapper>
+
     <MessageInput :hideLabels="leftWidth >= 50" />
   </div>
 </template>
@@ -229,6 +232,7 @@ import IconButton from "../general/IconButton.vue";
 import BaseButton from "../general/BaseButton.vue";
 import ChartNetworkLegendContent from "./ChartNetworkLegendContent.vue";
 import ModalComponent from "../modals/ModalComponent.vue";
+import ChatContentWrapper from "./ChatContentWrapper.vue";
 
 const { updateChart } = useNetworkChart();
 const chatsStore = useChatsStore();
@@ -237,7 +241,6 @@ const svgElement = ref(null);
 const svgMinimapElement = ref(null);
 const svgMinimapViewportElement = ref(null);
 const chatChartFull = ref(null);
-const chatMessagesEl = ref(null);
 
 const networkNodeDetails = ref(null);
 
@@ -320,17 +323,6 @@ watch(
   }
 );
 
-watch(
-  () => chatsStore.currentChat,
-  async (newValue, oldValue) => {
-    await nextTick();
-
-    if (chatMessagesEl.value) {
-      chatMessagesEl.value.scrollTop = chatMessagesEl.value.scrollHeight;
-    }
-  }
-);
-
 function startResize(e) {
   startX = e.clientX;
   startWidth = leftWidth.value;
@@ -368,12 +360,8 @@ const checkScreen = () => {
 };
 
 onMounted(() => {
-  if (chatMessagesEl.value) {
-    checkScreen();
-    window.addEventListener("resize", checkScreen);
-
-    chatMessagesEl.value.scrollTop = chatMessagesEl.value.scrollHeight;
-  }
+  checkScreen();
+  window.addEventListener("resize", checkScreen);
 });
 
 onUnmounted(() => {

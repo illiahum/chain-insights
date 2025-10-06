@@ -1743,6 +1743,34 @@ button {
   }
 }
 
+/* CHAT LAYOUT */
+.chatbot__content {
+  position: relative;
+  flex: 1 1 auto;
+  height: 100%;
+  width: 100%;
+}
+
+.chatbot__content .chat__content-scroll {
+  flex: 1 1 auto;
+}
+
+.chatbot__content .chat__content-wrapper {
+  overflow-y: auto;
+  height: 0px;
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  .chatbot__content {
+    width: 100vw;
+    flex-shrink: 0;
+    padding-top: 3.9375rem;
+    padding-bottom: 5.5625rem;
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .hide--desktop {
     display: none;
