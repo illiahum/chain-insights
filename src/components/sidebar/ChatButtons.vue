@@ -1,53 +1,71 @@
 <template>
   <div class="sidebar__chats flex flex--column">
-    <div class="chats__group">
-      <p class="group__title body-14 body--semi">Today</p>
-      <div class="group__list">
-        <ChatButton
-          v-for="chat in chatsStore.todayChats"
-          :name="chat.name"
-          :currency="chat.currency"
-          :id="chat.id"
-          :key="chat.id"
-          @click="$emit('click')"
-        />
+    <template v-if="userStore?.currentUser?.id">
+      <div class="chats__group" v-if="chatsStore?.todayChats?.length">
+        <p class="group__title body-14 body--semi">Today</p>
+        <div class="group__list">
+          <ChatButton
+            v-for="chat in chatsStore.todayChats"
+            :name="chat.name"
+            :currency="chat.currency"
+            :id="chat.id"
+            :key="chat.id"
+            @click="$emit('click')"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="chats__group">
-      <p class="group__title body-14 body--semi">Last 7 Days</p>
-      <div class="group__list">
-        <ChatButton
-          v-for="chat in chatsStore.lastWeekChats"
-          :name="chat.name"
-          :currency="chat.currency"
-          :id="chat.id"
-          :key="chat.id"
-          @click="$emit('click')"
-        />
+      <div class="chats__group" v-if="chatsStore?.yesterdayChats?.length">
+        <p class="group__title body-14 body--semi">Last 7 Days</p>
+        <div class="group__list">
+          <ChatButton
+            v-for="chat in chatsStore.lastWeekChats"
+            :name="chat.name"
+            :currency="chat.currency"
+            :id="chat.id"
+            :key="chat.id"
+            @click="$emit('click')"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="chats__group">
-      <p class="group__title body-14 body--semi">Last month</p>
-      <div class="group__list">
-        <ChatButton
-          v-for="chat in chatsStore.lastMonthChats"
-          :name="chat.name"
-          :currency="chat.currency"
-          :id="chat.id"
-          :key="chat.id"
-        />
+      <div class="chats__group" v-if="chatsStore?.lastMonthChats?.length">
+        <p class="group__title body-14 body--semi">Last month</p>
+        <div class="group__list">
+          <ChatButton
+            v-for="chat in chatsStore.lastMonthChats"
+            :name="chat.name"
+            :currency="chat.currency"
+            :id="chat.id"
+            :key="chat.id"
+            @click="$emit('click')"
+          />
+        </div>
       </div>
-    </div>
+    </template>
+    <template v-else>
+      <div class="chats__group">
+        <p class="group__title body-14 body--semi">Today</p>
+        <div class="group__list">
+          <ChatButton
+            name="New Chat"
+            currency="BTC"
+            id="start"
+            @click="$emit('click')"
+          />
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup>
 import { useChatsStore } from "../../stores/chats";
+import { useUserStore } from "../../stores/user";
 import ChatButton from "../general/ChatButton.vue";
 
 const chatsStore = useChatsStore();
+const userStore = useUserStore();
 </script>
 
 <style scoped>

@@ -437,12 +437,15 @@ const downloadUrl = function () {
 
 .chat__content .chat__messages {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat__content .chat__messages .messages__inner {
   width: 100%;
   padding: 0px 9.375rem 13.75rem;
   gap: 1.5rem;
+  flex: 1 1 auto;
 }
 
 @media screen and (min-width: 1921px) {

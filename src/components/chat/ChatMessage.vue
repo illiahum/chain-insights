@@ -1,57 +1,62 @@
 <template>
   <div :class="classes">
-    <ChatTable
-      v-if="msg?.type == 'table'"
-      :name="msg?.table?.name"
-      :head="msg?.table?.head"
-      :rows="msg?.table?.row"
-    />
+    <template v-if="msg?.type != 'unlogged_user'">
+      <ChatTable
+        v-if="msg?.type == 'table'"
+        :name="msg?.table?.name"
+        :head="msg?.table?.head"
+        :rows="msg?.table?.row"
+      />
 
-    <ChatInfoCard
-      v-if="msg?.type == 'infocard'"
-      :name="msg?.data?.name"
-      :rows="msg?.data?.rows"
-      :buttonUrl="msg?.data?.button_url"
-    />
+      <ChatInfoCard
+        v-if="msg?.type == 'infocard'"
+        :name="msg?.data?.name"
+        :rows="msg?.data?.rows"
+        :buttonUrl="msg?.data?.button_url"
+      />
 
-    <ChatMessageOptions
-      v-if="msg?.type == 'options'"
-      :options="msg?.options"
-      :messageId="msg?.id"
-    />
+      <ChatMessageOptions
+        v-if="msg?.type == 'options'"
+        :options="msg?.options"
+        :messageId="msg?.id"
+      />
 
-    <ChatChart
-      v-if="msg?.type == 'chart'"
-      :data="msg.chart.data"
-      :legend="msg.chart.legend"
-      name="Alpha Token Accumulation for Subnet 15 Participants"
-      :messageId="msg?.id"
-    />
+      <ChatChart
+        v-if="msg?.type == 'chart'"
+        :data="msg.chart.data"
+        :legend="msg.chart.legend"
+        name="Alpha Token Accumulation for Subnet 15 Participants"
+        :messageId="msg?.id"
+      />
 
-    <ChatNetworkChart
-      v-if="msg?.type == 'network_graph'"
-      name="Connections between the validator and other addresses"
-      :nodes="msg?.nodes"
-      :legend="msg?.legendNodes"
-      :messageId="msg?.id"
-    />
+      <ChatNetworkChart
+        v-if="msg?.type == 'network_graph'"
+        name="Connections between the validator and other addresses"
+        :nodes="msg?.nodes"
+        :legend="msg?.legendNodes"
+        :messageId="msg?.id"
+      />
 
-    <div
-      class="message__text flex flex--column"
-      v-if="msg?.text != ''"
-      v-html="msg?.text"
-    ></div>
-    <div
-      v-if="msg?.author == 'bot' && msg?.type != 'options'"
-      class="message__actions flex"
-    >
-      <div class="message__action">
-        <IconReload />
+      <div
+        class="message__text flex flex--column"
+        v-if="msg?.text != ''"
+        v-html="msg?.text"
+      ></div>
+      <div
+        v-if="msg?.author == 'bot' && msg?.type != 'options'"
+        class="message__actions flex"
+      >
+        <div class="message__action">
+          <IconReload />
+        </div>
+        <div class="message__action">
+          <IconCopy />
+        </div>
       </div>
-      <div class="message__action">
-        <IconCopy />
-      </div>
-    </div>
+    </template>
+    <template v-else>
+      <ChatUnloggedUserMessage :id="msg?.id" :msg="msg" />
+    </template>
   </div>
 </template>
 
@@ -64,6 +69,7 @@ import ChatMessageOptions from "./ChatMessageOptions.vue";
 import ChatChart from "./ChatChart.vue";
 import ChatNetworkChart from "./ChatNetworkChart.vue";
 import ChatInfoCard from "./ChatInfoCard.vue";
+import ChatUnloggedUserMessage from "./ChatUnloggedUserMessage.vue";
 
 const chatsStore = useChatsStore();
 const props = defineProps({

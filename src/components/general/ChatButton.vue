@@ -20,6 +20,7 @@ const emit = defineEmits(["click"]);
 const chatsStore = useChatsStore();
 
 const buttonClick = () => {
+  console.log("Click chat", chatsStore.chats);
   chatsStore.openChat(props.id);
 };
 

@@ -94,7 +94,7 @@ const password = ref("");
 const emit = defineEmits(["closePopup"]);
 
 const loginClick = () => {
-  user.setUser({
+  user.login({
     id: "050449040404",
     name: "Illia",
     email: "johndoe@gmail.com",

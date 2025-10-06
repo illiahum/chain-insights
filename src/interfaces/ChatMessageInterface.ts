@@ -1,6 +1,6 @@
 export default interface ChatMessageInterface{
     id: string,
-    type: "text" | "options" | "table" | "chart" | "network_graph" | "infocard",
+    type: "text" | "options" | "table" | "chart" | "network_graph" | "infocard" | "unlogged_user",
     text: string,
     author: "user" | "bot",
     table ?: {

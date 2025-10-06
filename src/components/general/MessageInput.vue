@@ -14,6 +14,7 @@
         @input="onInput"
         @focus="() => (isInputFocused = true)"
         @blur="() => (isInputFocused = false)"
+        ref="messageInput"
       >
         <p
           class="body-14 body--reg color--white-600"
@@ -156,6 +157,7 @@ import BaseSelect from "./BaseSelect.vue";
 import BaseSelect2 from "./BaseSelect2.vue";
 import BaseCheckbox from "./BaseCheckbox.vue";
 import ModalComponent from "../modals/ModalComponent.vue";
+import { useChatsStore } from "../../stores/chats";
 
 const props = defineProps({
   hideLabels: {
@@ -227,6 +229,9 @@ const assetOptions = [
 const isMobile = ref(false);
 const isInputFocused = ref(false);
 const isShowAdvencedPopup = ref(false);
+const messageInput = ref(null);
+
+const chatsStore = useChatsStore();
 
 const checkScreen = () => {
   isMobile.value = window.innerWidth <= 768;
@@ -234,6 +239,13 @@ const checkScreen = () => {
 
 function onInput(event) {
   message.value = event.target.innerText;
+}
+
+function sendMessage() {
+  chatsStore.sendMessage(message.value);
+
+  message.value = "";
+  messageInput.value.innerText = "";
 }
 
 onMounted(() => {

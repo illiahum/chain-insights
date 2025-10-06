@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import type { User } from "../interfaces/UserInterface";
+import { useChatsStore } from "./chats";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -8,13 +9,16 @@ export const useUserStore = defineStore("user", {
   }),
 
   actions: {
-    setUser(user: User) {
-      this.currentUser = user
-      this.isAuthenticated = true
+    login(userData: User) {
+      this.currentUser = userData;
+      this.isAuthenticated = true;
+
+      const chatsStore = useChatsStore();
+      chatsStore.loadFakeData();
     },
     logout() {
-      this.currentUser = null
-      this.isAuthenticated = false
-    },
+      this.currentUser = null;
+      this.isAuthenticated = false;
+    }
   },
 });

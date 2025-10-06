@@ -823,7 +823,8 @@ button {
   stroke: var(--white-600);
 }
 
-.chat__message .message__text {
+.chat__message .message__text,
+.chat__message .message__button {
   max-width: 45rem;
 }
 
@@ -1058,6 +1059,10 @@ button {
   .message__box.message__box--network__chart.chart__hide
   .box__content {
   display: none;
+}
+
+.chat__message.chat__message--unlogged_user {
+  max-width: 30.375rem;
 }
 
 @media screen and (max-width: 767px) {

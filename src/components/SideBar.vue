@@ -40,7 +40,7 @@
     </div>
 
     <div class="sidebar__content flex flex--column">
-      <SearchButton />
+      <SearchButton v-if="currentUser.currentUser?.id" />
 
       <ChatButtons @click="() => (isMobileOpen = !isMobileOpen)" />
 
@@ -204,18 +204,6 @@ const isMobileOpen = ref(false);
     display: flex;
     flex: 0 0 83.59%;
   }
-
-  /* .chatbot__sidebar.chatbot__sidebar--open--mobile::before {
-    content: "";
-    display: block;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100vw;
-    height: 100vh;
-    opacity: 0.8;
-    background: var(--background-color, #18181a);
-  } */
 
   .chatbot__sidebar .sidebar__content {
     padding: 1rem;

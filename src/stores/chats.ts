@@ -9,6 +9,7 @@ import chatMessagesNetworkChart from "../json/messages-network-chart.json";
 import type ChatInterface from "../interfaces/ChatInterface";
 import type CurrentChatInterface from "../interfaces/CurrentChatInterface";
 import type ChatMessageInterface from "../interfaces/ChatMessageInterface";
+import { useUserStore } from "./user";
 
 const fakeMessages: ChatMessageInterface[][] = [
   chatMessages as ChatMessageInterface[], 
@@ -89,6 +90,19 @@ export const useChatsStore = defineStore("chats", {
     },
   },
   actions: {
+    initChats() {
+      const userStore = useUserStore();
+
+      if(!userStore?.currentUser?.id){
+        this.chats = [{
+          id: "start",
+          name: "New Chat",
+          currency: "USDT",
+          last_activity_date: new Date(),
+        }];
+      }
+    },  
+
     createNewChat(chat: ChatInterface){
       this.chats.push(chat);
     },
@@ -98,10 +112,15 @@ export const useChatsStore = defineStore("chats", {
 
       if (!chatData) return;
 
-      const chatIndex = this.chats.findIndex((chat) => chat.id == id);
+      const userStore = useUserStore();
+      let chatMessages = [] as ChatMessageInterface[];
 
-      // Have to be changed
-      const chatMessages = fakeMessages[chatIndex % 6];
+      if(userStore?.currentUser?.id){
+        const chatIndex = this.chats.findIndex((chat) => chat.id == id);
+
+        // Have to be changed
+        chatMessages = fakeMessages[chatIndex % 6];
+      }
 
       this.currentChat = {
         ...chatData,
@@ -177,6 +196,48 @@ export const useChatsStore = defineStore("chats", {
       });
 
       return chats;
+    },
+
+    sendMessage(message: string){
+      const userStore = useUserStore();
+
+      if(!this.currentChat?.id){
+        this.createChat("New Chat", "USDT");
+      }
+
+      this.currentChat.messages.push({
+          id: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+          type: "text",
+          text: message,
+          author: "user"
+        });
+
+      if(userStore?.currentUser?.id){
+        // send message to server
+      }else{
+        this.currentChat.messages.push({
+          id: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+          type: "unlogged_user",
+          text: "",
+          author: "bot"
+        });
+      }
+    },
+
+    createChat(name: string, currency: string){
+      const newChat: ChatInterface = {
+        id: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+        name: name,
+        currency: currency,
+        last_activity_date: new Date(),
+      };
+
+      this.chats.unshift(newChat);
+      this.currentChat = {
+        ...newChat,
+        messages: [],
+        activeChart: null
+      };
     }
   },
 });

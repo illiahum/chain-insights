@@ -7,6 +7,7 @@ import "./assets/css/sidebar.css";
 import { createRouter, createWebHistory } from "vue-router";
 import ResetPasswordComponent from "./components/pages/ResetPasswordComponent.vue";
 import HomeComponent from "./components/pages/HomeComponent.vue";
+import { useChatsStore } from "./stores/chats";
 
 const pinia = createPinia();
 
@@ -29,6 +30,9 @@ router.afterEach((to) => {
 const app = createApp(App);
 
 app.use(pinia);
-app.use(router)
+app.use(router);
+
+const chatsStore = useChatsStore();
+chatsStore.initChats();
 
 app.mount("#app");
