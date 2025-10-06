@@ -107,15 +107,29 @@ function updatePosition() {
   }
 }
 
+function handleClickOutside(event) {
+  const target = event.target;
+  if (
+    !trigger.value.contains(target) &&
+    (!dropdown.value || !dropdown.value.contains(target))
+  ) {
+    isOpen.value = false;
+  }
+}
+
 onMounted(() => {
   window.addEventListener("resize", updatePosition);
   window.addEventListener("scroll", updatePosition, true);
   nextTick(updatePosition);
+
+  document.addEventListener("click", handleClickOutside);
 });
 
 onUnmounted(() => {
   window.removeEventListener("resize", updatePosition);
   window.removeEventListener("scroll", updatePosition, true);
+
+  document.removeEventListener("click", handleClickOutside);
 });
 
 const inputClasses = computed(() => `${props.class} field field--select`);

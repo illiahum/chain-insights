@@ -7,7 +7,6 @@
       <IconPlus class="icon icon--16" />
     </div>
     <div class="message__input flex align--center">
-      <IconPaperclip stroke="{2}" class="hide--mobile" />
       <div
         contenteditable="true"
         class="input"
@@ -88,20 +87,6 @@
         <template #head> Advanced options </template>
 
         <template #content>
-          <div class="popup__row popup__row--buttons flex gap--8">
-            <button class="flex flex--column align--center justify--center">
-              <IconCamera class="icon icon--16 mb--8" />
-              <p class="body-14 body--reg">Camera</p>
-            </button>
-            <button class="flex flex--column align--center justify--center">
-              <IconPhoto class="icon icon--16 mb--8" />
-              <p class="body-14 body--reg">Photos</p>
-            </button>
-            <button class="flex flex--column align--center justify--center">
-              <IconFile class="icon icon--16 mb--8" />
-              <p class="body-14 body--reg">Camera</p>
-            </button>
-          </div>
           <div class="popup__row popup__fields flex flex--column gap--8">
             <BaseCheckbox
               :icon="IconListSearch"
@@ -140,7 +125,6 @@
 
 <script setup>
 import {
-  IconPaperclip,
   IconListSearch,
   IconLayoutGrid,
   IconNetwork,
