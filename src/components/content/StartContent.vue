@@ -573,7 +573,7 @@ const nestedTabs = ref([
 
 @media screen and (min-width: 1921px) {
   .chat__start-screen {
-    padding: 5rem 12.5rem 0px;
+    padding: 5rem 45rem 0px;
   }
 }
 

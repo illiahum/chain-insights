@@ -320,8 +320,8 @@ onUnmounted(() => {
 
 @media screen and (min-width: 1921px) {
   .chatbot__message-input {
-    right: 12.5rem;
-    left: 12.5rem;
+    left: 45rem;
+    right: 45rem;
   }
 }
 

@@ -216,12 +216,12 @@ textarea:focus {
 
 .body-18 {
   font-size: 1.125rem;
-  line-height: 120%;
+  line-height: 130%;
 }
 
 .body-16 {
   font-size: 1rem;
-  line-height: 120%;
+  line-height: 130%;
 }
 
 .body-14 {
@@ -828,8 +828,16 @@ button {
   max-width: 45rem;
 }
 
+.chat__message .message__text {
+  gap: 0.75rem;
+  line-height: 140%;
+}
+
 .chat__message .message__text ul {
   padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .chat__message .message__box {
@@ -842,6 +850,10 @@ button {
     ),
     rgba(255, 255, 255, 0.04);
   border: 1px solid var(--white-100, rgba(255, 255, 255, 0.1));
+}
+
+.chat__message .message__box.message__box--table {
+  max-width: 77.5rem;
 }
 
 .chat__message .message__box.message__box--chart,

@@ -430,8 +430,8 @@ const downloadUrl = function () {
 
 @media screen and (min-width: 1921px) {
   .chat__content .chatbot__message-input {
-    left: 12.5rem;
-    right: 12.5rem;
+    left: 45rem;
+    right: 45rem;
   }
 }
 
@@ -450,7 +450,7 @@ const downloadUrl = function () {
 
 @media screen and (min-width: 1921px) {
   .chat__content .chat__messages .messages__inner {
-    padding: 0px 12.5rem 13.75rem;
+    padding: 0px 45rem 13.75rem;
   }
 }
 

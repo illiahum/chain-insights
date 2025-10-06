@@ -140,7 +140,7 @@ const isMobileOpen = ref(false);
 
 @media screen and (min-width: 1921px) {
   .chatbot__sidebar {
-    flex: 0 0 35rem;
+    flex: 0 0 20%;
   }
 }
 

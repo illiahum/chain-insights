@@ -47,10 +47,18 @@
         class="message__actions flex"
       >
         <div class="message__action">
-          <IconReload />
+          <IconReload
+            v-if="!isReloadIconClicked"
+            @click="() => (isReloadIconClicked = true)"
+          />
+          <IconCheck v-else />
         </div>
         <div class="message__action">
-          <IconCopy />
+          <IconCopy
+            v-if="!isCopyIconClicked"
+            @click="() => (isCopyIconClicked = true)"
+          />
+          <IconCheck v-else />
         </div>
       </div>
     </template>
@@ -61,9 +69,9 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import { useChatsStore } from "../../stores/chats";
-import { IconCopy, IconReload } from "@tabler/icons-vue";
+import { IconCheck, IconCopy, IconReload } from "@tabler/icons-vue";
 import ChatTable from "./ChatTable.vue";
 import ChatMessageOptions from "./ChatMessageOptions.vue";
 import ChatChart from "./ChatChart.vue";
@@ -79,6 +87,25 @@ const props = defineProps({
     type: String,
     default: "",
   },
+});
+
+const isCopyIconClicked = ref(false);
+const isReloadIconClicked = ref(false);
+
+watch(isCopyIconClicked, (newVal) => {
+  if (newVal) {
+    setTimeout(() => {
+      isCopyIconClicked.value = false;
+    }, 2000);
+  }
+});
+
+watch(isReloadIconClicked, (newVal) => {
+  if (newVal) {
+    setTimeout(() => {
+      isReloadIconClicked.value = false;
+    }, 2000);
+  }
 });
 
 const classes = computed(() => {
