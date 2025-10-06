@@ -596,7 +596,10 @@ const downloadUrl = function () {
     height: 100%;
   }
 
-  .popup.chat__chart-popup--full .chart-full__content svg {
+  .popup.chat__chart-popup--full
+    .popup__network-chart-popup
+    .chart-full__content
+    svg {
     position: absolute;
     top: 0px;
     left: 0px;
