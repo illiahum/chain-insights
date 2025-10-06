@@ -1753,6 +1753,7 @@ button {
 
 .chatbot__content .chat__content-scroll {
   flex: 1 1 auto;
+  width: 100%;
 }
 
 .chatbot__content .chat__content-wrapper {
